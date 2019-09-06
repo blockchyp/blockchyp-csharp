@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>BlockChyp is a .NET 4.5+ class library for accessing the BlockChyp Terminal and Gateway APIs.</Description>
+    <Version>0.1.0</Version>
+    <Authors>BlockChyp</Authors>
+    <Company>BlockChyp, Inc.</Company>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <PackageId>BlockChyp</PackageId>
+    <PackageTags>blockchyp;payment;credit;cards;money;gateway;terminal</PackageTags>
+    <PackageIconUrl>https://dashboard.blockchyp.com/images/logo-lg.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/blockchyp/blockchyp-csharp</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.github.com/blockchyp/blockchyp-csharp/master/LICENSE</PackageLicenseUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets/BlockChyp.crt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45'">
+    <PackageReference Include="Microsoft.Net.Http" />
+  </ItemGroup>
+
+</Project>
