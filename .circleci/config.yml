@@ -8,7 +8,9 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: nuget-{{ checksum src/BlockChyp/BlockChyp.csproj }}
+          keys:
+            - nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
+            - nuget-
 
       - run:
           name: Restore
@@ -21,6 +23,6 @@ jobs:
           command: dotnet build src/BlockChyp/BlockChyp.csproj -f netstandard2.0 -v n
 
       - save_cache:
-          key: nuget-{{ checksum src/BlockChyp/BlockChyp.csproj }}
+          key: nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
           paths:
             - $HOME/.nuget/packages
