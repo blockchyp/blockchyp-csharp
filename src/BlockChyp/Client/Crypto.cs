@@ -10,17 +10,24 @@ namespace BlockChyp.Client
     public static class Crypto
     {
 
-        public const string HeaderNonce = "Nonce";
-        public const string HeaderTimestamp = "Timestamp";
-        public const string HeaderAuthorization = "Authorization";
-        public const string AuthSchemeDual = "Dual";
-        public const char CipherTextFieldSep = '|';
+        private const string HeaderNonce = "Nonce";
 
-        public const int AesKeySizeBytes = 16;
-        public const int NonceSizeBytes = 32;
+        private const string HeaderTimestamp = "Timestamp";
+
+        private const string HeaderAuthorization = "Authorization";
+
+        private const string AuthSchemeDual = "Dual";
+
+        private const char CipherTextFieldSep = '|';
+
+        private const int AesKeySizeBytes = 16;
+
+        private const int NonceSizeBytes = 32;
 
         private static RNGCryptoServiceProvider rand = new RNGCryptoServiceProvider();
 
+        /// <summary>Generates request headers for authorization to the BlockChyp gateway.</summary>
+        /// <param name="credentials">API credentials used to generate request headers.</param>
         public static Dictionary<string, string> GenerateAuthHeaders(ApiCredentials credentials)
         {
             var nonce = GenerateNonce();
@@ -45,6 +52,7 @@ namespace BlockChyp.Client
             };
         }
 
+        /// <summary>Generates a random nonce for use in requests.</summary>
         public static string GenerateNonce()
         {
             byte[] nonceBytes = new byte[NonceSizeBytes];
@@ -53,16 +61,21 @@ namespace BlockChyp.Client
             return BitConverter.ToString(nonceBytes).Replace("-", string.Empty);
         }
 
+        /// <summary>Returns the current timestamp in RFS 3339 format.</summary>
         public static string GetTimestamp()
         {
             return DateTime.UtcNow.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'");
         }
 
+        /// <summary>Converts a byte array to a hexadecimal string.</summary>
+        /// <param name="input">The byte array to convert.</param>
         public static string ToHex(byte[] input)
         {
             return BitConverter.ToString(input).Replace("-", string.Empty).ToLower();
         }
 
+        /// <summary>Converts a hexadecimal string to a byte array.</summary>
+        /// <param name="input">The hexadecimal string to convert.</param>
         public static byte[] FromHex(string input)
         {
             var ln = input.Length / 2;
@@ -76,6 +89,9 @@ namespace BlockChyp.Client
             return result;
         }
 
+        /// <summary>Decrypts ciphertext to a byte array.</summary>
+        /// <param name="cipherText">The ciphertext to decrypt.</param>
+        /// <param name="key">The cryptographic key used to decrypt the payload.</param>
         public static string Decrypt(string cipherText, byte[] key)
         {
             if (String.IsNullOrEmpty(cipherText))
@@ -108,6 +124,9 @@ namespace BlockChyp.Client
             return output;
         }
 
+        /// <summary>Encrypts the string payload to a byte array.</summary>
+        /// <param name="plainText">The plaintext payload to encrypt.</param>
+        /// <param name="key">The cryptographic key used to encrypt the payload.</param>
         public static string Encrypt(string plainText, byte[] key)
         {
             string output = null;

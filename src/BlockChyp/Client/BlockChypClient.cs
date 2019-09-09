@@ -12,24 +12,55 @@ using Newtonsoft.Json;
 
 namespace BlockChyp.Client
 {
+    /// <summary>
+    /// The main BlockChyp client, used to communicate with the gateway and
+    /// terminal APIs.
+    /// </summary>
     public class BlockChypClient
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlockChypClient"/>
+        /// with default configuration and no API credentials.
+        /// </summary>
         public BlockChypClient() : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlockChypClient"/>
+        /// with API credentials.
+        /// </summary>
+        /// <param name="credentials">API credentials used to make requests.</param>
         public BlockChypClient(ApiCredentials credentials) : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, credentials)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlockChypClient"/>
+        /// with a custom gateway URL.
+        /// </summary>
+        /// <param name="gateway">A URL for the BlockChyp gateway.</param>
         public BlockChypClient(string gateway) : this(gateway, DefaultGatewayTestEndpoint, null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlockChypClient"/>
+        /// with a custom gateway URL and API credentials.
+        /// </summary>
+        /// <param name="gateway">A URL for the BlockChyp gateway.</param>
+        /// <param name="credentials">API credentials used to make requests.</param>
         public BlockChypClient(string gateway, ApiCredentials credentials) : this(gateway, DefaultGatewayTestEndpoint, credentials)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlockChypClient"/>
+        /// with a custom gateway URL, a custom test gateway URL and API credentials.
+        /// </summary>
+        /// <param name="gateway">A URL for the BlockChyp gateway.</param>
+        /// <param name="testGateway">A URL for the BlockChyp test gateway.</param>
+        /// <param name="credentials">API credentials used to make requests.</param>
         public BlockChypClient(string gateway, string testGateway, ApiCredentials credentials)
         {
             GatewayEndpoint = gateway;
@@ -40,25 +71,53 @@ namespace BlockChyp.Client
             InitializeTerminalClient();
         }
 
+        /// <summary>Prefix used for the offline cache.</summary>
         public const string OfflineCache = ".blockchyp_routes";
-        private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
+
+        /// <summary>The default URL for the BlockChyp gateway.</summary>
         public const string  DefaultGatewayEndpoint = "https://api.blockchyp.com";
+
+        /// <summary>The default URL for the BlockChyp test gateway.</summary>
         public const string DefaultGatewayTestEndpoint = "https://test.blockchyp.com";
+
+        /// <summary>The default HTTP port used by BlockChyp terminals.</summary>
         public const int TerminalHttpPort = 8080;
+
+        /// <summary>The default HTTPS port used by BlockChyp terminals.</summary>
         public const int TerminalHttpsPort = 8443;
 
+        /// <summary>Gets or sets the gateway base URL.</summary>
+        /// <value>The base URL for the BlockChyp gateway.</value>
         public string GatewayEndpoint { get; set; }
+
+        /// <summary>Gets or sets the test gateway base URL.</summary>
+        /// <value>The base URL for the BlockChyp test gateway.</value>
         public string GatewayTestEndpoint { get; set; }
+
+        /// <summary>Gets or sets the API credentials used for requests.</summary>
+        /// <value>The API credentials used for requests.</value>
         public ApiCredentials Credentials { get; set; }
 
         // TODO logger override
+
+        /// <summary>Enables or disables the persistent terminal route cache.</summary>
+        /// <value>The state of the persistent terminal route cache.</value>
         public bool OfflineRouteCacheEnabled { get; set; } = true;
-        public TimeSpan RouteCacheTtl = TimeSpan.FromMinutes(60);
+
+        /// <summary>Gets or sets the persistent terminal route TTL.</summary>
+        /// <value>The persistent terminal route TTL.</value>
+        public TimeSpan RouteCacheTtl { get; set; } = TimeSpan.FromMinutes(60);
+
+        /// <summary>Enables or disables TLS encrypted communication with terminals.</summary>
+        /// <value>The state of terminal TLS encryption.</value>
         public bool TerminalHttps { get; set; } = false;
 
+        /// <summary>Gets or sets the location of the persistent terminal route cache.</summary>
+        /// <value>The location of the persistent terminal route cache.</value>
         public string OfflineRouteCacheLocation { get; set; }
 
-        private TimeSpan _requestTimeout = Timeout.InfiniteTimeSpan;
+        /// <summary>Gets or sets the HTTP timeout used for requests.</summary>
+        /// <value>The HTTP timeout used for requests.</value>
         public TimeSpan RequestTimeout
         {
             get
@@ -74,21 +133,37 @@ namespace BlockChyp.Client
             }
         }
 
+        private TimeSpan _requestTimeout = Timeout.InfiniteTimeSpan;
+
+        private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
+
         private HttpClient _gatewayClient;
         private HttpClient _terminalClient;
 
         private Dictionary<string, TerminalRouteResponse> _routeCache = new Dictionary<string, TerminalRouteResponse>();
 
+        /// <summary>
+        /// Tests communication with the Gateway. If authentication is
+        /// successful, a merchantPk value is returned.
+        /// </summary>
+        /// <param name="test">Whether or not to route the the transaction to the test gateway.</param>
         public async Task<HeartbeatResponse> Heartbeat(bool test)
         {
             return await GatewayRequest<HeartbeatResponse>(HttpMethod.Get, "/api/heartbeat", null, null, test);
         }
 
+        /// <summary>Tests local communication with a terminal.</summary>
+        /// <param name="request">The request details.</param>
         public async Task<Acknowledgement> Ping(PingRequest request)
         {
             return await TerminalRequest<Acknowledgement>(HttpMethod.Post, "/api/test", request.TerminalName, request);
         }
 
+        /// <summary>
+        /// Enrolls the payment method in the recurring payment token vault.
+        /// Any amounts passed in are ignored.
+        /// </summary>
+        /// <param name="request">The request details.</param>
         public async Task<AuthResponse> Enroll(AuthRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName))
@@ -99,6 +174,8 @@ namespace BlockChyp.Client
             }
         }
 
+        /// <summary>Performs a standard auth and capture.</summary>
+        /// <param name="request">The request details.</param>
         public async Task<AuthResponse> Charge(AuthRequest request)
         {
             PopulateSignatureOptions(request);
@@ -116,11 +193,23 @@ namespace BlockChyp.Client
             return response;
         }
 
+        /// <summary>
+        /// Executes a time out reversal. This is an idempotent operation.
+        /// You should perform a reversal in situations where your request for
+        /// authorization times out or gives an ambiguous result. Reversal
+        /// must be completed within 2 minutes of the original auth.
+        /// To use this method, a unique transactionRef must be provided
+        /// at authorization time. That transactionRef can then be used to
+        /// reverse the transaction.
+        /// </summary>
+        /// <param name="request">The request details.</param>
         public async Task<AuthResponse> Reverse(AuthRequest request)
         {
             return await GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/reverse", request, null, request.Test);
         }
 
+        /// <summary>Preauthorizes a transaction for capture at a later time.</summary>
+        /// <param name="request">The request details.</param>
         public async Task<AuthResponse> Preauth(AuthRequest request)
         {
             PopulateSignatureOptions(request);
@@ -138,16 +227,28 @@ namespace BlockChyp.Client
             return response;
         }
 
+        /// <summary>Captures a preauth.</summary>
+        /// <param name="request">The request details.</param>
         public async Task<CaptureResponse> Capture(CaptureRequest request)
         {
             return await GatewayRequest<CaptureResponse>(HttpMethod.Post, "/api/capture", request, null, request.Test);
         }
 
+        /// <summary>Voids an existing transaction.</summary>
+        /// <param name="request">The request details.</param>
         public async Task<VoidResponse> Void(VoidRequest request)
         {
             return await GatewayRequest<VoidResponse>(HttpMethod.Post, "/api/void", request, null, request.Test);
         }
 
+        /// <summary>
+        /// Initiates a refund transaction. You can perform a full or partial
+        /// refund by referencing a previous transaction. You can also do a
+        /// free range refund without referencing a previous transaction,
+        /// but please, pretty please, don't do this. Basing a refund on a
+        /// previous transaction eliminates a lot of potential fraud.
+        /// </summary>
+        /// <param name="request">The request details.</param>
         public async Task<AuthResponse> Refund(RefundRequest request)
         {
             PopulateSignatureOptions(request);
@@ -170,11 +271,19 @@ namespace BlockChyp.Client
             return response;
         }
 
+        /// <summary>
+        /// Executes a manual batch close. By default, the BlockChyp gateway
+        /// will close batches at 3 AM in the merchant's local time zone.
+        /// You can turn this off and run batches manually if you want.
+        /// </summary>
+        /// <param name="request">The request details.</param>
         public async Task<CloseBatchResponse> CloseBatch(CloseBatchRequest request)
         {
             return await GatewayRequest<CloseBatchResponse>(HttpMethod.Post, "/api/close-batch", request, null, false);
         }
 
+        /// <summary>Displays a message on the terminal screen.</summary>
+        /// <param name="request">The request details.</param>
         public async Task<Acknowledgement> Message(MessageRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName))
@@ -185,6 +294,14 @@ namespace BlockChyp.Client
             }
         }
 
+        /// <summary>
+        /// Captures text input from the user.
+        /// This can be used for things like email addresses, phone numbers,
+        /// and loyalty program numbers. You have to specify a promptType in
+        /// the request, since free form prompt text is not permitted by
+        /// PCI rules.
+        /// </summary>
+        /// <param name="request">The request details.</param>
         public async Task<TextPromptResponse> TextPrompt(TextPromptRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName))
@@ -195,6 +312,13 @@ namespace BlockChyp.Client
             }
         }
 
+        /// <summary>
+        /// Asks the user a yes or no question. You can use this for things
+        /// like suggestive selling. You can also use this for surveys, but
+        /// BlockChyp does have a built in survey feature that merchants
+        /// can use with no custom code required.
+        /// </summary>
+        /// <param name="request">The request details.</param>
         public async Task<BooleanPromptResponse> BooleanPrompt(BooleanPromptRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName))
@@ -205,6 +329,10 @@ namespace BlockChyp.Client
             }
         }
 
+        /// <summary>
+        /// Resets the line item display with a new transaction.
+        /// </summary>
+        /// <param name="request">The request details.</param>
         public async Task<Acknowledgement> NewTransactionDisplay(TransactionDisplayRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName))
@@ -215,6 +343,8 @@ namespace BlockChyp.Client
             }
         }
 
+        /// <summary>Adds to an existing line item display.</summary>
+        /// <param name="request">The request details.</param>
         public async Task<Acknowledgement> UpdateTransactionDisplay(TransactionDisplayRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName))
@@ -225,6 +355,8 @@ namespace BlockChyp.Client
             }
         }
 
+        /// <summary>Clears the line item display and returns the terminal to idle.</summary>
+        /// <param name="request">The request details.</param>
         public async Task<Acknowledgement> Clear(ClearRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName))
