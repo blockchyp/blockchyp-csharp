@@ -1,0 +1,26 @@
+version: 1
+jobs:
+  build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0-alpine
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: nuget-{{ checksum src/BlockChyp/BlockChyp.csproj }}
+
+      - run:
+          name: Restore
+          command: dotnet restore -v n
+      - run:
+          name: Test
+          command: dotnet test tests/BlockChypTest/BlockChypTest.csproj --filter "Category!=Integration" -v n
+      - run:
+          name: Build
+          command: dotnet build src/BlockChyp/BlockChyp.csproj -f netstandard2.0 -v n
+
+      - save_cache:
+          key: nuget-{{ checksum src/BlockChyp/BlockChyp.csproj }}
+          paths:
+            - $HOME/.nuget/packages
