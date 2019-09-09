@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45'">
-    <PackageReference Include="Microsoft.Net.Http" />
+    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
   </ItemGroup>
 
 </Project>

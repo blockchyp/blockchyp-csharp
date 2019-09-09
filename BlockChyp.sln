@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{998E9033-26B4-44F5-A8F4-5A2A4CE0EB44}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChyp", "src\BlockChyp\BlockChyp.csproj", "{D3052CDB-1E78-43DC-A079-22451FF97832}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChyp.Test", "tests\BlockChyp.Test\BlockChyp.Test.csproj", "{6089904A-C849-4F55-929E-EEB2B5914633}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4F4AD9D4-6809-4059-B2D2-3C5E37B870BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChypTest", "tests\BlockChypTest\BlockChypTest.csproj", "{6089904A-C849-4F55-929E-EEB2B5914633}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
