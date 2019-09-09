@@ -29,3 +29,39 @@ jobs:
           key: nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
           paths:
             - $HOME/.nuget/packages
+
+      - persist_to_workspace:
+          root: src/BlockChyp/bin
+          paths:
+            - Release/*
+
+  publish:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0-alpine
+
+    steps:
+      - attach_workspace:
+          at: src/BlockChyp/bin
+      - run:
+          name: Publish
+          command: |
+            dotnet nuget push src/BlockChyp/bin/Release/BlockChyp.*.nupkg \
+              --api-key "$NUGET_API_KEY" \
+              --source https://api.nuget.org/v3/index.json
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+      - publish:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
