@@ -4,6 +4,12 @@ namespace BlockChyp
 {
     public class TerminalRequest
     {
+        /// <summary>
+        /// Initializes a new instance of a <see cref="TerminalRequest"/>
+        /// with API credentials and a request body.
+        /// </summary>
+        /// <param name="credentials">API credentials used to make requests.</param>
+        /// <param name="request">The JSON-serializable request body.</param>
         public TerminalRequest(ApiCredentials credentials, object request)
         {
             ApiKey = credentials.ApiKey;
@@ -12,15 +18,27 @@ namespace BlockChyp
             Request = request;
         }
 
+        /// <summary>
+        /// The API key used to authenticate the request.
+        /// </summary>
         [JsonProperty(PropertyName = "apiKey")]
         public string ApiKey { get; set; }
 
+        /// <summary>
+        /// The bearer token used to authenticate the request.
+        /// </summary>
         [JsonProperty(PropertyName = "bearerToken")]
         public string BearerToken { get; set; }
 
+        /// <summary>
+        /// The signing key used to authenticate the request.
+        /// </summary>
         [JsonProperty(PropertyName = "signingKey")]
         public string SigningKey { get; set; }
 
+        /// <summary>
+        /// The JSON-serializable request body.
+        /// </summary>
         [JsonProperty(PropertyName = "request")]
         public object Request { get; set; }
     }
