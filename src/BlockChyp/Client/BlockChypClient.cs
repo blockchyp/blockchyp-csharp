@@ -98,8 +98,6 @@ namespace BlockChyp.Client
         /// <value>The API credentials used for requests.</value>
         public ApiCredentials Credentials { get; set; }
 
-        // TODO logger override
-
         /// <summary>Enables or disables the persistent terminal route cache.</summary>
         /// <value>The state of the persistent terminal route cache.</value>
         public bool OfflineRouteCacheEnabled { get; set; } = true;
@@ -595,6 +593,7 @@ namespace BlockChyp.Client
             }
             catch (JsonException)
             {
+                // TODO: Standard exception here.
                 Console.WriteLine($"JSON deserialization failed: {content}");
                 throw;
             }

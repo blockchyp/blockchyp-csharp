@@ -4,11 +4,19 @@ using System.Threading.Tasks;
 using BlockChyp;
 using BlockChyp.Client;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace BlockChypTest.Client
 {
     public class CryptoTest
     {
+        private readonly ITestOutputHelper output;
+
+        public CryptoTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Fact]
         public void BlockChypClientTest_GenerateAuthHeaders()
         {
@@ -20,7 +28,7 @@ namespace BlockChypTest.Client
             var result = Crypto.GenerateAuthHeaders(creds);
             foreach (KeyValuePair<string, string> header in result)
             {
-                Console.WriteLine(header);
+                output.WriteLine($"{header.Key}: {header.Value}");
             }
 
             Assert.Equal(3, result.Count);
