@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+# if NET45
+using System.Net;
+# endif
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,8 +69,14 @@ namespace BlockChyp.Client
             GatewayTestEndpoint = testGateway;
             Credentials = credentials;
 
-            InitializeGatewayClient();
-            InitializeTerminalClient();
+#if NET45
+            // net45 does not use TLS 1.2 unless you tell it to.
+            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol |
+                SecurityProtocolType.Tls12;
+#endif
+
+            _gatewayClient = NewHttpClient();
+            _terminalClient = NewTerminalHttpClient();
         }
 
         /// <summary>Prefix used for the offline cache.</summary>
@@ -524,7 +532,6 @@ namespace BlockChyp.Client
             }
 
             var route = await ResolveTerminalRoute(name);
-            // TODO Request timeout?
 
             if (route == null)
             {
@@ -641,44 +648,49 @@ namespace BlockChyp.Client
             return builder.ToString();
         }
 
-        protected void InitializeGatewayClient()
+        private HttpClient NewHttpClient()
         {
-            _gatewayClient = new HttpClient();
-            _gatewayClient.Timeout = RequestTimeout;
-            _gatewayClient.DefaultRequestHeaders.Clear();
-            _gatewayClient.DefaultRequestHeaders.Accept.Clear();
-            _gatewayClient.DefaultRequestHeaders.Accept.Add(
-                new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            _gatewayClient.DefaultRequestHeaders.Add("User-Agent", "BlockChyp-CSharp/0.1.0"); // TODO Version
+            var httpClient = new HttpClient();
+
+            ConfigureHttpClient(httpClient);
+
+            return httpClient;
         }
 
-        protected void InitializeTerminalClient()
+        private void ConfigureHttpClient(HttpClient client)
         {
-            // TODO lazy load once on first https request
+            client.Timeout = RequestTimeout;
 
-            var certData = new MemoryStream();
-            var assembly = Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream("BlockChyp.Assets.BlockChyp.crt"))
-            {
-                if (stream == null)
-                {
-                    throw new InvalidOperationException("stream is null");
-                }
-                stream.CopyTo(certData);
-            }
+            var userAgent = AssembleUserAgent();
 
-            var cert = new X509Certificate2(certData.ToArray());
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("User-Agent", userAgent);
+        }
 
-            /*
+        protected HttpClient NewTerminalHttpClient()
+        {
+# if NET45
+            ServicePointManager
+                .ServerCertificateValidationCallback += Crypto.ValidateTerminalCertificate;
+
+            var httpClient = NewHttpClient();
+# else
             var clientHandler = new HttpClientHandler();
-            clientHandler.ClientCertificates.Add(cert);
-            // TODO Can we ignore only histname errors?
-            clientHandler.ServerCertificateCustomValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
+            clientHandler
+                .ServerCertificateCustomValidationCallback += Crypto.ValidateTerminalCertificate;
 
-            _terminalClient = new HttpClient(clientHandler);
-            */
-            _terminalClient = new HttpClient();
-            _terminalClient.Timeout = RequestTimeout;
+            var httpClient = new HttpClient(clientHandler);
+# endif
+
+            ConfigureHttpClient(httpClient);
+
+            return httpClient;
+        }
+
+        private static string AssembleUserAgent()
+        {
+            var version = new AssemblyName(typeof(BlockChypClient).GetTypeInfo().Assembly.FullName).Version.ToString(3);
+            return $"BlockChyp-CSharp/{version}";
         }
 
         protected void PopulateSignatureOptions(PaymentRequest request)

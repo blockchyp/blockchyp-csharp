@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Security;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -10,6 +12,9 @@ namespace BlockChyp.Client
     public static class Crypto
     {
 
+        /// <summary>The BlockChyp terminal root certificate authority certificate.</summary>
+        public static Lazy<X509Certificate2> BlockChypRootCertificate = new Lazy<X509Certificate2>(GetBlockChypRootCertificate);
+
         private const string HeaderNonce = "Nonce";
 
         private const string HeaderTimestamp = "Timestamp";
@@ -18,13 +23,15 @@ namespace BlockChyp.Client
 
         private const string AuthSchemeDual = "Dual";
 
+        private const string TerminalCommonName = "blockchyp-terminal";
+
         private const char CipherTextFieldSep = '|';
 
         private const int AesKeySizeBytes = 16;
 
         private const int NonceSizeBytes = 32;
 
-        private static RNGCryptoServiceProvider rand = new RNGCryptoServiceProvider();
+        private static RNGCryptoServiceProvider _rand = new RNGCryptoServiceProvider();
 
         /// <summary>Generates request headers for authorization to the BlockChyp gateway.</summary>
         /// <param name="credentials">API credentials used to generate request headers.</param>
@@ -56,7 +63,7 @@ namespace BlockChyp.Client
         public static string GenerateNonce()
         {
             byte[] nonceBytes = new byte[NonceSizeBytes];
-            rand.GetBytes(nonceBytes);
+            _rand.GetBytes(nonceBytes);
 
             return BitConverter.ToString(nonceBytes).Replace("-", string.Empty);
         }
@@ -150,6 +157,87 @@ namespace BlockChyp.Client
             }
 
             return output;
+        }
+
+        /// <summary>
+        /// Validates that terminal webservers are using a certificate that was signed
+        /// by the BlockChyp root CA.
+        /// </summary>
+        public static bool ValidateTerminalCertificate(
+            object request,
+            X509Certificate2 cert,
+            X509Chain chain,
+            SslPolicyErrors sslPolicyErrors)
+        {
+            if (sslPolicyErrors == SslPolicyErrors.None)
+            {
+                return true;
+            }
+
+            if (sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateNotAvailable))
+            {
+                // Terminals should always serve a certificate.
+                return false;
+            }
+
+            if (sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateChainErrors))
+            {
+                // First, ignore that the root CA is unknown. We'll check that
+                // the root of the chain matches our root CA at the end.
+                chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
+                chain.ChainPolicy.ExtraStore.Add(BlockChypRootCertificate.Value);
+
+                // Validate that the chain can be built.
+                if (!chain.Build(cert) || chain.ChainElements.Count == 0)
+                {
+                    return false;
+                }
+
+                // Now we know that the chain is valid, so we only have to
+                // prove that the root of the chain is our root CA.
+                if (chain.ChainElements[chain.ChainElements.Count-1].Certificate.Thumbprint != BlockChypRootCertificate.Value.Thumbprint)
+                {
+                    return false;
+                }
+            }
+
+            // Terminals on the local network use a static common name.
+            if (sslPolicyErrors.HasFlag(SslPolicyErrors.RemoteCertificateNameMismatch))
+            {
+                return cert.GetNameInfo(X509NameType.SimpleName, false) == TerminalCommonName;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Overload for net45 support.
+        /// </summary>
+        public static bool ValidateTerminalCertificate(
+            object request,
+            X509Certificate cert,
+            X509Chain chain,
+            SslPolicyErrors sslPolicyErrors)
+        {
+            return ValidateTerminalCertificate(request, new X509Certificate2(cert), chain, sslPolicyErrors);
+        }
+
+        private static X509Certificate2 GetBlockChypRootCertificate()
+        {
+            var certData = new MemoryStream();
+            var assembly = Assembly.GetExecutingAssembly();
+            using (var stream = assembly.GetManifestResourceStream("BlockChyp.Assets.BlockChyp.crt"))
+            {
+                if (stream == null)
+                {
+                    throw new InvalidOperationException("BlockChyp CA Certificate not found");
+                }
+                stream.CopyTo(certData);
+            }
+
+            var cert = new X509Certificate2(certData.ToArray());
+
+            return cert;
         }
     }
 }
