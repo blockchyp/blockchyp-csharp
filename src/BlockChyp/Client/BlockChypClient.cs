@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-# if NET45
 using System.Net;
-# endif
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -487,7 +485,8 @@ namespace BlockChyp.Client
 
             var requestedRoute = await GatewayRequest<TerminalRouteResponse>(
                 HttpMethod.Get, $"/api/terminal-route", null, $"terminal={name}", false);
-            if (requestedRoute != null)
+
+            if (requestedRoute != null && requestedRoute.Success)
             {
                 if (OfflineRouteCacheEnabled)
                 {
@@ -521,7 +520,7 @@ namespace BlockChyp.Client
         {
             var route = await ResolveTerminalRoute(name);
 
-            return (route != null && !route.CloudRelayEnabled);
+            return (route != null && route.Success && !route.CloudRelayEnabled);
         }
 
         protected async Task<T> TerminalRequest<T>(HttpMethod method, string path, string name, object request)
@@ -533,9 +532,9 @@ namespace BlockChyp.Client
 
             var route = await ResolveTerminalRoute(name);
 
-            if (route == null)
+            if (route == null || !route.Success)
             {
-                throw new InvalidOperationException("No route to terminal");
+                throw new BlockChypException($"No route to terminal: {name}");
             }
 
             var requestUrl = ToFullyQualifiedTerminalPath(route, path);
@@ -547,10 +546,8 @@ namespace BlockChyp.Client
 
             using (var response = await _terminalClient.SendAsync(httpRequest))
             {
-                response.EnsureSuccessStatusCode();
-
-                string content = await response.Content.ReadAsStringAsync();
-                return DeserializeJson<T>(content);
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return ProcessResponse<T>(response.StatusCode, responseBody);
             }
         }
 
@@ -585,24 +582,52 @@ namespace BlockChyp.Client
 
             using (var response = await _gatewayClient.SendAsync(request))
             {
-                response.EnsureSuccessStatusCode();
-
-                string content = await response.Content.ReadAsStringAsync();
-                return DeserializeJson<T>(content);
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return ProcessResponse<T>(response.StatusCode, responseBody);
             }
         }
 
-        protected static T DeserializeJson<T>(string content)
+        protected static T ProcessResponse<T>(HttpStatusCode statusCode, string body)
         {
+            if (statusCode != HttpStatusCode.OK)
+            {
+                try
+                {
+                    var core = JsonConvert.DeserializeObject<CoreResponse>(body);
+
+                    string msg;
+                    if (String.IsNullOrEmpty(core.ResponseDescription))
+                    {
+                        msg = $"HTTP {statusCode}: \"{body}\"";
+                    }
+                    else
+                    {
+                        msg = core.ResponseDescription;
+                    }
+                    throw new BlockChypException(
+                        msg,
+                        statusCode,
+                        body);
+                }
+                catch (JsonException)
+                {
+                        throw new BlockChypException(
+                            $"HTTP {statusCode}: \"{body}\"",
+                            statusCode,
+                            body);
+                }
+            }
+
             try
             {
-                return JsonConvert.DeserializeObject<T>(content);
+                return JsonConvert.DeserializeObject<T>(body);
             }
             catch (JsonException)
             {
-                // TODO: Standard exception here.
-                Console.WriteLine($"JSON deserialization failed: {content}");
-                throw;
+                throw new BlockChypException(
+                    $"Invalid response: \"{body}\"",
+                    statusCode,
+                    body);
             }
         }
 
@@ -633,7 +658,16 @@ namespace BlockChyp.Client
             using (var file = new StreamReader(cacheFile))
             {
                 var raw = file.ReadToEnd();
-                return DeserializeJson<TerminalRouteResponse>(raw);
+                try
+                {
+                    return JsonConvert.DeserializeObject<TerminalRouteResponse>(raw);
+                }
+                catch (JsonException e)
+                {
+                    throw new BlockChypException(
+                        "Invalid terminal route cache",
+                        e);
+                }
             }
         }
 

@@ -230,7 +230,7 @@ namespace BlockChyp.Client
             {
                 if (stream == null)
                 {
-                    throw new InvalidOperationException("BlockChyp CA Certificate not found");
+                    throw new BlockChypException("BlockChyp CA Certificate not found");
                 }
                 stream.CopyTo(certData);
             }

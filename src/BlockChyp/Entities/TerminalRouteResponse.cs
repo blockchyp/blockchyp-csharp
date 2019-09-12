@@ -6,10 +6,10 @@ namespace BlockChyp
     public class TerminalRouteResponse : ICloneable
     {
         /// <summary>
-        /// Whether or not the terminal exists.
+        /// Whether or not the route lookup succeeded.
         /// </summary>
-        [JsonProperty(PropertyName = "exists")]
-        public bool Exists { get; set; }
+        [JsonProperty(PropertyName = "success")]
+        public bool Success { get; set; }
 
         /// <summary>
         /// The name of the terminal in the request.
