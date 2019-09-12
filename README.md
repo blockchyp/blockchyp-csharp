@@ -53,7 +53,7 @@ var request = new AuthorizationRequest
     Amount = "55.55",
 };
 
-var response = await blockchyp.Charge(request);
+AuthResponse response = blockchyp.Charge(request);
 
 if (response.Approved)
 {

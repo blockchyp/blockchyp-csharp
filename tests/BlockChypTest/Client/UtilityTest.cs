@@ -11,7 +11,7 @@ namespace BlockChypTest.Client
     {
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task UtilityTest_BooleanPrompt()
+        public void UtilityTest_BooleanPrompt()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -22,7 +22,7 @@ namespace BlockChypTest.Client
                 NoCaption="MMM...",
             };
 
-            var response = await blockchyp.BooleanPrompt(request);
+            var response = blockchyp.BooleanPrompt(request);
             
             Assert.True(response.Success);
             Assert.True(response.Response);
@@ -30,7 +30,7 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task UtilityTest_ClearTerminal()
+        public void UtilityTest_ClearTerminal()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -38,14 +38,14 @@ namespace BlockChypTest.Client
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
-            var response = await blockchyp.Clear(request);
+            var response = blockchyp.Clear(request);
             
             Assert.True(response.Success);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task UtilityTest_LineItemDisplay()
+        public void UtilityTest_LineItemDisplay()
         {
             var testData = new TransactionDisplayTransaction[] {
                 new TransactionDisplayTransaction{
@@ -88,7 +88,7 @@ namespace BlockChypTest.Client
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
-            var clearResponse = await blockchyp.Clear(clearRequest);
+            var clearResponse = blockchyp.Clear(clearRequest);
             
             Assert.True(clearResponse.Success);
 
@@ -103,9 +103,9 @@ namespace BlockChypTest.Client
 
                 if (i == 0)
                 {
-                    result = await blockchyp.NewTransactionDisplay(txDisplayRequest);
+                    result = blockchyp.NewTransactionDisplay(txDisplayRequest);
                 } else {
-                    result = await blockchyp.UpdateTransactionDisplay(txDisplayRequest);
+                    result = blockchyp.UpdateTransactionDisplay(txDisplayRequest);
                 }
 
                 Assert.True(result.Success);
@@ -116,7 +116,7 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task UtilityTest_Message()
+        public void UtilityTest_Message()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -125,14 +125,14 @@ namespace BlockChypTest.Client
                 Message="Cayan is for bozos.",
             };
 
-            var response = await blockchyp.Message(request);
+            var response = blockchyp.Message(request);
             
             Assert.True(response.Success);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task UtilityTest_PhonePrompt()
+        public void UtilityTest_PhonePrompt()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -141,7 +141,7 @@ namespace BlockChypTest.Client
                 PromptType="phone",
             };
 
-            var response = await blockchyp.TextPrompt(request);
+            var response = blockchyp.TextPrompt(request);
 
             Assert.True(response.Success);
             Assert.False(String.IsNullOrEmpty(response.Response));
@@ -149,7 +149,7 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task UtilityTest_TextPrompt()
+        public void UtilityTest_TextPrompt()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -158,7 +158,7 @@ namespace BlockChypTest.Client
                 PromptType="email",
             };
 
-            var response = await blockchyp.TextPrompt(request);
+            var response = blockchyp.TextPrompt(request);
 
             Assert.True(response.Success);
             Assert.False(String.IsNullOrEmpty(response.Response));

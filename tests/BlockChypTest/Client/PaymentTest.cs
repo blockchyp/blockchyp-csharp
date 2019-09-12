@@ -11,7 +11,7 @@ namespace BlockChypTest.Client
     {
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_BatchClose()
+        public void PaymentTest_BatchClose()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -23,20 +23,20 @@ namespace BlockChypTest.Client
                 SignatureWidth=200,
             };
 
-            var response = await blockchyp.Charge(request);
+            var response = blockchyp.Charge(request);
             
             Assert.True(response.Approved);
 
             var closeBatchRequest = new CloseBatchRequest();
 
-            var closeBatchResponse = await blockchyp.CloseBatch(closeBatchRequest);
+            var closeBatchResponse = blockchyp.CloseBatch(closeBatchRequest);
 
             Assert.True(closeBatchResponse.Success);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_Charge()
+        public void PaymentTest_Charge()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -49,7 +49,7 @@ namespace BlockChypTest.Client
                 SignatureFile="sig.png",
             };
 
-            var response = await blockchyp.Charge(request);
+            var response = blockchyp.Charge(request);
             
             Assert.True(response.Approved);
             Assert.True(File.Exists("sig.png"));
@@ -57,7 +57,7 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_ManualCharge()
+        public void PaymentTest_ManualCharge()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -68,14 +68,14 @@ namespace BlockChypTest.Client
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
-            var response = await blockchyp.Charge(request);
+            var response = blockchyp.Charge(request);
             
             Assert.True(response.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_Enroll()
+        public void PaymentTest_Enroll()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -84,7 +84,7 @@ namespace BlockChypTest.Client
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
-            var response = await blockchyp.Enroll(request);
+            var response = blockchyp.Enroll(request);
             
             Assert.True(response.Approved);
             Assert.False(String.IsNullOrEmpty(response.Token));
@@ -92,7 +92,7 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_FreeRangeRefund()
+        public void PaymentTest_FreeRangeRefund()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -104,14 +104,14 @@ namespace BlockChypTest.Client
                 SignatureWidth=200,
             };
 
-            var response = await blockchyp.Refund(request);
+            var response = blockchyp.Refund(request);
             
             Assert.True(response.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_Preauth()
+        public void PaymentTest_Preauth()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -123,7 +123,7 @@ namespace BlockChypTest.Client
                 SignatureWidth=200,
             };
 
-            var preauthResponse = await blockchyp.Preauth(preauthRequest);
+            var preauthResponse = blockchyp.Preauth(preauthRequest);
             
             Assert.True(preauthResponse.Approved);
 
@@ -132,14 +132,14 @@ namespace BlockChypTest.Client
                 Test=preauthResponse.Test,
             };
 
-            var captureResponse = await blockchyp.Capture(captureRequest);
+            var captureResponse = blockchyp.Capture(captureRequest);
 
             Assert.True(captureResponse.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_PreauthWithTip()
+        public void PaymentTest_PreauthWithTip()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -151,7 +151,7 @@ namespace BlockChypTest.Client
                 SignatureWidth=200,
             };
 
-            var preauthResponse = await blockchyp.Preauth(preauthRequest);
+            var preauthResponse = blockchyp.Preauth(preauthRequest);
             
             Assert.True(preauthResponse.Approved);
 
@@ -162,14 +162,14 @@ namespace BlockChypTest.Client
                 Amount="30.00",
             };
 
-            var captureResponse = await blockchyp.Capture(captureRequest);
+            var captureResponse = blockchyp.Capture(captureRequest);
 
             Assert.True(captureResponse.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_Refund()
+        public void PaymentTest_Refund()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -181,7 +181,7 @@ namespace BlockChypTest.Client
                 SignatureWidth=200,
             };
 
-            var chargeResponse = await blockchyp.Charge(chargeRequest);
+            var chargeResponse = blockchyp.Charge(chargeRequest);
             
             Assert.True(chargeResponse.Approved);
 
@@ -190,14 +190,14 @@ namespace BlockChypTest.Client
                 Test=chargeResponse.Test,
             };
 
-            var refundResponse = await blockchyp.Refund(refundRequest);
+            var refundResponse = blockchyp.Refund(refundRequest);
 
             Assert.True(refundResponse.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_Reverse()
+        public void PaymentTest_Reverse()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -208,7 +208,7 @@ namespace BlockChypTest.Client
                 TransactionRef=Crypto.GenerateNonce(),
             };
 
-            var chargeResponse = await blockchyp.Charge(chargeRequest);
+            var chargeResponse = blockchyp.Charge(chargeRequest);
             
             Assert.True(chargeResponse.Approved);
 
@@ -217,14 +217,14 @@ namespace BlockChypTest.Client
                 Test=chargeResponse.Test,
             };
 
-            var reversalResponse = await blockchyp.Reverse(reversalRequest);
+            var reversalResponse = blockchyp.Reverse(reversalRequest);
 
             Assert.True(reversalResponse.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_TaxExemptCharge()
+        public void PaymentTest_TaxExemptCharge()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -235,14 +235,14 @@ namespace BlockChypTest.Client
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
-            var response = await blockchyp.Charge(request);
+            var response = blockchyp.Charge(request);
             
             Assert.True(response.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_TaxableLevel2()
+        public void PaymentTest_TaxableLevel2()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -254,14 +254,14 @@ namespace BlockChypTest.Client
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
-            var response = await blockchyp.Charge(request);
+            var response = blockchyp.Charge(request);
             
             Assert.True(response.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_TaxableLevel2Capture()
+        public void PaymentTest_TaxableLevel2Capture()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -272,7 +272,7 @@ namespace BlockChypTest.Client
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
-            var preauthResponse = await blockchyp.Preauth(preauthRequest);
+            var preauthResponse = blockchyp.Preauth(preauthRequest);
             
             Assert.True(preauthResponse.Approved);
 
@@ -284,14 +284,14 @@ namespace BlockChypTest.Client
                 Test=preauthResponse.Test,
             };
 
-            var captureResponse = await blockchyp.Capture(captureRequest);
+            var captureResponse = blockchyp.Capture(captureRequest);
 
             Assert.True(captureResponse.Approved);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task PaymentTest_Void()
+        public void PaymentTest_Void()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -302,7 +302,7 @@ namespace BlockChypTest.Client
                 TransactionRef=Crypto.GenerateNonce(),
             };
 
-            var chargeResponse = await blockchyp.Charge(chargeRequest);
+            var chargeResponse = blockchyp.Charge(chargeRequest);
             
             Assert.True(chargeResponse.Approved);
 
@@ -311,7 +311,7 @@ namespace BlockChypTest.Client
                 Test=chargeResponse.Test,
             };
 
-            var voidResponse = await blockchyp.Void(voidRequest);
+            var voidResponse = blockchyp.Void(voidRequest);
 
             Assert.True(voidResponse.Approved);
         }

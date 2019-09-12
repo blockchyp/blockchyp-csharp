@@ -10,10 +10,10 @@ namespace BlockChypTest.Client
     {
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task BlockChypClientTest_Heartbeat()
+        public void BlockChypClientTest_Heartbeat()
         {
             var blockchyp = new BlockChypClient();
-            var result = await blockchyp.Heartbeat(false);
+            var result = blockchyp.Heartbeat(false);
 
             Assert.True(result.Success);
             Assert.NotEqual(default(DateTime), result.Timestamp);
@@ -22,10 +22,10 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task BlockChypClientTest_AuthenticatedHeartbeat()
+        public void BlockChypClientTest_AuthenticatedHeartbeat()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
-            var result = await blockchyp.Heartbeat(true);
+            var result = blockchyp.Heartbeat(true);
 
             Assert.True(result.Success);
             Assert.NotEqual(default(DateTime), result.Timestamp);
@@ -35,21 +35,21 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task BlockChypClientTest_Ping()
+        public void BlockChypClientTest_Ping()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
             var terminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName;
             var request = new PingRequest{TerminalName=terminalName};
 
-            var result = await blockchyp.Ping(request);
+            var result = blockchyp.Ping(request);
 
             Assert.True(result.Success);
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async Task BlockChypClientTest_PingHttps()
+        public void BlockChypClientTest_PingHttps()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
@@ -58,7 +58,7 @@ namespace BlockChypTest.Client
             var terminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName;
             var request = new PingRequest{TerminalName=terminalName};
 
-            var result = await blockchyp.Ping(request);
+            var result = blockchyp.Ping(request);
 
             Assert.True(result.Success);
         }

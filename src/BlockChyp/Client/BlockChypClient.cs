@@ -151,16 +151,16 @@ namespace BlockChyp.Client
         /// successful, a merchantPk value is returned.
         /// </summary>
         /// <param name="test">Whether or not to route the the transaction to the test gateway.</param>
-        public async Task<HeartbeatResponse> Heartbeat(bool test)
+        public HeartbeatResponse Heartbeat(bool test)
         {
-            return await GatewayRequest<HeartbeatResponse>(HttpMethod.Get, "/api/heartbeat", null, null, test);
+            return GatewayRequest<HeartbeatResponse>(HttpMethod.Get, "/api/heartbeat", null, null, test);
         }
 
         /// <summary>Tests local communication with a terminal.</summary>
         /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> Ping(PingRequest request)
+        public Acknowledgement Ping(PingRequest request)
         {
-            return await TerminalRequest<Acknowledgement>(HttpMethod.Post, "/api/test", request.TerminalName, request);
+            return TerminalRequest<Acknowledgement>(HttpMethod.Post, "/api/test", request.TerminalName, request);
         }
 
         /// <summary>
@@ -168,28 +168,28 @@ namespace BlockChyp.Client
         /// Any amounts passed in are ignored.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> Enroll(AuthRequest request)
+        public AuthResponse Enroll(AuthRequest request)
         {
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                return await TerminalRequest<AuthResponse>(HttpMethod.Post, "/api/enroll", request.TerminalName, request);
+                return TerminalRequest<AuthResponse>(HttpMethod.Post, "/api/enroll", request.TerminalName, request);
             } else {
-                return await GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/enroll", request, null, request.Test);
+                return GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/enroll", request, null, request.Test);
             }
         }
 
         /// <summary>Performs a standard auth and capture.</summary>
         /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> Charge(AuthRequest request)
+        public AuthResponse Charge(AuthRequest request)
         {
             PopulateSignatureOptions(request);
 
             AuthResponse response;
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                response = await TerminalRequest<AuthResponse>(HttpMethod.Post, "/api/charge", request.TerminalName, request);
+                response = TerminalRequest<AuthResponse>(HttpMethod.Post, "/api/charge", request.TerminalName, request);
             } else {
-                response = await GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/charge", request, null, request.Test);
+                response = GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/charge", request, null, request.Test);
             }
 
             DumpSignatureFile(request, response);
@@ -207,23 +207,23 @@ namespace BlockChyp.Client
         /// reverse the transaction.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> Reverse(AuthRequest request)
+        public AuthResponse Reverse(AuthRequest request)
         {
-            return await GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/reverse", request, null, request.Test);
+            return GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/reverse", request, null, request.Test);
         }
 
         /// <summary>Preauthorizes a transaction for capture at a later time.</summary>
         /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> Preauth(AuthRequest request)
+        public AuthResponse Preauth(AuthRequest request)
         {
             PopulateSignatureOptions(request);
 
             AuthResponse response;
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                response = await TerminalRequest<AuthResponse>(HttpMethod.Post, "/api/preauth", request.TerminalName, request);
+                response = TerminalRequest<AuthResponse>(HttpMethod.Post, "/api/preauth", request.TerminalName, request);
             } else {
-                response = await GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/preauth", request, null, request.Test);
+                response = GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/preauth", request, null, request.Test);
             }
 
             DumpSignatureFile(request, response);
@@ -233,16 +233,16 @@ namespace BlockChyp.Client
 
         /// <summary>Captures a preauth.</summary>
         /// <param name="request">The request details.</param>
-        public async Task<CaptureResponse> Capture(CaptureRequest request)
+        public CaptureResponse Capture(CaptureRequest request)
         {
-            return await GatewayRequest<CaptureResponse>(HttpMethod.Post, "/api/capture", request, null, request.Test);
+            return GatewayRequest<CaptureResponse>(HttpMethod.Post, "/api/capture", request, null, request.Test);
         }
 
         /// <summary>Voids an existing transaction.</summary>
         /// <param name="request">The request details.</param>
-        public async Task<VoidResponse> Void(VoidRequest request)
+        public VoidResponse Void(VoidRequest request)
         {
-            return await GatewayRequest<VoidResponse>(HttpMethod.Post, "/api/void", request, null, request.Test);
+            return GatewayRequest<VoidResponse>(HttpMethod.Post, "/api/void", request, null, request.Test);
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace BlockChyp.Client
         /// previous transaction eliminates a lot of potential fraud.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> Refund(RefundRequest request)
+        public AuthResponse Refund(RefundRequest request)
         {
             PopulateSignatureOptions(request);
 
@@ -263,11 +263,11 @@ namespace BlockChyp.Client
             }
 
             AuthResponse response;
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                response = await TerminalRequest<AuthResponse>(HttpMethod.Post, "/api/refund", request.TerminalName, request);
+                response = TerminalRequest<AuthResponse>(HttpMethod.Post, "/api/refund", request.TerminalName, request);
             } else {
-                response = await GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/refund", request, null, request.Test);
+                response = GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/refund", request, null, request.Test);
             }
 
             DumpSignatureFile(request, response);
@@ -281,20 +281,20 @@ namespace BlockChyp.Client
         /// You can turn this off and run batches manually if you want.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<CloseBatchResponse> CloseBatch(CloseBatchRequest request)
+        public CloseBatchResponse CloseBatch(CloseBatchRequest request)
         {
-            return await GatewayRequest<CloseBatchResponse>(HttpMethod.Post, "/api/close-batch", request, null, false);
+            return GatewayRequest<CloseBatchResponse>(HttpMethod.Post, "/api/close-batch", request, null, false);
         }
 
         /// <summary>Displays a message on the terminal screen.</summary>
         /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> Message(MessageRequest request)
+        public Acknowledgement Message(MessageRequest request)
         {
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                return await TerminalRequest<BooleanPromptResponse>(HttpMethod.Post, "/api/message", request.TerminalName, request);
+                return TerminalRequest<BooleanPromptResponse>(HttpMethod.Post, "/api/message", request.TerminalName, request);
             } else {
-                return await GatewayRequest<BooleanPromptResponse>(HttpMethod.Post, "/api/message", request, null, false);
+                return GatewayRequest<BooleanPromptResponse>(HttpMethod.Post, "/api/message", request, null, false);
             }
         }
 
@@ -306,13 +306,13 @@ namespace BlockChyp.Client
         /// PCI rules.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<TextPromptResponse> TextPrompt(TextPromptRequest request)
+        public TextPromptResponse TextPrompt(TextPromptRequest request)
         {
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                return await TerminalRequest<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request.TerminalName, request);
+                return TerminalRequest<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request.TerminalName, request);
             } else {
-                return await GatewayRequest<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request, null, false);
+                return GatewayRequest<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request, null, false);
             }
         }
 
@@ -323,13 +323,13 @@ namespace BlockChyp.Client
         /// can use with no custom code required.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<BooleanPromptResponse> BooleanPrompt(BooleanPromptRequest request)
+        public BooleanPromptResponse BooleanPrompt(BooleanPromptRequest request)
         {
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                return await TerminalRequest<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request.TerminalName, request);
+                return TerminalRequest<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request.TerminalName, request);
             } else {
-                return await GatewayRequest<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request, null, false);
+                return GatewayRequest<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request, null, false);
             }
         }
 
@@ -337,37 +337,37 @@ namespace BlockChyp.Client
         /// Resets the line item display with a new transaction.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> NewTransactionDisplay(TransactionDisplayRequest request)
+        public Acknowledgement NewTransactionDisplay(TransactionDisplayRequest request)
         {
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                return await TerminalRequest<Acknowledgement>(HttpMethod.Post, "/api/txdisplay", request.TerminalName, request);
+                return TerminalRequest<Acknowledgement>(HttpMethod.Post, "/api/txdisplay", request.TerminalName, request);
             } else {
-                return await GatewayRequest<Acknowledgement>(HttpMethod.Post, "/api/terminal-txdisplay", request, null, false);
+                return GatewayRequest<Acknowledgement>(HttpMethod.Post, "/api/terminal-txdisplay", request, null, false);
             }
         }
 
         /// <summary>Adds to an existing line item display.</summary>
         /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> UpdateTransactionDisplay(TransactionDisplayRequest request)
+        public Acknowledgement UpdateTransactionDisplay(TransactionDisplayRequest request)
         {
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                return await TerminalRequest<Acknowledgement>(HttpMethod.Put, "/api/txdisplay", request.TerminalName, request);
+                return TerminalRequest<Acknowledgement>(HttpMethod.Put, "/api/txdisplay", request.TerminalName, request);
             } else {
-                return await GatewayRequest<Acknowledgement>(HttpMethod.Put, "/api/terminal-txdisplay", request, null, false);
+                return GatewayRequest<Acknowledgement>(HttpMethod.Put, "/api/terminal-txdisplay", request, null, false);
             }
         }
 
         /// <summary>Clears the line item display and returns the terminal to idle.</summary>
         /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> Clear(ClearRequest request)
+        public Acknowledgement Clear(ClearRequest request)
         {
-            if (await IsTerminalRouted(request.TerminalName))
+            if (IsTerminalRouted(request.TerminalName))
             {
-                return await TerminalRequest<Acknowledgement>(HttpMethod.Post, "/api/clear", request.TerminalName, request);
+                return TerminalRequest<Acknowledgement>(HttpMethod.Post, "/api/clear", request.TerminalName, request);
             } else {
-                return await GatewayRequest<Acknowledgement>(HttpMethod.Post, "/api/terminal-clear", request, null, false);
+                return GatewayRequest<Acknowledgement>(HttpMethod.Post, "/api/terminal-clear", request, null, false);
             }
         }
 
@@ -470,7 +470,7 @@ namespace BlockChyp.Client
 
         }
 
-        protected async Task<TerminalRouteResponse> ResolveTerminalRoute(string name)
+        protected TerminalRouteResponse ResolveTerminalRoute(string name)
         {
             if (String.IsNullOrEmpty(name))
             {
@@ -483,7 +483,7 @@ namespace BlockChyp.Client
                 return cachedRoute;
             }
 
-            var requestedRoute = await GatewayRequest<TerminalRouteResponse>(
+            var requestedRoute = GatewayRequest<TerminalRouteResponse>(
                 HttpMethod.Get, $"/api/terminal-route", null, $"terminal={name}", false);
 
             if (requestedRoute != null && requestedRoute.Success)
@@ -516,21 +516,21 @@ namespace BlockChyp.Client
             return builder.ToString();
         }
 
-        protected async Task<bool> IsTerminalRouted(string name)
+        protected bool IsTerminalRouted(string name)
         {
-            var route = await ResolveTerminalRoute(name);
+            var route = ResolveTerminalRoute(name);
 
             return (route != null && route.Success && !route.CloudRelayEnabled);
         }
 
-        protected async Task<T> TerminalRequest<T>(HttpMethod method, string path, string name, object request)
+        protected async Task<T> TerminalRequestAsync<T>(HttpMethod method, string path, string name, object request)
         {
             if (String.IsNullOrEmpty(name))
             {
                 throw new ArgumentException("Terminal name must be provided");
             }
 
-            var route = await ResolveTerminalRoute(name);
+            var route = ResolveTerminalRoute(name);
 
             if (route == null || !route.Success)
             {
@@ -544,11 +544,17 @@ namespace BlockChyp.Client
             var httpRequest = new HttpRequestMessage(method, requestUrl);
             httpRequest.Content = new StringContent(JsonConvert.SerializeObject(terminalRequest), Encoding.UTF8, "application/json");
 
-            using (var response = await _terminalClient.SendAsync(httpRequest))
+            using (var response = await _terminalClient.SendAsync(httpRequest).ConfigureAwait(false))
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return ProcessResponse<T>(response.StatusCode, responseBody);
             }
+        }
+
+        protected T TerminalRequest<T>(HttpMethod method, string path, string name, object request)
+        {
+            return TerminalRequestAsync<T>(method, path, name, request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         protected TerminalRequest TerminalRequestForRoute(TerminalRouteResponse route, object request)
@@ -561,7 +567,7 @@ namespace BlockChyp.Client
             }
         }
 
-        protected async Task<T> GatewayRequest<T>(HttpMethod method, string path, object body, string query, bool test)
+        protected async Task<T> GatewayRequestAsync<T>(HttpMethod method, string path, object body, string query, bool test)
         {
             var requestUrl = ToFullyQualifiedGatewayPath(path, query, test);
             var request = new HttpRequestMessage(method, requestUrl);
@@ -580,11 +586,17 @@ namespace BlockChyp.Client
                 }
             }
 
-            using (var response = await _gatewayClient.SendAsync(request))
+            using (var response = await _gatewayClient.SendAsync(request).ConfigureAwait(false))
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return ProcessResponse<T>(response.StatusCode, responseBody);
             }
+        }
+
+        protected T GatewayRequest<T>(HttpMethod method, string path, object body, string query, bool test)
+        {
+            return GatewayRequestAsync<T>(method, path, body, query, test)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         protected static T ProcessResponse<T>(HttpStatusCode statusCode, string body)
