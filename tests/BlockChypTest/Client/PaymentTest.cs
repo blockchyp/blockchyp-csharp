@@ -32,6 +32,7 @@ namespace BlockChypTest.Client
             var closeBatchResponse = blockchyp.CloseBatch(closeBatchRequest);
 
             Assert.True(closeBatchResponse.Success);
+            Assert.False(String.IsNullOrEmpty(closeBatchResponse.CapturedTotal));
         }
 
         [Trait("Category", "Integration")]

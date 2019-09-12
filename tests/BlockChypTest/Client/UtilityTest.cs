@@ -15,7 +15,8 @@ namespace BlockChypTest.Client
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
-            var request = new BooleanPromptRequest{
+            var request = new BooleanPromptRequest
+            {
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Prompt="Is OpenEdge slower than Christmass?",
                 YesCaption="ALWAYS",
@@ -34,7 +35,8 @@ namespace BlockChypTest.Client
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
-            var request = new ClearRequest{
+            var request = new ClearRequest
+            {
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
@@ -47,16 +49,22 @@ namespace BlockChypTest.Client
         [Fact]
         public void UtilityTest_LineItemDisplay()
         {
-            var testData = new TransactionDisplayTransaction[] {
-                new TransactionDisplayTransaction{
-                    Items=new TransactionDisplayItem[] {
-                        new TransactionDisplayItem{
+            var testData = new TransactionDisplayTransaction[]
+            {
+                new TransactionDisplayTransaction
+                {
+                    Items=new TransactionDisplayItem[]
+                    {
+                        new TransactionDisplayItem
+                        {
                             Description="Schlurm",
                             Price="150.00",
                             Quantity=1f,
                             Extended="145.00",
-                            Discounts=new TransactionDisplayDiscount[] {
-                                new TransactionDisplayDiscount{
+                            Discounts=new TransactionDisplayDiscount[]
+                            {
+                                new TransactionDisplayDiscount
+                                {
                                     Amount="5.00",
                                     Description="Member Discount",
                                 },
@@ -67,9 +75,12 @@ namespace BlockChypTest.Client
                     Tax="2.00",
                     Total="147.00",
                 },
-                new TransactionDisplayTransaction{
-                    Items=new TransactionDisplayItem[] {
-                        new TransactionDisplayItem{
+                new TransactionDisplayTransaction
+                {
+                    Items=new TransactionDisplayItem[]
+                    {
+                        new TransactionDisplayItem
+                        {
                             Description="Shleem",
                             Price="199.00",
                             Quantity=1f,
@@ -84,7 +95,8 @@ namespace BlockChypTest.Client
 
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
-            var clearRequest = new ClearRequest{
+            var clearRequest = new ClearRequest
+            {
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
@@ -94,7 +106,8 @@ namespace BlockChypTest.Client
 
             for (var i = 0; i < testData.Length; i++)
             {
-                var txDisplayRequest = new TransactionDisplayRequest{
+                var txDisplayRequest = new TransactionDisplayRequest
+                {
                     TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                     Transaction=testData[i],
                 };
@@ -120,7 +133,8 @@ namespace BlockChypTest.Client
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
-            var request = new MessageRequest{
+            var request = new MessageRequest
+            {
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Message="Cayan is for bozos.",
             };
@@ -136,7 +150,8 @@ namespace BlockChypTest.Client
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
-            var request = new TextPromptRequest{
+            var request = new TextPromptRequest
+            {
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 PromptType="phone",
             };
@@ -153,7 +168,8 @@ namespace BlockChypTest.Client
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
-            var request = new TextPromptRequest{
+            var request = new TextPromptRequest
+            {
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 PromptType="email",
             };

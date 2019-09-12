@@ -22,13 +22,20 @@ namespace BlockChyp
         /// The total captured amount for this batch. Should be the expected
         /// deposit amount.
         /// </summary>
-        [JsonProperty(PropertyName = "capturedTotals")]
-        public string CapturedTotals { get; set; }
+        [JsonProperty(PropertyName = "capturedTotal")]
+        public string CapturedTotal { get; set; }
 
         /// <summary>
         /// The captured totals by card brand.
         /// </summary>
         [JsonProperty(PropertyName = "cardBrands")]
         public Dictionary<string, string> CardBrands { get; set; }
+
+        /// <summary>
+        /// The total amount of preauths opened during the batch
+        // that weren't captured.
+        /// </summary>
+        [JsonProperty(PropertyName = "openPreauths")]
+        public string OpenPreauths { get; set; }
     }
 }
