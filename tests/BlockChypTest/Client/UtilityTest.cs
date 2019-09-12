@@ -153,7 +153,7 @@ namespace BlockChypTest.Client
             var request = new TextPromptRequest
             {
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                PromptType="phone",
+                PromptType=PromptType.PhoneNumber,
             };
 
             var response = blockchyp.TextPrompt(request);
@@ -171,7 +171,7 @@ namespace BlockChypTest.Client
             var request = new TextPromptRequest
             {
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                PromptType="email",
+                PromptType=PromptType.Email,
             };
 
             var response = blockchyp.TextPrompt(request);

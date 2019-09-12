@@ -14,6 +14,6 @@ namespace BlockChyp
         /// The prompt type (email, phone, etc).
         /// </summary>
         [JsonProperty(PropertyName = "promptType")]
-        public string PromptType { get; set; }
+        public PromptType PromptType { get; set; }
     }
 }

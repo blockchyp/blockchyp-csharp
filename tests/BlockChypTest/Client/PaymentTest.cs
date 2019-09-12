@@ -19,7 +19,7 @@ namespace BlockChypTest.Client
                 Amount="123.45",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                SignatureFormat="png",
+                SignatureFormat=SignatureFormat.PNG,
                 SignatureWidth=200,
             };
 
@@ -45,7 +45,7 @@ namespace BlockChypTest.Client
                 Amount="55.55",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                SignatureFormat="png",
+                SignatureFormat=SignatureFormat.PNG,
                 SignatureWidth=200,
                 SignatureFile="sig.png",
             };
@@ -101,7 +101,7 @@ namespace BlockChypTest.Client
                 Amount="55.55",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                SignatureFormat="png",
+                SignatureFormat=SignatureFormat.PNG,
                 SignatureWidth=200,
             };
 
@@ -120,7 +120,7 @@ namespace BlockChypTest.Client
                 Amount="55.55",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                SignatureFormat="png",
+                SignatureFormat=SignatureFormat.PNG,
                 SignatureWidth=200,
             };
 
@@ -148,7 +148,7 @@ namespace BlockChypTest.Client
                 Amount="25.00",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                SignatureFormat="png",
+                SignatureFormat=SignatureFormat.JPG,
                 SignatureWidth=200,
             };
 
@@ -178,7 +178,7 @@ namespace BlockChypTest.Client
                 Amount="55.55",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                SignatureFormat="png",
+                SignatureFormat=SignatureFormat.PNG,
                 SignatureWidth=200,
             };
 

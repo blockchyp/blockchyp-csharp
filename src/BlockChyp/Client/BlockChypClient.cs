@@ -741,12 +741,13 @@ namespace BlockChyp.Client
 
         protected void PopulateSignatureOptions(PaymentRequest request)
         {
-            if (!String.IsNullOrEmpty(request.SignatureFormat) || String.IsNullOrEmpty(request.SignatureFile))
+            if (request.SignatureFormat == SignatureFormat.None || String.IsNullOrEmpty(request.SignatureFile))
             {
                 return;
             }
 
-            request.SignatureFormat = Path.GetExtension(request.SignatureFile);
+            request.SignatureFormat = (SignatureFormat)Enum
+                .Parse(typeof(SignatureFormat), Path.GetExtension(request.SignatureFile), true);
         }
     }
 }

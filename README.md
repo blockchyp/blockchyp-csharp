@@ -407,7 +407,7 @@ for card numbers or pin codes - and that would be bad.
 var request = new TextPromptRequest
 {
     TerminalName = "Test Terminal",
-    PromptType = TextPromptRequest.PromptTypeEmail,
+    PromptType = PromptType.Email,
 };
 
 var response = blockchyp.TextPrompt(request);
@@ -460,7 +460,7 @@ the image back in PNG or JPEG format, either as hex or written to file.
 ```c#
 var request = new AuthRequest
 {
-    SignatureFormat = PaymentRequest.SignatureFormatPng, // TODO this is the wrong place for this constant
+    SignatureFormat = SignatureFormat.PNG,
     SignatureWidth = 200,
     SignatureFile = "signature.png", // The signature will be written out to this file
 };

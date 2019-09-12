@@ -94,7 +94,7 @@ namespace BlockChyp
         /// PNG, JPEG (case insensitive).
         /// </summary>
         [JsonProperty(PropertyName = "sigFormat")]
-        public string SignatureFormat { get; set; }
+        public SignatureFormat SignatureFormat { get; set; }
 
         /// <summary>
         /// Maximum width of the signature image in pixels.
@@ -126,7 +126,7 @@ namespace BlockChyp
         /// (credit, EBT, debit, gift card).
         /// </summary>
         [JsonProperty(PropertyName = "cardType")]
-        public int CardType { get; set; }
+        public CardType CardType { get; set; }
 
         /// <summary>
         /// The card brand (VISA, MC, AMEX, etc).
