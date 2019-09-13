@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text.Json;
+using Newtonsoft.Json;
 using BlockChyp;
 using BlockChyp.Client;
 
@@ -11,15 +11,15 @@ namespace BlockChypTest
     {
         private IntegrationTestConfiguration()
         {
-            var configFilePath = ConfigFilePath();
+            string configFilePath = ConfigFilePath();
             if (!File.Exists(configFilePath))
             {
                 throw new FileNotFoundException($"No integration test config file: {configFilePath}", configFilePath);
             }
 
-            var data = File.ReadAllText(configFilePath);
+            string data = File.ReadAllText(configFilePath);
 
-            Settings = JsonSerializer.Deserialize<IntegrationTestSettings>(data);
+            Settings = JsonConvert.DeserializeObject<IntegrationTestSettings>(data);
         }
 
         public IntegrationTestSettings Settings { get; }
