@@ -478,9 +478,8 @@ namespace BlockChyp.Client
             }
 
             var cachedRoute = RouteCacheGet(name);
-            var expires = cachedRoute.Timestamp.GetValueOrDefault(default(DateTime)).Add(RouteCacheTtl);
             if (cachedRoute != null
-                && expires > DateTime.UtcNow
+                && cachedRoute.Timestamp.GetValueOrDefault(new DateTime(0)).Add(RouteCacheTtl) > DateTime.UtcNow
                 && cachedRoute.Success)
             {
                 return cachedRoute;
