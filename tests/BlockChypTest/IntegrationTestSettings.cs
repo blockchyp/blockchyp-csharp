@@ -1,28 +1,28 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace BlockChypTest
 {
     public class IntegrationTestSettings
     {
-        [JsonPropertyName("gatewayHost")]
+        [JsonProperty("gatewayHost")]
         public string GatewayUrl { get; set; }
 
-        [JsonPropertyName("testGatewayHost")]
+        [JsonProperty("testGatewayHost")]
         public string GatewayTestUrl { get; set; }
 
-        [JsonPropertyName("defaultTerminalName")]
+        [JsonProperty("defaultTerminalName")]
         public string DefaultTerminalName { get; set; }
 
-        [JsonPropertyName("defaultTerminalAddress")]
+        [JsonProperty("defaultTerminalAddress")]
         public string DefaultTerminalAddress { get; set; }
 
-        [JsonPropertyName("apiKey")]
+        [JsonProperty("apiKey")]
         public string ApiKey { get; set; }
 
-        [JsonPropertyName("bearerToken")]
+        [JsonProperty("bearerToken")]
         public string BearerToken { get; set; }
 
-        [JsonPropertyName("signingKey")]
+        [JsonProperty("signingKey")]
         public string SigningKey { get; set; }
     }
 }
