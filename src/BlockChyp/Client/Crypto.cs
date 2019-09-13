@@ -29,15 +29,13 @@ namespace BlockChyp.Client
 
         private const int AesKeySizeBytes = 16;
 
-        private const int NonceSizeBytes = 32;
-
-        private static RNGCryptoServiceProvider _rand = new RNGCryptoServiceProvider();
+        public const int NonceSizeBytes = 32;
 
         /// <summary>Generates request headers for authorization to the BlockChyp gateway.</summary>
         /// <param name="credentials">API credentials used to generate request headers.</param>
         public static Dictionary<string, string> GenerateAuthHeaders(ApiCredentials credentials)
         {
-            var nonce = GenerateNonce();
+            var nonce = GenerateNonce(NonceSizeBytes);
             var timestamp = GetTimestamp();
 
             var toSign = credentials.ApiKey + credentials.BearerToken + timestamp + nonce;
@@ -59,13 +57,23 @@ namespace BlockChyp.Client
             };
         }
 
-        /// <summary>Generates a random nonce for use in requests.</summary>
-        public static string GenerateNonce()
+        /// <summary>
+        /// Generate a <paramref name="nonceLengthInBytes"/>-byte long random nonce using
+        /// <c>RNGCryptoServiceProvider</c>.
+        /// </summary>
+        /// <remarks>
+        /// Note that the resulting nonce will be represented as a hex <c>string</c> which will therefore have a
+        /// length of <c>2 * nonceLengthInBytes</c>.
+        /// </remarks>
+        /// <param name="nonceLengthInBytes">the desired length of the nonce in bytes.</param>
+        public static string GenerateNonce(int nonceLengthInBytes)
         {
-            byte[] nonceBytes = new byte[NonceSizeBytes];
-            _rand.GetBytes(nonceBytes);
-
-            return BitConverter.ToString(nonceBytes).Replace("-", string.Empty);
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] nonceBytes = new byte[nonceLengthInBytes];
+                rng.GetBytes(nonceBytes);
+                return BitConverter.ToString(nonceBytes).Replace("-", string.Empty);
+            }
         }
 
         /// <summary>Returns the current timestamp in RFS 3339 format.</summary>
