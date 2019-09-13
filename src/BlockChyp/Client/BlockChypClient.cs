@@ -478,8 +478,9 @@ namespace BlockChyp.Client
             }
 
             var cachedRoute = RouteCacheGet(name);
+            var expires = cachedRoute.Timestamp.GetValueOrDefault(default(DateTime)).Add(RouteCacheTtl);
             if (cachedRoute != null
-                && cachedRoute.Timestamp.GetValueOrDefault(default(DateTime)).Add(RouteCacheTtl) < DateTime.UtcNow
+                && expires > DateTime.UtcNow
                 && cachedRoute.Success)
             {
                 return cachedRoute;
@@ -490,10 +491,13 @@ namespace BlockChyp.Client
 
             if (requestedRoute != null && requestedRoute.Success)
             {
+                requestedRoute.Timestamp = DateTime.UtcNow;
+
                 if (OfflineRouteCacheEnabled)
                 {
                     RouteCachePut(requestedRoute);
                 }
+
                 return requestedRoute;
             }
 
