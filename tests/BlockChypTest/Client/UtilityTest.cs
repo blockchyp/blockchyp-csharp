@@ -1,8 +1,6 @@
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using BlockChyp;
-using BlockChyp.Client;
 using Xunit;
 
 namespace BlockChypTest.Client
@@ -24,7 +22,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.BooleanPrompt(request);
-            
+
             Assert.True(response.Success);
             Assert.True(response.Response);
         }
@@ -41,7 +39,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Clear(request);
-            
+
             Assert.True(response.Success);
         }
 
@@ -101,7 +99,7 @@ namespace BlockChypTest.Client
             };
 
             var clearResponse = blockchyp.Clear(clearRequest);
-            
+
             Assert.True(clearResponse.Success);
 
             for (var i = 0; i < testData.Length; i++)
@@ -140,7 +138,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Message(request);
-            
+
             Assert.True(response.Success);
         }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using BlockChyp;
 using BlockChyp.Client;
 using Xunit;

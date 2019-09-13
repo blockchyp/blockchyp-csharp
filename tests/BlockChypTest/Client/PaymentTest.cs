@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using BlockChyp;
 using BlockChyp.Client;
 using Xunit;
@@ -24,7 +23,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Charge(request);
-            
+
             Assert.True(response.Approved);
 
             var closeBatchRequest = new CloseBatchRequest();
@@ -51,7 +50,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Charge(request);
-            
+
             Assert.True(response.Approved);
             Assert.True(File.Exists("sig.png"));
         }
@@ -70,7 +69,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Charge(request);
-            
+
             Assert.True(response.Approved);
         }
 
@@ -86,7 +85,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Enroll(request);
-            
+
             Assert.True(response.Approved);
             Assert.False(String.IsNullOrEmpty(response.Token));
         }
@@ -106,7 +105,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Refund(request);
-            
+
             Assert.True(response.Approved);
         }
 
@@ -125,7 +124,7 @@ namespace BlockChypTest.Client
             };
 
             var preauthResponse = blockchyp.Preauth(preauthRequest);
-            
+
             Assert.True(preauthResponse.Approved);
 
             var captureRequest = new CaptureRequest{
@@ -153,7 +152,7 @@ namespace BlockChypTest.Client
             };
 
             var preauthResponse = blockchyp.Preauth(preauthRequest);
-            
+
             Assert.True(preauthResponse.Approved);
 
             var captureRequest = new CaptureRequest{
@@ -183,7 +182,7 @@ namespace BlockChypTest.Client
             };
 
             var chargeResponse = blockchyp.Charge(chargeRequest);
-            
+
             Assert.True(chargeResponse.Approved);
 
             var refundRequest = new RefundRequest{
@@ -210,7 +209,7 @@ namespace BlockChypTest.Client
             };
 
             var chargeResponse = blockchyp.Charge(chargeRequest);
-            
+
             Assert.True(chargeResponse.Approved);
 
             var reversalRequest = new AuthRequest{
@@ -237,7 +236,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Charge(request);
-            
+
             Assert.True(response.Approved);
         }
 
@@ -256,7 +255,7 @@ namespace BlockChypTest.Client
             };
 
             var response = blockchyp.Charge(request);
-            
+
             Assert.True(response.Approved);
         }
 
@@ -274,7 +273,7 @@ namespace BlockChypTest.Client
             };
 
             var preauthResponse = blockchyp.Preauth(preauthRequest);
-            
+
             Assert.True(preauthResponse.Approved);
 
             var captureRequest = new CaptureRequest{
@@ -304,7 +303,7 @@ namespace BlockChypTest.Client
             };
 
             var chargeResponse = blockchyp.Charge(chargeRequest);
-            
+
             Assert.True(chargeResponse.Approved);
 
             var voidRequest = new VoidRequest{
