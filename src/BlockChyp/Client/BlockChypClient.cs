@@ -478,7 +478,9 @@ namespace BlockChyp.Client
             }
 
             var cachedRoute = RouteCacheGet(name);
-            if (cachedRoute != null && cachedRoute.Timestamp.GetValueOrDefault(default(DateTime)).Add(RouteCacheTtl) < DateTime.UtcNow)
+            if (cachedRoute != null
+                && cachedRoute.Timestamp.GetValueOrDefault(default(DateTime)).Add(RouteCacheTtl) < DateTime.UtcNow
+                && cachedRoute.Success)
             {
                 return cachedRoute;
             }

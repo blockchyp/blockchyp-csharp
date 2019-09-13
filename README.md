@@ -74,7 +74,7 @@ var request = new AuthRequest
     TerminalName = "Test Terminal",
     Amount = "50.00",
     TransactionRef = "your invoice or tender id",
-}
+};
 
 AuthResponse response = blockchyp.Preauth(request);
 
@@ -95,7 +95,7 @@ var request = new CaptureRequest
     TransactionId = preauthResponse.TransactionId,
     TipAmount = "5.00",
     Amount = "55.00",
-}
+};
 
 CaptureResponse response = blockchyp.Capture(request);
 
@@ -124,7 +124,7 @@ if (response.Approved)
     Console.WriteLine("Approved!");
 }
 
-string token = response.Token // This is your re-usable token!
+string token = response.Token; // This is your re-usable token!
 ```
 
 ### Refunds (The right way)
@@ -202,7 +202,7 @@ response.
 var request = new AuthRequest
 {
     TerminalName = "Test Terminal",
-    TransactionId = previousTransaction.TransactionId,
+    TransactionRef = "your invoice or tender id",
     Amount = "50.00",
 };
 
@@ -248,7 +248,7 @@ if (response.Success)
 {
     Console.WriteLine("Batch closed!");
     Console.WriteLine($"Captured total: {response.CapturedTotal}");
-    Console.WriteLine($"Uncaptured transaction volume: {response.OpenPreauths}";
+    Console.WriteLine($"Uncaptured transaction volume: {response.OpenPreauths}");
 }
 ```
 
@@ -324,7 +324,7 @@ var request = new TransactionDisplayRequest
             },
         },
     },
-}
+};
 
 var response = blockchyp.NewTransactionDisplay(request);
 
@@ -339,7 +339,7 @@ request = new TransactionDisplayRequest
         Total = "3.20",
         Items = new TransactionDisplayItem[]
         {
-            New TransactionDisplayItem
+            new TransactionDisplayItem
             {
                 Description = "Headlight Fluid",
                 Price = "0.50",
@@ -347,9 +347,9 @@ request = new TransactionDisplayRequest
             },
         }
     },
-}
+};
 
-var response = blockchyp.NewTransactionDisplay(request);
+response = blockchyp.UpdateTransactionDisplay(request);
 ```
 
 ### Terminal Message
@@ -386,6 +386,8 @@ var request = new BooleanPromptRequest
     YesCaption = "True",
     NoCaption = "False",
 };
+
+var response = blockchyp.BooleanPrompt(request);
 
 if (response.Response)
 {
@@ -424,7 +426,7 @@ This example shows you how to clear and reset the terminal.
 Any in progress line item display, prompt, or transaction will be cancelled.
 
 ```c#
-var request = new ClearTerminalRequest
+var request = new ClearRequest
 {
     TerminalName = "Test Terminal",
 };
