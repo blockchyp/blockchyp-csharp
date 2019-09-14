@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using BlockChyp;
 using BlockChyp.Client;
@@ -61,6 +62,15 @@ namespace BlockChypTest.Client
         {
             string nonce = Crypto.GenerateNonce(nonceLength.Get);
             return Regex.IsMatch(nonce, @"\A\b[0-9a-fA-F]+\b\Z");
+        }
+
+        /// <summary>
+        /// Property: <c>ba.SequenceEqual(FromHex(ToHex(ba)))</c>
+        /// </summary>
+        [Property(MaxTest = 10000)]
+        public bool prop_ToHexFromHex_RoundTrip(byte[] ba)
+        {
+            return ba.SequenceEqual(Crypto.FromHex(Crypto.ToHex(ba)));
         }
     }
 }
