@@ -36,7 +36,7 @@ namespace BlockChyp.Client
         public static Dictionary<string, string> GenerateAuthHeaders(ApiCredentials credentials)
         {
             var nonce = GenerateNonce(NonceSizeBytes);
-            var timestamp = GetTimestamp();
+            var timestamp = GetRfc3339Timestamp();
 
             var toSign = credentials.ApiKey + credentials.BearerToken + timestamp + nonce;
             byte[] key = FromHex(credentials.SigningKey);
@@ -76,8 +76,10 @@ namespace BlockChyp.Client
             }
         }
 
-        /// <summary>Returns the current timestamp in RFS 3339 format.</summary>
-        public static string GetTimestamp()
+        /// <summary>
+        /// Returns the current timestamp in RFC 3339 format.
+        /// </summary>
+        public static string GetRfc3339Timestamp()
         {
             return DateTime.UtcNow.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'");
         }
