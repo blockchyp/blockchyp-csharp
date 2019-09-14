@@ -95,14 +95,18 @@ namespace BlockChyp.Client
         /// <param name="input">The hexadecimal string to convert.</param>
         public static byte[] FromHex(string input)
         {
-            var ln = input.Length / 2;
-            var result = new byte[ln];
-
-            for (int i = 0; i < ln; i++)
+            if (input.Length % 2 != 0)
+            {
+                throw new ArgumentException(
+                    String.Format("The hex string cannot have an odd number of characters: {0}", input),
+                    nameof(input)
+                );
+            }
+            byte[] result = new byte[input.Length / 2];
+            for (int i = 0; i < result.Length; i++)
             {
                 result[i] = Convert.ToByte(input.Substring(i * 2, 2), 16);
             }
-
             return result;
         }
 
