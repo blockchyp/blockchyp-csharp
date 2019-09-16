@@ -372,7 +372,105 @@ namespace BlockChyp.Client
             }
         }
 
-        protected ApiCredentials Decrypt(ApiCredentials credentials)
+        /// <summary>
+        /// Sends a request to a terminal and returns its response
+        /// as an asynchronous operation.
+        /// </summary>
+        /// <param name="method">The HTTP method of the request.</param>
+        /// <param name="path">The relative path of the request.</param>
+        /// <param name="name">The name of the target terminal.</param>
+        /// <param name="body">The request body.</param>
+        public async Task<T> TerminalRequestAsync<T>(HttpMethod method, string path, string name, object body)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Terminal name must be provided");
+            }
+
+            var route = ResolveTerminalRoute(name);
+
+            if (route == null || !route.Success)
+            {
+                throw new BlockChypException($"No route to terminal: {name}");
+            }
+
+            var requestUrl = ToFullyQualifiedTerminalPath(route, path);
+
+            var terminalRequest = TerminalRequestForRoute(route, body);
+
+            var httpRequest = new HttpRequestMessage(method, requestUrl);
+            httpRequest.Content = new StringContent(JsonConvert.SerializeObject(terminalRequest), Encoding.UTF8, "application/json");
+
+            using (var response = await _terminalClient.SendAsync(httpRequest).ConfigureAwait(false))
+            {
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return ProcessResponse<T>(response.StatusCode, responseBody);
+            }
+        }
+
+        /// <summary>
+        /// Sends a request to a terminal and blocks until it responds.
+        /// </summary>
+        /// <param name="method">The HTTP method of the request.</param>
+        /// <param name="path">The relative path of the request.</param>
+        /// <param name="name">The name of the target terminal.</param>
+        /// <param name="body">The request body.</param>
+        public T TerminalRequest<T>(HttpMethod method, string path, string name, object body)
+        {
+            return TerminalRequestAsync<T>(method, path, name, body)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Sends a request to the gateway and returns its response
+        /// as an asynchronous operation.
+        /// </summary>
+        /// <param name="method">The HTTP method of the request.</param>
+        /// <param name="path">The relative path of the request.</param>
+        /// <param name="body">The request body.</param>
+        /// <param name="query">A URL query string to send with the request.</param>
+        /// <param name="test">Whether or not to route the request to the test gateway.</param>
+        public async Task<T> GatewayRequestAsync<T>(HttpMethod method, string path, object body, string query, bool test)
+        {
+            var requestUrl = ToFullyQualifiedGatewayPath(path, query, test);
+            var request = new HttpRequestMessage(method, requestUrl);
+
+            if (body != null)
+            {
+                request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            }
+
+            if (Credentials != null)
+            {
+                var headers = Crypto.GenerateAuthHeaders(Credentials);
+                foreach (KeyValuePair<string, string> header in headers)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
+
+            using (var response = await _gatewayClient.SendAsync(request).ConfigureAwait(false))
+            {
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return ProcessResponse<T>(response.StatusCode, responseBody);
+            }
+        }
+
+        /// <summary>
+        /// Sends a request to the gateway and blocks until it response.
+        /// </summary>
+        /// <param name="method">The HTTP method of the request.</param>
+        /// <param name="path">The relative path of the request.</param>
+        /// <param name="body">The request body.</param>
+        /// <param name="query">A URL query string to send with the request.</param>
+        /// <param name="test">Whether or not to route the request to the test gateway.</param>
+        public T GatewayRequest<T>(HttpMethod method, string path, object body, string query, bool test)
+        {
+            return GatewayRequestAsync<T>(method, path, body, query, test)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        private ApiCredentials Decrypt(ApiCredentials credentials)
         {
             var key = DeriveOfflineKey();
 
@@ -382,7 +480,7 @@ namespace BlockChyp.Client
                 Crypto.Decrypt(credentials.SigningKey, key));
         }
 
-        protected ApiCredentials Encrypt(ApiCredentials credentials)
+        private ApiCredentials Encrypt(ApiCredentials credentials)
         {
             var key = DeriveOfflineKey();
 
@@ -392,7 +490,7 @@ namespace BlockChyp.Client
                 Crypto.Encrypt(credentials.SigningKey, key));
         }
 
-        protected byte[] DeriveOfflineKey()
+        private byte[] DeriveOfflineKey()
         {
             using (var sha256 = new SHA256Managed())
             {
@@ -407,7 +505,7 @@ namespace BlockChyp.Client
             }
         }
 
-        protected TerminalRouteResponse RouteCacheGet(string name)
+        private TerminalRouteResponse RouteCacheGet(string name)
         {
             var cacheKey = ToTerminalRouteKey(name);
 
@@ -429,7 +527,7 @@ namespace BlockChyp.Client
             return null;
         }
 
-        protected void RouteCachePut(TerminalRouteResponse route)
+        private void RouteCachePut(TerminalRouteResponse route)
         {
             var cacheKey = ToTerminalRouteKey(route.TerminalName);
 
@@ -450,12 +548,12 @@ namespace BlockChyp.Client
             }
         }
 
-        protected string ToTerminalRouteKey(string name)
+        private string ToTerminalRouteKey(string name)
         {
             return Credentials.ApiKey + name;
         }
 
-        protected void DumpSignatureFile(PaymentRequest request, AuthResponse response)
+        private void DumpSignatureFile(PaymentRequest request, AuthResponse response)
         {
             if (String.IsNullOrEmpty(response.SignatureFile) || String.IsNullOrEmpty(request.SignatureFile))
             {
@@ -471,7 +569,7 @@ namespace BlockChyp.Client
 
         }
 
-        protected TerminalRouteResponse ResolveTerminalRoute(string name)
+        private TerminalRouteResponse ResolveTerminalRoute(string name)
         {
             if (String.IsNullOrEmpty(name))
             {
@@ -504,7 +602,7 @@ namespace BlockChyp.Client
             return cachedRoute;
         }
 
-        protected string ToFullyQualifiedTerminalPath(TerminalRouteResponse route, string path)
+        private string ToFullyQualifiedTerminalPath(TerminalRouteResponse route, string path)
         {
             var builder = new UriBuilder(route.IpAddress);
 
@@ -522,48 +620,14 @@ namespace BlockChyp.Client
             return builder.ToString();
         }
 
-        protected bool IsTerminalRouted(string name)
+        private bool IsTerminalRouted(string name)
         {
             var route = ResolveTerminalRoute(name);
 
             return (route != null && route.Success && !route.CloudRelayEnabled);
         }
 
-        protected async Task<T> TerminalRequestAsync<T>(HttpMethod method, string path, string name, object request)
-        {
-            if (String.IsNullOrEmpty(name))
-            {
-                throw new ArgumentException("Terminal name must be provided");
-            }
-
-            var route = ResolveTerminalRoute(name);
-
-            if (route == null || !route.Success)
-            {
-                throw new BlockChypException($"No route to terminal: {name}");
-            }
-
-            var requestUrl = ToFullyQualifiedTerminalPath(route, path);
-
-            var terminalRequest = TerminalRequestForRoute(route, request);
-
-            var httpRequest = new HttpRequestMessage(method, requestUrl);
-            httpRequest.Content = new StringContent(JsonConvert.SerializeObject(terminalRequest), Encoding.UTF8, "application/json");
-
-            using (var response = await _terminalClient.SendAsync(httpRequest).ConfigureAwait(false))
-            {
-                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return ProcessResponse<T>(response.StatusCode, responseBody);
-            }
-        }
-
-        protected T TerminalRequest<T>(HttpMethod method, string path, string name, object request)
-        {
-            return TerminalRequestAsync<T>(method, path, name, request)
-                .ConfigureAwait(false).GetAwaiter().GetResult();
-        }
-
-        protected TerminalRequest TerminalRequestForRoute(TerminalRouteResponse route, object request)
+        private TerminalRequest TerminalRequestForRoute(TerminalRouteResponse route, object request)
         {
             if (route.TransientCredentials != null && !String.IsNullOrEmpty(route.TransientCredentials.ApiKey))
             {
@@ -573,39 +637,8 @@ namespace BlockChyp.Client
             }
         }
 
-        protected async Task<T> GatewayRequestAsync<T>(HttpMethod method, string path, object body, string query, bool test)
-        {
-            var requestUrl = ToFullyQualifiedGatewayPath(path, query, test);
-            var request = new HttpRequestMessage(method, requestUrl);
 
-            if (body != null)
-            {
-                request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
-            }
-
-            if (Credentials != null)
-            {
-                var headers = Crypto.GenerateAuthHeaders(Credentials);
-                foreach (KeyValuePair<string, string> header in headers)
-                {
-                    request.Headers.Add(header.Key, header.Value);
-                }
-            }
-
-            using (var response = await _gatewayClient.SendAsync(request).ConfigureAwait(false))
-            {
-                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return ProcessResponse<T>(response.StatusCode, responseBody);
-            }
-        }
-
-        protected T GatewayRequest<T>(HttpMethod method, string path, object body, string query, bool test)
-        {
-            return GatewayRequestAsync<T>(method, path, body, query, test)
-                .ConfigureAwait(false).GetAwaiter().GetResult();
-        }
-
-        protected static T ProcessResponse<T>(HttpStatusCode statusCode, string body)
+        private static T ProcessResponse<T>(HttpStatusCode statusCode, string body)
         {
             if (statusCode != HttpStatusCode.OK)
             {
@@ -649,7 +682,7 @@ namespace BlockChyp.Client
             }
         }
 
-        protected string ResolveOfflineRouteCacheLocation(string name)
+        private string ResolveOfflineRouteCacheLocation(string name)
         {
             var snekCase = ToTerminalRouteKey(name).Replace(" ", "_");
 
@@ -665,7 +698,7 @@ namespace BlockChyp.Client
             return $"{prefix}_{snekCase}";
         }
 
-        protected TerminalRouteResponse GetOfflineCache(string name)
+        private TerminalRouteResponse GetOfflineCache(string name)
         {
             var cacheFile = ResolveOfflineRouteCacheLocation(name);
             if (!File.Exists(cacheFile))
@@ -689,7 +722,7 @@ namespace BlockChyp.Client
             }
         }
 
-        protected string ToFullyQualifiedGatewayPath(string path, string query, bool test)
+        private string ToFullyQualifiedGatewayPath(string path, string query, bool test)
         {
             var prefix = test ? GatewayEndpoint : GatewayTestEndpoint;
 
@@ -719,7 +752,7 @@ namespace BlockChyp.Client
             client.DefaultRequestHeaders.Add("User-Agent", userAgent);
         }
 
-        protected HttpClient NewTerminalHttpClient()
+        private HttpClient NewTerminalHttpClient()
         {
 # if NET45
             ServicePointManager
@@ -745,7 +778,7 @@ namespace BlockChyp.Client
             return $"BlockChyp-CSharp/{version}";
         }
 
-        protected void PopulateSignatureOptions(PaymentRequest request)
+        private void PopulateSignatureOptions(PaymentRequest request)
         {
             if (request.SignatureFormat == SignatureFormat.None || String.IsNullOrEmpty(request.SignatureFile))
             {
