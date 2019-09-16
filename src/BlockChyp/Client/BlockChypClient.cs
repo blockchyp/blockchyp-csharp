@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -75,9 +74,6 @@ namespace BlockChyp.Client
 #endif
         }
 
-        /// <summary>Prefix used for the offline cache.</summary>
-        public const string OfflineCache = ".blockchyp_routes";
-
         /// <summary>The default URL for the BlockChyp gateway.</summary>
         public const string  DefaultGatewayEndpoint = "https://api.blockchyp.com";
 
@@ -102,32 +98,20 @@ namespace BlockChyp.Client
         /// <value>The API credentials used for requests.</value>
         public ApiCredentials Credentials { get; set; }
 
-        /// <summary>Enables or disables the persistent terminal route cache.</summary>
-        /// <value>The state of the persistent terminal route cache.</value>
-        public bool OfflineRouteCacheEnabled { get; set; } = true;
-
-        /// <summary>Gets or sets the persistent terminal route TTL.</summary>
-        /// <value>The persistent terminal route TTL.</value>
-        public TimeSpan RouteCacheTtl { get; set; } = TimeSpan.FromMinutes(60);
-
         /// <summary>Enables or disables TLS encrypted communication with terminals.</summary>
         /// <value>The state of terminal TLS encryption.</value>
         public bool TerminalHttps { get; set; } = false;
 
         /// <summary>Gets or sets the location of the persistent terminal route cache.</summary>
         /// <value>The location of the persistent terminal route cache.</value>
-        public string OfflineRouteCacheLocation { get; set; }
+        public TerminalRouteCache RouteCache { get; set; } = new TerminalRouteCache();
 
         /// <summary>Gets or sets the HTTP timeout used for requests.</summary>
         /// <value>The HTTP timeout used for requests.</value>
         public TimeSpan RequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
 
-        private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
-
         private static readonly HttpClient _gatewayClient = NewHttpClient();
         private static readonly HttpClient _terminalClient = NewTerminalHttpClient();
-
-        private Dictionary<string, TerminalRouteResponse> _routeCache = new Dictionary<string, TerminalRouteResponse>();
 
         /// <summary>
         /// Tests communication with the Gateway. If authentication is
@@ -458,89 +442,6 @@ namespace BlockChyp.Client
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
-        private ApiCredentials Decrypt(ApiCredentials credentials)
-        {
-            var key = DeriveOfflineKey();
-
-            return new ApiCredentials(
-                Crypto.Decrypt(credentials.ApiKey, key),
-                Crypto.Decrypt(credentials.BearerToken, key),
-                Crypto.Decrypt(credentials.SigningKey, key));
-        }
-
-        private ApiCredentials Encrypt(ApiCredentials credentials)
-        {
-            var key = DeriveOfflineKey();
-
-            return new ApiCredentials(
-                Crypto.Encrypt(credentials.ApiKey, key),
-                Crypto.Encrypt(credentials.BearerToken, key),
-                Crypto.Encrypt(credentials.SigningKey, key));
-        }
-
-        private byte[] DeriveOfflineKey()
-        {
-            using (var sha256 = new SHA256Managed())
-            {
-                var offlineKeyBytes = Crypto.FromHex(OfflineFixedKey);
-                var signingKeyBytes = Crypto.FromHex(Credentials.SigningKey);
-
-                var input = new byte[offlineKeyBytes.Length + signingKeyBytes.Length];
-                Buffer.BlockCopy(offlineKeyBytes, 0, input, 0, offlineKeyBytes.Length);
-                Buffer.BlockCopy(signingKeyBytes, 0, input, offlineKeyBytes.Length, signingKeyBytes.Length);
-
-                return sha256.ComputeHash(input);
-            }
-        }
-
-        private TerminalRouteResponse RouteCacheGet(string name)
-        {
-            var cacheKey = ToTerminalRouteKey(name);
-
-            if (_routeCache.ContainsKey(cacheKey))
-            {
-                return _routeCache[cacheKey];
-            }
-
-            if (OfflineRouteCacheEnabled)
-            {
-                var route = GetOfflineCache(name);
-                if (route != null) {
-                    RouteCachePut(route);
-
-                    return route;
-                }
-            }
-
-            return null;
-        }
-
-        private void RouteCachePut(TerminalRouteResponse route)
-        {
-            var cacheKey = ToTerminalRouteKey(route.TerminalName);
-
-            _routeCache[cacheKey] = route;
-
-            if (OfflineRouteCacheEnabled)
-            {
-                var offlineRoute = (TerminalRouteResponse) route.Clone();
-                offlineRoute.TransientCredentials = Encrypt(offlineRoute.TransientCredentials);
-
-                var offlineData = JsonConvert.SerializeObject(offlineRoute);
-                var offlineFile = ResolveOfflineRouteCacheLocation(route.TerminalName);
-
-                using (var file = new StreamWriter(offlineFile))
-                {
-                    file.Write(offlineData);
-                }
-            }
-        }
-
-        private string ToTerminalRouteKey(string name)
-        {
-            return Credentials.ApiKey + name;
-        }
-
         private void DumpSignatureFile(PaymentRequest request, AuthResponse response)
         {
             if (String.IsNullOrEmpty(response.SignatureFile) || String.IsNullOrEmpty(request.SignatureFile))
@@ -564,10 +465,8 @@ namespace BlockChyp.Client
                 return null;
             }
 
-            var cachedRoute = RouteCacheGet(name);
-            if (cachedRoute != null
-                && cachedRoute.Timestamp.GetValueOrDefault(new DateTime(0)).Add(RouteCacheTtl) > DateTime.UtcNow
-                && cachedRoute.Success)
+            var cachedRoute = RouteCache.Get(name, Credentials);
+            if (cachedRoute != null)
             {
                 return cachedRoute;
             }
@@ -579,9 +478,9 @@ namespace BlockChyp.Client
             {
                 requestedRoute.Timestamp = DateTime.UtcNow;
 
-                if (OfflineRouteCacheEnabled)
+                if (RouteCache.OfflineEnabled)
                 {
-                    RouteCachePut(requestedRoute);
+                    RouteCache.Put(requestedRoute, Credentials);
                 }
 
                 return requestedRoute;
@@ -625,7 +524,6 @@ namespace BlockChyp.Client
             }
         }
 
-
         private static T ProcessResponse<T>(HttpStatusCode statusCode, string body)
         {
             if (statusCode != HttpStatusCode.OK)
@@ -667,46 +565,6 @@ namespace BlockChyp.Client
                     $"Invalid response: \"{body}\"",
                     statusCode,
                     body);
-            }
-        }
-
-        private string ResolveOfflineRouteCacheLocation(string name)
-        {
-            var snekCase = ToTerminalRouteKey(name).Replace(" ", "_");
-
-            string prefix;
-            if (String.IsNullOrEmpty(OfflineRouteCacheLocation))
-            {
-                var tmp = Path.GetTempPath();
-                prefix = Path.Combine(tmp, OfflineCache);
-            } else {
-                prefix = OfflineRouteCacheLocation;
-            }
-
-            return $"{prefix}_{snekCase}";
-        }
-
-        private TerminalRouteResponse GetOfflineCache(string name)
-        {
-            var cacheFile = ResolveOfflineRouteCacheLocation(name);
-            if (!File.Exists(cacheFile))
-            {
-                return null;
-            }
-
-            using (var file = new StreamReader(cacheFile))
-            {
-                var raw = file.ReadToEnd();
-                try
-                {
-                    return JsonConvert.DeserializeObject<TerminalRouteResponse>(raw);
-                }
-                catch (JsonException e)
-                {
-                    throw new BlockChypException(
-                        "Invalid terminal route cache",
-                        e);
-                }
             }
         }
 

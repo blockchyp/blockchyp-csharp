@@ -19,18 +19,18 @@ namespace BlockChyp.Entities
         /// The API key.
         /// </summary>
         [JsonProperty(PropertyName = "apiKey")]
-        public string ApiKey { get; }
+        public string ApiKey { get; protected set; }
 
         /// <summary>
         /// The bearer token.
         /// </summary>
         [JsonProperty(PropertyName = "bearerToken")]
-        public string BearerToken { get; }
+        public string BearerToken { get; protected set; }
 
         /// <summary>
         /// The signing key.
         /// </summary>
         [JsonProperty(PropertyName = "signingKey")]
-        public string SigningKey { get; }
+        public string SigningKey { get; protected set; }
     }
 }
