@@ -23,8 +23,8 @@ namespace BlockChyp.Client
             ResponseBody = body;
         }
 
-        public HttpStatusCode HttpStatusCode { get; set; }
+        public HttpStatusCode HttpStatusCode { get; }
 
-        public string ResponseBody { get; set; }
+        public string ResponseBody { get; }
     }
 }
