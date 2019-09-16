@@ -248,18 +248,22 @@ namespace BlockChyp.Client
 
         private static X509Certificate2 GetBlockChypRootCertificate()
         {
-            var certData = new MemoryStream();
-            var assembly = Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream("BlockChyp.Assets.BlockChyp.crt"))
-            {
-                if (stream == null)
-                {
-                    throw new BlockChypException("BlockChyp CA Certificate not found");
-                }
-                stream.CopyTo(certData);
-            }
+            X509Certificate2 cert;
 
-            var cert = new X509Certificate2(certData.ToArray());
+            using (var certData = new MemoryStream())
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                using (var stream = assembly.GetManifestResourceStream("BlockChyp.Assets.BlockChyp.crt"))
+                {
+                    if (stream == null)
+                    {
+                        throw new BlockChypException("BlockChyp CA Certificate not found");
+                    }
+                    stream.CopyTo(certData);
+                }
+
+                cert = new X509Certificate2(certData.ToArray());
+            }
 
             return cert;
         }
