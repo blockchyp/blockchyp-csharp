@@ -489,22 +489,22 @@ namespace BlockChyp.Client
             return cachedRoute;
         }
 
-        private string ToFullyQualifiedTerminalPath(TerminalRouteResponse route, string path)
+        private Uri ToFullyQualifiedTerminalPath(TerminalRouteResponse route, string path)
         {
-            var builder = new UriBuilder(route.IpAddress);
-
             if (TerminalHttps)
             {
-                builder.Scheme = Uri.UriSchemeHttps;
-                builder.Port = TerminalHttpsPort;
+                return new UriBuilder(
+                    Uri.UriSchemeHttps,
+                    route.IpAddress,
+                    TerminalHttpsPort,
+                    path).Uri;
             } else {
-                builder.Scheme = Uri.UriSchemeHttp;
-                builder.Port = TerminalHttpPort;
+                return new UriBuilder(
+                    Uri.UriSchemeHttp,
+                    route.IpAddress,
+                    TerminalHttpPort,
+                    path).Uri;
             }
-
-            builder.Path = path;
-
-            return builder.ToString();
         }
 
         private bool IsTerminalRouted(string name)
@@ -568,7 +568,7 @@ namespace BlockChyp.Client
             }
         }
 
-        private string ToFullyQualifiedGatewayPath(string path, string query, bool test)
+        private Uri ToFullyQualifiedGatewayPath(string path, string query, bool test)
         {
             var prefix = test ? GatewayEndpoint : GatewayTestEndpoint;
 
@@ -576,7 +576,7 @@ namespace BlockChyp.Client
             builder.Path = path;
             builder.Query = query;
 
-            return builder.ToString();
+            return builder.Uri;
         }
 
         private static HttpClient NewHttpClient()
