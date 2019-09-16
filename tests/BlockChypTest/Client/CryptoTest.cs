@@ -1,6 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using BlockChyp;
 using BlockChyp.Client;
+using FsCheck;
+using FsCheck.Xunit;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -13,6 +17,9 @@ namespace BlockChypTest.Client
         public CryptoTest(ITestOutputHelper output)
         {
             this.output = output;
+
+            // Register Arbitrary instances
+            Arb.Register<CryptoArbitrary>();
         }
 
         [Fact]
@@ -34,6 +41,36 @@ namespace BlockChypTest.Client
             Assert.NotNull(result["Nonce"]);
             Assert.NotNull(result["Timestamp"]);
             Assert.NotNull(result["Authorization"]);
+        }
+
+        /// <summary>
+        /// Property: A nonce, <c>GenerateNonce(len)</c>, should be of length, <c>len</c>
+        /// </summary>
+        [Property(MaxTest = 10000)]
+        public bool prop_NonceLength_Correct(NonceLength nonceLength)
+        {
+            int hexEncodedNonceLength = nonceLength.Get * 2;  // 2 hex chars == 1 byte
+            return Crypto.GenerateNonce(nonceLength.Get).Length == hexEncodedNonceLength;
+        }
+
+        /// <summary>
+        /// Property: A nonce, <c>GenerateNonce(len)</c>, should only contain base-16 characters.
+        /// i.e. The nonce should be a hexadecimal-encoded <c>string</c>.
+        /// </summary>
+        [Property(MaxTest = 10000)]
+        public bool prop_Nonce_IsHexEncoded(NonceLength nonceLength)
+        {
+            string nonce = Crypto.GenerateNonce(nonceLength.Get);
+            return Regex.IsMatch(nonce, @"\A\b[0-9a-fA-F]+\b\Z");
+        }
+
+        /// <summary>
+        /// Property: <c>ba.SequenceEqual(FromHex(ToHex(ba)))</c>
+        /// </summary>
+        [Property(MaxTest = 10000)]
+        public bool prop_ToHexFromHex_RoundTrip(byte[] ba)
+        {
+            return ba.SequenceEqual(Crypto.FromHex(Crypto.ToHex(ba)));
         }
     }
 }

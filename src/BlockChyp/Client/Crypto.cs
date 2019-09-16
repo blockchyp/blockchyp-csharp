@@ -29,16 +29,14 @@ namespace BlockChyp.Client
 
         private const int AesKeySizeBytes = 16;
 
-        private const int NonceSizeBytes = 32;
-
-        private static RNGCryptoServiceProvider _rand = new RNGCryptoServiceProvider();
+        public const int NonceSizeBytes = 32;
 
         /// <summary>Generates request headers for authorization to the BlockChyp gateway.</summary>
         /// <param name="credentials">API credentials used to generate request headers.</param>
         public static Dictionary<string, string> GenerateAuthHeaders(ApiCredentials credentials)
         {
-            var nonce = GenerateNonce();
-            var timestamp = GetTimestamp();
+            var nonce = GenerateNonce(NonceSizeBytes);
+            var timestamp = GetRfc3339Timestamp();
 
             var toSign = credentials.ApiKey + credentials.BearerToken + timestamp + nonce;
             byte[] key = FromHex(credentials.SigningKey);
@@ -59,17 +57,29 @@ namespace BlockChyp.Client
             };
         }
 
-        /// <summary>Generates a random nonce for use in requests.</summary>
-        public static string GenerateNonce()
+        /// <summary>
+        /// Generate a <paramref name="nonceLengthInBytes"/>-byte long random nonce using
+        /// <c>RNGCryptoServiceProvider</c>.
+        /// </summary>
+        /// <remarks>
+        /// Note that the resulting nonce will be represented as a hex <c>string</c> which will therefore have a
+        /// length of <c>2 * nonceLengthInBytes</c>.
+        /// </remarks>
+        /// <param name="nonceLengthInBytes">the desired length of the nonce in bytes.</param>
+        public static string GenerateNonce(int nonceLengthInBytes)
         {
-            byte[] nonceBytes = new byte[NonceSizeBytes];
-            _rand.GetBytes(nonceBytes);
-
-            return BitConverter.ToString(nonceBytes).Replace("-", string.Empty);
+            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
+            {
+                byte[] nonceBytes = new byte[nonceLengthInBytes];
+                rng.GetBytes(nonceBytes);
+                return BitConverter.ToString(nonceBytes).Replace("-", string.Empty);
+            }
         }
 
-        /// <summary>Returns the current timestamp in RFS 3339 format.</summary>
-        public static string GetTimestamp()
+        /// <summary>
+        /// Returns the current timestamp in RFC 3339 format.
+        /// </summary>
+        public static string GetRfc3339Timestamp()
         {
             return DateTime.UtcNow.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'");
         }
@@ -85,14 +95,18 @@ namespace BlockChyp.Client
         /// <param name="input">The hexadecimal string to convert.</param>
         public static byte[] FromHex(string input)
         {
-            var ln = input.Length / 2;
-            var result = new byte[ln];
-
-            for (int i = 0; i < ln; i++)
+            if (input.Length % 2 != 0)
+            {
+                throw new ArgumentException(
+                    String.Format("The hex string cannot have an odd number of characters: {0}", input),
+                    nameof(input)
+                );
+            }
+            byte[] result = new byte[input.Length / 2];
+            for (int i = 0; i < result.Length; i++)
             {
                 result[i] = Convert.ToByte(input.Substring(i * 2, 2), 16);
             }
-
             return result;
         }
 

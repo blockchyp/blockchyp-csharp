@@ -205,7 +205,7 @@ namespace BlockChypTest.Client
                 Amount="55.55",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                TransactionRef=Crypto.GenerateNonce(),
+                TransactionRef=Crypto.GenerateNonce(Crypto.NonceSizeBytes),
             };
 
             var chargeResponse = blockchyp.Charge(chargeRequest);
@@ -299,7 +299,7 @@ namespace BlockChypTest.Client
                 Amount="55.55",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                TransactionRef=Crypto.GenerateNonce(),
+                TransactionRef=Crypto.GenerateNonce(Crypto.NonceSizeBytes),
             };
 
             var chargeResponse = blockchyp.Charge(chargeRequest);
