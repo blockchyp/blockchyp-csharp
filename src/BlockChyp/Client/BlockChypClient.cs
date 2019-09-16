@@ -73,9 +73,6 @@ namespace BlockChyp.Client
             ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol |
                 SecurityProtocolType.Tls12;
 #endif
-
-            _gatewayClient = NewHttpClient();
-            _terminalClient = NewTerminalHttpClient();
         }
 
         /// <summary>Prefix used for the offline cache.</summary>
@@ -123,27 +120,12 @@ namespace BlockChyp.Client
 
         /// <summary>Gets or sets the HTTP timeout used for requests.</summary>
         /// <value>The HTTP timeout used for requests.</value>
-        public TimeSpan RequestTimeout
-        {
-            get
-            {
-                return _requestTimeout;
-            }
-
-            set
-            {
-                _gatewayClient.Timeout = value;
-                _terminalClient.Timeout = value;
-                _requestTimeout = value;
-            }
-        }
-
-        private TimeSpan _requestTimeout = Timeout.InfiniteTimeSpan;
+        public TimeSpan RequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
 
         private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
 
-        private HttpClient _gatewayClient;
-        private HttpClient _terminalClient;
+        private static readonly HttpClient _gatewayClient = NewHttpClient();
+        private static readonly HttpClient _terminalClient = NewTerminalHttpClient();
 
         private Dictionary<string, TerminalRouteResponse> _routeCache = new Dictionary<string, TerminalRouteResponse>();
 
@@ -401,7 +383,10 @@ namespace BlockChyp.Client
             var httpRequest = new HttpRequestMessage(method, requestUrl);
             httpRequest.Content = new StringContent(JsonConvert.SerializeObject(terminalRequest), Encoding.UTF8, "application/json");
 
-            using (var response = await _terminalClient.SendAsync(httpRequest).ConfigureAwait(false))
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(RequestTimeout);
+
+            using (var response = await _terminalClient.SendAsync(httpRequest, cts.Token).ConfigureAwait(false))
             {
                 string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return ProcessResponse<T>(response.StatusCode, responseBody);
@@ -449,7 +434,10 @@ namespace BlockChyp.Client
                 }
             }
 
-            using (var response = await _gatewayClient.SendAsync(request).ConfigureAwait(false))
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(RequestTimeout);
+
+            using (var response = await _gatewayClient.SendAsync(request, cts.Token).ConfigureAwait(false))
             {
                 string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return ProcessResponse<T>(response.StatusCode, responseBody);
@@ -733,26 +721,20 @@ namespace BlockChyp.Client
             return builder.ToString();
         }
 
-        private HttpClient NewHttpClient()
+        private static HttpClient NewHttpClient()
         {
-            var httpClient = new HttpClient();
 
-            ConfigureHttpClient(httpClient);
+            var httpClient = new HttpClient();
+            httpClient.Timeout = Timeout.InfiniteTimeSpan;
+
+            httpClient.DefaultRequestHeaders.Clear();
+            var userAgent = AssembleUserAgent();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent);
 
             return httpClient;
         }
 
-        private void ConfigureHttpClient(HttpClient client)
-        {
-            client.Timeout = RequestTimeout;
-
-            var userAgent = AssembleUserAgent();
-
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent", userAgent);
-        }
-
-        private HttpClient NewTerminalHttpClient()
+        private static HttpClient NewTerminalHttpClient()
         {
 # if NET45
             ServicePointManager
@@ -767,7 +749,11 @@ namespace BlockChyp.Client
             var httpClient = new HttpClient(clientHandler);
 # endif
 
-            ConfigureHttpClient(httpClient);
+            httpClient.Timeout = Timeout.InfiniteTimeSpan;
+
+            httpClient.DefaultRequestHeaders.Clear();
+            var userAgent = AssembleUserAgent();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent);
 
             return httpClient;
         }
