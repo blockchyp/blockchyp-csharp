@@ -26,10 +26,6 @@ namespace BlockChyp.Client
 
         private const string TerminalCommonName = "blockchyp-terminal";
 
-        private const char CipherTextFieldSep = '|';
-
-        private const int AesKeySizeBytes = 16;
-
         public const int NonceSizeBytes = 32;
 
         /// <summary>Generates request headers for authorization to the BlockChyp gateway.</summary>
@@ -111,6 +107,43 @@ namespace BlockChyp.Client
             return result;
         }
 
+        /// <summary>Encrypts the string payload to a byte array.</summary>
+        /// <param name="plainText">The plaintext payload to encrypt.</param>
+        /// <param name="key">The cryptographic key used to encrypt the payload.</param>
+        public static string Encrypt(string plainText, byte[] key)
+        {
+            if (string.IsNullOrEmpty(plainText))
+            {
+                return "";
+            }
+
+            using (var aes = Aes.Create())
+            {
+                byte[] cipher;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(key, aes.IV);
+
+                using (var mem = new MemoryStream())
+                {
+                    using (var crypto = new CryptoStream(mem, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (var writer = new StreamWriter(crypto))
+                        {
+                            writer.Write(plainText);
+                        }
+
+                        cipher = mem.ToArray();
+                    }
+                }
+
+                var output = new byte[aes.IV.Length + cipher.Length];
+                Buffer.BlockCopy(aes.IV, 0, output, 0, aes.IV.Length);
+                Buffer.BlockCopy(cipher, 0, output, aes.IV.Length, cipher.Length);
+
+                return Convert.ToBase64String(output);
+            }
+        }
+
         /// <summary>Decrypts ciphertext to a byte array.</summary>
         /// <param name="cipherText">The ciphertext to decrypt.</param>
         /// <param name="key">The cryptographic key used to decrypt the payload.</param>
@@ -118,56 +151,32 @@ namespace BlockChyp.Client
         {
             if (String.IsNullOrEmpty(cipherText))
             {
-                return null;
+                return "";
             }
 
-            string[] tokens = cipherText.Split(CipherTextFieldSep);
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
 
-            var iv = FromHex(tokens[0]);
-            var payload = FromHex(tokens[1]);
-
-            string output = null;
+            string output;
 
             using (var aes = Aes.Create())
             {
-                aes.Key = payload;
-                aes.IV = iv;
+                var iv = new byte[aes.IV.Length];
+                var cipher = new byte[cipherBytes.Length - iv.Length];
 
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                Buffer.BlockCopy(cipherBytes, 0, iv, 0, iv.Length);
+                Buffer.BlockCopy(cipherBytes, iv.Length, cipher, 0, cipher.Length);
 
-                using (var mem = new MemoryStream(payload))
-                using (var crypto = new CryptoStream(mem, decryptor, CryptoStreamMode.Read))
-                using (var reader = new StreamReader(crypto))
+                ICryptoTransform decryptor = aes.CreateDecryptor(key, iv);
+
+                using (var mem = new MemoryStream(cipher))
                 {
-                    output = reader.ReadToEnd();
-                }
-            }
-
-            return output;
-        }
-
-        /// <summary>Encrypts the string payload to a byte array.</summary>
-        /// <param name="plainText">The plaintext payload to encrypt.</param>
-        /// <param name="key">The cryptographic key used to encrypt the payload.</param>
-        public static string Encrypt(string plainText, byte[] key)
-        {
-            string output = null;
-
-            using (var aes = Aes.Create())
-            {
-                aes.Key = key;
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                using (var mem = new MemoryStream())
-                using (var crypto = new CryptoStream(mem, encryptor, CryptoStreamMode.Write))
-                {
-
-                    using (var writer = new StreamWriter(crypto))
+                    using (var crypto = new CryptoStream(mem, decryptor, CryptoStreamMode.Read))
                     {
-                        writer.Write(plainText);
+                        using (var reader = new StreamReader(crypto))
+                        {
+                            output = reader.ReadToEnd();
+                        }
                     }
-
-                    output = ToHex(aes.IV) + CipherTextFieldSep + ToHex(mem.ToArray());
                 }
             }
 

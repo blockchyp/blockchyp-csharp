@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using BlockChyp.Client;
 using BlockChyp.Entities;
@@ -23,7 +24,7 @@ namespace BlockChypTest.Client
         }
 
         [Fact]
-        public void BlockChypClientTest_GenerateAuthHeaders()
+        public void CryptoTest_GenerateAuthHeaders()
         {
             var creds = new ApiCredentials(
                 "SGLATIFZD7PIMLAQJ2744MOEGI",
@@ -41,6 +42,24 @@ namespace BlockChypTest.Client
             Assert.NotNull(result["Nonce"]);
             Assert.NotNull(result["Timestamp"]);
             Assert.NotNull(result["Authorization"]);
+        }
+
+        [Fact]
+        public void CryptoTest_EncryptDecrypt()
+        {
+            byte[] key;
+            using (Aes aes = Aes.Create())
+            {
+                key = aes.Key;
+            }
+
+            var plaintext = "some super secret sauce";
+
+            var encrypted = Crypto.Encrypt(plaintext, key);
+
+            var roundTrip = Crypto.Decrypt(encrypted, key);
+
+            Assert.Equal(plaintext, roundTrip);
         }
 
         /// <summary>
