@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace BlockChyp
+namespace BlockChyp.Entities
 {
     public class CloseBatchResponse
     {

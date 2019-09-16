@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BlockChyp;
 using BlockChyp.Client;
+using BlockChyp.Entities;
 using FsCheck;
 using FsCheck.Xunit;
 using Xunit;

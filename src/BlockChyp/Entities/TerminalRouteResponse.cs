@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace BlockChyp
+namespace BlockChyp.Entities
 {
     public class TerminalRouteResponse : ICloneable
     {

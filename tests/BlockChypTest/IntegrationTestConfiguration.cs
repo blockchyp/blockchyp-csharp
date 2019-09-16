@@ -2,8 +2,8 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
-using BlockChyp;
 using BlockChyp.Client;
+using BlockChyp.Entities;
 
 namespace BlockChypTest
 {

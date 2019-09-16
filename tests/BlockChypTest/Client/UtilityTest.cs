@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-using BlockChyp;
+using BlockChyp.Entities;
 using Xunit;
 
 namespace BlockChypTest.Client
