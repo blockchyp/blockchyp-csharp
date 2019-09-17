@@ -749,13 +749,15 @@ namespace BlockChyp.Client
 
         private static void PopulateSignatureOptions(PaymentRequest request)
         {
-            if (request.SignatureFormat == SignatureFormat.None || string.IsNullOrEmpty(request.SignatureFile))
+            if (string.IsNullOrEmpty(request.SignatureFile) || request.SignatureFormat != SignatureFormat.None)
             {
                 return;
             }
 
+            string[] elements = request.SignatureFile.Split('.');
+
             request.SignatureFormat = (SignatureFormat)Enum
-                .Parse(typeof(SignatureFormat), Path.GetExtension(request.SignatureFile), true);
+                .Parse(typeof(SignatureFormat), elements[elements.Length - 1], true);
         }
 
         private static void DumpSignatureFile(PaymentRequest request, AuthResponse response)
@@ -767,10 +769,7 @@ namespace BlockChyp.Client
 
             var rawSignature = Crypto.FromHex(response.SignatureFile);
 
-            using (var file = new StreamWriter(request.SignatureFile))
-            {
-                file.Write(rawSignature);
-            }
+            File.WriteAllBytes(request.SignatureFile, rawSignature);
         }
 
         private async Task<TerminalRouteResponse> ResolveTerminalRoute(string name)

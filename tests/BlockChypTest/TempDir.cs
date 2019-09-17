@@ -5,7 +5,8 @@ namespace BlockChypTest
 {
     public sealed class TempDir : IDisposable
     {
-        public TempDir() : this("blockchyp-test")
+        public TempDir()
+            : this("blockchyp-test")
         {
         }
 

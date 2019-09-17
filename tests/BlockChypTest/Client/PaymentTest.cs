@@ -38,21 +38,26 @@ namespace BlockChypTest.Client
         [Fact]
         public async void PaymentTest_Charge()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            using (var tmpdir = new TempDir())
+            {
+                var expectedSignature = Path.Combine(tmpdir.Name, "signature.png");
 
-            var request = new AuthRequest{
-                Amount="55.55",
-                Test=true,
-                TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
-                SignatureFormat=SignatureFormat.PNG,
-                SignatureWidth=200,
-                SignatureFile="sig.png",
-            };
+                var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
-            var response = await blockchyp.ChargeAsync(request);
+                var request = new AuthRequest{
+                    Amount="55.55",
+                    Test=true,
+                    TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                    SignatureFormat=SignatureFormat.PNG,
+                    SignatureWidth=200,
+                    SignatureFile=expectedSignature,
+                };
 
-            Assert.True(response.Approved);
-            Assert.True(File.Exists("sig.png"));
+                var response = await blockchyp.ChargeAsync(request);
+
+                Assert.True(response.Approved);
+                Assert.True(File.Exists(expectedSignature));
+            }
         }
 
         [Trait("Category", "Integration")]
