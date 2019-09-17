@@ -8,7 +8,7 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <PackageId>BlockChyp</PackageId>
     <PackageTags>blockchyp;payment;credit;cards;money;gateway;terminal</PackageTags>
-    <PackageIconUrl>https://dashboard.blockchyp.com/images/logo-lg.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/blockchyp/blockchyp-csharp/master/docs/logo.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/blockchyp/blockchyp-csharp</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
