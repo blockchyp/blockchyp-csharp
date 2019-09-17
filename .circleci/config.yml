@@ -2,7 +2,7 @@ version: 1
 jobs:
   build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:2.2-alpine
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
 
     steps:
       - checkout
@@ -37,7 +37,7 @@ jobs:
 
   publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:2.2-alpine
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
 
     steps:
       - attach_workspace:
