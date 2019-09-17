@@ -44,6 +44,11 @@ var credentials = new ApiCredentials(
 var blockchyp = new BlockChypClient(credentials);
 ```
 
+### Async methods
+
+All methods include a synchronous and an asynchronous form. You should prefer
+the asynchronous methods where possible.
+
 ### Charge
 
 This transaction is the basic authorize and capture transaction.
