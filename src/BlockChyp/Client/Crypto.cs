@@ -12,9 +12,8 @@ namespace BlockChyp.Client
 {
     public static class Crypto
     {
-
-        /// <summary>The BlockChyp terminal root certificate authority certificate.</summary>
-        public static Lazy<X509Certificate2> BlockChypRootCertificate = new Lazy<X509Certificate2>(GetBlockChypRootCertificate);
+        /// <summary>The length of a nonse in bytes.</summary>
+        public const int NonceSizeBytes = 32;
 
         private const string HeaderNonce = "Nonce";
 
@@ -26,7 +25,7 @@ namespace BlockChyp.Client
 
         private const string TerminalCommonName = "blockchyp-terminal";
 
-        public const int NonceSizeBytes = 32;
+        private static Lazy<X509Certificate2> blockChypRootCertificate = new Lazy<X509Certificate2>(GetBlockChypRootCertificate);
 
         /// <summary>Generates request headers for authorization to the BlockChyp gateway.</summary>
         /// <param name="credentials">API credentials used to generate request headers.</param>
@@ -95,15 +94,16 @@ namespace BlockChyp.Client
             if (input.Length % 2 != 0)
             {
                 throw new ArgumentException(
-                    String.Format("The hex string cannot have an odd number of characters: {0}", input),
-                    nameof(input)
-                );
+                    string.Format("The hex string cannot have an odd number of characters: {0}", input),
+                    nameof(input));
             }
+
             byte[] result = new byte[input.Length / 2];
             for (int i = 0; i < result.Length; i++)
             {
                 result[i] = Convert.ToByte(input.Substring(i * 2, 2), 16);
             }
+
             return result;
         }
 
@@ -114,7 +114,7 @@ namespace BlockChyp.Client
         {
             if (string.IsNullOrEmpty(plainText))
             {
-                return "";
+                return string.Empty;
             }
 
             using (var aes = Aes.Create())
@@ -149,9 +149,9 @@ namespace BlockChyp.Client
         /// <param name="key">The cryptographic key used to decrypt the payload.</param>
         public static string Decrypt(string cipherText, byte[] key)
         {
-            if (String.IsNullOrEmpty(cipherText))
+            if (string.IsNullOrEmpty(cipherText))
             {
-                return "";
+                return string.Empty;
             }
 
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
@@ -187,6 +187,10 @@ namespace BlockChyp.Client
         /// Validates that terminal webservers are using a certificate that was signed
         /// by the BlockChyp root CA.
         /// </summary>
+        /// <param name="request">The HTTP request.</param>
+        /// <param name="cert">The server certificate served with the request.</param>
+        /// <param name="chain">The certificate chain served with the request.</param>
+        /// <param name="sslPolicyErrors">SSL verification failures.</param>
         public static bool ValidateTerminalCertificate(
             object request,
             X509Certificate2 cert,
@@ -209,7 +213,7 @@ namespace BlockChyp.Client
                 // First, ignore that the root CA is unknown. We'll check that
                 // the root of the chain matches our root CA at the end.
                 chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-                chain.ChainPolicy.ExtraStore.Add(BlockChypRootCertificate.Value);
+                chain.ChainPolicy.ExtraStore.Add(blockChypRootCertificate.Value);
 
                 // Validate that the chain can be built.
                 if (!chain.Build(cert) || chain.ChainElements.Count == 0)
@@ -219,7 +223,7 @@ namespace BlockChyp.Client
 
                 // Now we know that the chain is valid, so we only have to
                 // prove that the root of the chain is our root CA.
-                if (chain.ChainElements[chain.ChainElements.Count-1].Certificate.Thumbprint != BlockChypRootCertificate.Value.Thumbprint)
+                if (chain.ChainElements[chain.ChainElements.Count - 1].Certificate.Thumbprint != blockChypRootCertificate.Value.Thumbprint)
                 {
                     return false;
                 }
@@ -237,6 +241,10 @@ namespace BlockChyp.Client
         /// <summary>
         /// Overload for net45 support.
         /// </summary>
+        /// <param name="request">The HTTP request.</param>
+        /// <param name="cert">The server certificate served with the request.</param>
+        /// <param name="chain">The certificate chain served with the request.</param>
+        /// <param name="sslPolicyErrors">SSL verification failures.</param>
         public static bool ValidateTerminalCertificate(
             object request,
             X509Certificate cert,
@@ -259,6 +267,7 @@ namespace BlockChyp.Client
                     {
                         throw new BlockChypException("BlockChyp CA Certificate not found");
                     }
+
                     stream.CopyTo(certData);
                 }
 

@@ -62,6 +62,5 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "sig")]
         public string Signature { get; set; }
-
     }
 }

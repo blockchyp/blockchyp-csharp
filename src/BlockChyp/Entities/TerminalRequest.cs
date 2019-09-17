@@ -5,8 +5,7 @@ namespace BlockChyp.Entities
     public class TerminalRequest
     {
         /// <summary>
-        /// Initializes a new instance of a <see cref="TerminalRequest"/>
-        /// with API credentials and a request body.
+        /// Initializes a new instance of the <see cref="TerminalRequest"/> class.
         /// </summary>
         /// <param name="credentials">API credentials used to make requests.</param>
         /// <param name="request">The JSON-serializable request body.</param>

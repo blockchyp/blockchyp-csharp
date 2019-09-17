@@ -7,8 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using BlockChyp.Entities;
+using Newtonsoft.Json;
 
 namespace BlockChyp.Client
 {
@@ -18,45 +18,60 @@ namespace BlockChyp.Client
     /// </summary>
     public class BlockChypClient
     {
+        /// <summary>The default URL for the BlockChyp gateway.</summary>
+        public const string DefaultGatewayEndpoint = "https://api.blockchyp.com";
+
+        /// <summary>The default URL for the BlockChyp test gateway.</summary>
+        public const string DefaultGatewayTestEndpoint = "https://test.blockchyp.com";
+
+        /// <summary>The default HTTP port used by BlockChyp terminals.</summary>
+        public const int TerminalHttpPort = 8080;
+
+        /// <summary>The default HTTPS port used by BlockChyp terminals.</summary>
+        public const int TerminalHttpsPort = 8443;
+
+        private static readonly HttpClient GatewayClient = NewHttpClient();
+
+        private static readonly HttpClient TerminalClient = NewTerminalHttpClient();
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlockChypClient"/>
-        /// with default configuration and no API credentials.
+        /// Initializes a new instance of the <see cref="BlockChypClient"/> class.
         /// </summary>
-        public BlockChypClient() : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, null)
+        public BlockChypClient()
+            : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlockChypClient"/>
-        /// with API credentials.
+        /// Initializes a new instance of the <see cref="BlockChypClient"/> class.
         /// </summary>
         /// <param name="credentials">API credentials used to make requests.</param>
-        public BlockChypClient(ApiCredentials credentials) : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, credentials)
+        public BlockChypClient(ApiCredentials credentials)
+            : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, credentials)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlockChypClient"/>
-        /// with a custom gateway URL.
+        /// Initializes a new instance of the <see cref="BlockChypClient"/> class.
         /// </summary>
         /// <param name="gateway">A URL for the BlockChyp gateway.</param>
-        public BlockChypClient(string gateway) : this(gateway, DefaultGatewayTestEndpoint, null)
+        public BlockChypClient(string gateway)
+            : this(gateway, DefaultGatewayTestEndpoint, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlockChypClient"/>
-        /// with a custom gateway URL and API credentials.
+        /// Initializes a new instance of the <see cref="BlockChypClient"/> class.
         /// </summary>
         /// <param name="gateway">A URL for the BlockChyp gateway.</param>
         /// <param name="credentials">API credentials used to make requests.</param>
-        public BlockChypClient(string gateway, ApiCredentials credentials) : this(gateway, DefaultGatewayTestEndpoint, credentials)
+        public BlockChypClient(string gateway, ApiCredentials credentials)
+            : this(gateway, DefaultGatewayTestEndpoint, credentials)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlockChypClient"/>
-        /// with a custom gateway URL, a custom test gateway URL and API credentials.
+        /// Initializes a new instance of the <see cref="BlockChypClient"/> class.
         /// </summary>
         /// <param name="gateway">A URL for the BlockChyp gateway.</param>
         /// <param name="testGateway">A URL for the BlockChyp test gateway.</param>
@@ -73,18 +88,6 @@ namespace BlockChyp.Client
                 SecurityProtocolType.Tls12;
 #endif
         }
-
-        /// <summary>The default URL for the BlockChyp gateway.</summary>
-        public const string  DefaultGatewayEndpoint = "https://api.blockchyp.com";
-
-        /// <summary>The default URL for the BlockChyp test gateway.</summary>
-        public const string DefaultGatewayTestEndpoint = "https://test.blockchyp.com";
-
-        /// <summary>The default HTTP port used by BlockChyp terminals.</summary>
-        public const int TerminalHttpPort = 8080;
-
-        /// <summary>The default HTTPS port used by BlockChyp terminals.</summary>
-        public const int TerminalHttpsPort = 8443;
 
         /// <summary>Gets or sets the gateway base URL.</summary>
         /// <value>The base URL for the BlockChyp gateway.</value>
@@ -110,9 +113,6 @@ namespace BlockChyp.Client
         /// <value>The HTTP timeout used for requests.</value>
         public TimeSpan RequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
 
-        private static readonly HttpClient _gatewayClient = NewHttpClient();
-        private static readonly HttpClient _terminalClient = NewTerminalHttpClient();
-
         /// <summary>
         /// Tests communication with the Gateway as an asynchronous operation.
         /// If authentication is successful, a merchantPk value is returned.
@@ -125,7 +125,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="HeartbeatAsync"./>
+        /// Synchronous form of <see cref="HeartbeatAsync"/>.
         /// </summary>
         /// <param name="test">Whether or not to route the the transaction to the test gateway.</param>
         public HeartbeatResponse Heartbeat(bool test)
@@ -144,7 +144,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="PingAsync"./>
+        /// Synchronous form of <see cref="PingAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public Acknowledgement Ping(PingRequest request)
@@ -163,14 +163,16 @@ namespace BlockChyp.Client
             {
                 return await TerminalRequestAsync<AuthResponse>(HttpMethod.Post, "/api/enroll", request.TerminalName, request)
                     .ConfigureAwait(false);
-            } else {
+            }
+            else
+            {
                 return await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/enroll", request, null, request.Test)
                     .ConfigureAwait(false);
             }
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="EnrollAsync"./>
+        /// Synchronous form of <see cref="EnrollAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public AuthResponse Enroll(AuthRequest request)
@@ -192,7 +194,9 @@ namespace BlockChyp.Client
             {
                 response = await TerminalRequestAsync<AuthResponse>(HttpMethod.Post, "/api/charge", request.TerminalName, request)
                     .ConfigureAwait(false);
-            } else {
+            }
+            else
+            {
                 response = await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/charge", request, null, request.Test)
                     .ConfigureAwait(false);
             }
@@ -203,7 +207,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="ChargeAsync"./>
+        /// Synchronous form of <see cref="ChargeAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public AuthResponse Charge(AuthRequest request)
@@ -229,7 +233,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="ReverseAsync"./>
+        /// Synchronous form of <see cref="ReverseAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public AuthResponse Reverse(AuthRequest request)
@@ -251,7 +255,9 @@ namespace BlockChyp.Client
             {
                 response = await TerminalRequestAsync<AuthResponse>(HttpMethod.Post, "/api/preauth", request.TerminalName, request)
                     .ConfigureAwait(false);
-            } else {
+            }
+            else
+            {
                 response = await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/preauth", request, null, request.Test)
                     .ConfigureAwait(false);
             }
@@ -262,7 +268,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="PreauthAsync"./>
+        /// Synchronous form of <see cref="PreauthAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public AuthResponse Preauth(AuthRequest request)
@@ -280,7 +286,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="CaptureAsync"./>
+        /// Synchronous form of <see cref="CaptureAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public CaptureResponse Capture(CaptureRequest request)
@@ -297,7 +303,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="VoidAsync"./>
+        /// Synchronous form of <see cref="VoidAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public VoidResponse Void(VoidRequest request)
@@ -318,7 +324,7 @@ namespace BlockChyp.Client
         {
             PopulateSignatureOptions(request);
 
-            if (!String.IsNullOrEmpty(request.TransactionId))
+            if (!string.IsNullOrEmpty(request.TransactionId))
             {
                 request.TerminalName = null;
             }
@@ -328,7 +334,9 @@ namespace BlockChyp.Client
             {
                 response = await TerminalRequestAsync<AuthResponse>(HttpMethod.Post, "/api/refund", request.TerminalName, request)
                     .ConfigureAwait(false);
-            } else {
+            }
+            else
+            {
                 response = await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/refund", request, null, request.Test)
                     .ConfigureAwait(false);
             }
@@ -339,7 +347,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="Refund"./>
+        /// Synchronous form of <see cref="Refund"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public AuthResponse Refund(RefundRequest request)
@@ -361,7 +369,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="CloseBatchAsync"./>
+        /// Synchronous form of <see cref="CloseBatchAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public CloseBatchResponse CloseBatch(CloseBatchRequest request)
@@ -377,14 +385,16 @@ namespace BlockChyp.Client
             {
                 return await TerminalRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/message", request.TerminalName, request)
                     .ConfigureAwait(false);
-            } else {
+            }
+            else
+            {
                 return await GatewayRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/message", request, null, false)
                     .ConfigureAwait(false);
             }
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="MessageAsync"./>
+        /// Synchronous form of <see cref="MessageAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public Acknowledgement Message(MessageRequest request)
@@ -407,14 +417,16 @@ namespace BlockChyp.Client
             {
                 return await TerminalRequestAsync<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request.TerminalName, request)
                     .ConfigureAwait(false);
-            } else {
+            }
+            else
+            {
                 return await GatewayRequestAsync<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request, null, false)
                     .ConfigureAwait(false);
             }
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="TextPromptAsync"./>
+        /// Synchronous form of <see cref="TextPromptAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public TextPromptResponse TextPrompt(TextPromptRequest request)
@@ -445,7 +457,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="BooleanPromptAsync"./>
+        /// Synchronous form of <see cref="BooleanPromptAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public BooleanPromptResponse BooleanPrompt(BooleanPromptRequest request)
@@ -474,7 +486,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="NewTransactionDisplayAsync"./>
+        /// Synchronous form of <see cref="NewTransactionDisplayAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public Acknowledgement NewTransactionDisplay(TransactionDisplayRequest request)
@@ -502,7 +514,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="UpdateTransactionDisplayAsync"./>
+        /// Synchronous form of <see cref="UpdateTransactionDisplayAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public Acknowledgement UpdateTransactionDisplay(TransactionDisplayRequest request)
@@ -531,7 +543,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="ClearAsync"./>
+        /// Synchronous form of <see cref="ClearAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
         public Acknowledgement Clear(ClearRequest request)
@@ -548,9 +560,10 @@ namespace BlockChyp.Client
         /// <param name="path">The relative path of the request.</param>
         /// <param name="name">The name of the target terminal.</param>
         /// <param name="body">The request body.</param>
+        /// <typeparam name="T">The expected response entity.</typeparam>
         public async Task<T> TerminalRequestAsync<T>(HttpMethod method, string path, string name, object body)
         {
-            if (String.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentException("Terminal name must be provided");
             }
@@ -572,7 +585,7 @@ namespace BlockChyp.Client
             var cts = new CancellationTokenSource();
             cts.CancelAfter(RequestTimeout);
 
-            using (var response = await _terminalClient.SendAsync(httpRequest, cts.Token).ConfigureAwait(false))
+            using (var response = await TerminalClient.SendAsync(httpRequest, cts.Token).ConfigureAwait(false))
             {
                 string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return ProcessResponse<T>(response.StatusCode, responseBody);
@@ -586,6 +599,7 @@ namespace BlockChyp.Client
         /// <param name="path">The relative path of the request.</param>
         /// <param name="name">The name of the target terminal.</param>
         /// <param name="body">The request body.</param>
+        /// <typeparam name="T">The expected response entity.</typeparam>
         public T TerminalRequest<T>(HttpMethod method, string path, string name, object body)
         {
             return TerminalRequestAsync<T>(method, path, name, body)
@@ -601,6 +615,7 @@ namespace BlockChyp.Client
         /// <param name="body">The request body.</param>
         /// <param name="query">A URL query string to send with the request.</param>
         /// <param name="test">Whether or not to route the request to the test gateway.</param>
+        /// <typeparam name="T">The expected response entity.</typeparam>
         public async Task<T> GatewayRequestAsync<T>(HttpMethod method, string path, object body, string query, bool test)
         {
             var requestUrl = ToFullyQualifiedGatewayPath(path, query, test);
@@ -623,7 +638,7 @@ namespace BlockChyp.Client
             var cts = new CancellationTokenSource();
             cts.CancelAfter(RequestTimeout);
 
-            using (var response = await _gatewayClient.SendAsync(request, cts.Token).ConfigureAwait(false))
+            using (var response = await GatewayClient.SendAsync(request, cts.Token).ConfigureAwait(false))
             {
                 string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return ProcessResponse<T>(response.StatusCode, responseBody);
@@ -638,15 +653,114 @@ namespace BlockChyp.Client
         /// <param name="body">The request body.</param>
         /// <param name="query">A URL query string to send with the request.</param>
         /// <param name="test">Whether or not to route the request to the test gateway.</param>
+        /// <typeparam name="T">The expected response entity.</typeparam>
         public T GatewayRequest<T>(HttpMethod method, string path, object body, string query, bool test)
         {
             return GatewayRequestAsync<T>(method, path, body, query, test)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
-        private void DumpSignatureFile(PaymentRequest request, AuthResponse response)
+        private static T ProcessResponse<T>(HttpStatusCode statusCode, string body)
         {
-            if (String.IsNullOrEmpty(response.SignatureFile) || String.IsNullOrEmpty(request.SignatureFile))
+            if (statusCode != HttpStatusCode.OK)
+            {
+                try
+                {
+                    var core = JsonConvert.DeserializeObject<CoreResponse>(body);
+
+                    string msg;
+                    if (string.IsNullOrEmpty(core.ResponseDescription))
+                    {
+                        msg = $"HTTP {statusCode}: \"{body}\"";
+                    }
+                    else
+                    {
+                        msg = core.ResponseDescription;
+                    }
+
+                    throw new BlockChypException(
+                        msg,
+                        statusCode,
+                        body);
+                }
+                catch (JsonException)
+                {
+                        throw new BlockChypException(
+                            $"HTTP {statusCode}: \"{body}\"",
+                            statusCode,
+                            body);
+                }
+            }
+
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(body);
+            }
+            catch (JsonException)
+            {
+                throw new BlockChypException(
+                    $"Invalid response: \"{body}\"",
+                    statusCode,
+                    body);
+            }
+        }
+
+        private static HttpClient NewHttpClient()
+        {
+            var httpClient = new HttpClient();
+            httpClient.Timeout = Timeout.InfiniteTimeSpan;
+
+            httpClient.DefaultRequestHeaders.Clear();
+            var userAgent = AssembleUserAgent();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent);
+
+            return httpClient;
+        }
+
+        private static HttpClient NewTerminalHttpClient()
+        {
+#if NET45
+            ServicePointManager
+                .ServerCertificateValidationCallback += Crypto.ValidateTerminalCertificate;
+
+            var httpClient = NewHttpClient();
+#else
+            var clientHandler = new HttpClientHandler();
+            clientHandler
+                .ServerCertificateCustomValidationCallback += Crypto.ValidateTerminalCertificate;
+
+            var httpClient = new HttpClient(clientHandler);
+#endif
+
+            httpClient.Timeout = Timeout.InfiniteTimeSpan;
+
+            httpClient.DefaultRequestHeaders.Clear();
+            var userAgent = AssembleUserAgent();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent);
+
+            return httpClient;
+        }
+
+        private static string AssembleUserAgent()
+        {
+            var version = new AssemblyName(typeof(BlockChypClient).GetTypeInfo().Assembly.FullName).Version.ToString(3);
+            return $"BlockChyp-CSharp/{version}";
+        }
+
+        private static void PopulateSignatureOptions(PaymentRequest request)
+        {
+            if (request.SignatureFormat == SignatureFormat.None || string.IsNullOrEmpty(request.SignatureFile))
+            {
+                return;
+            }
+
+            request.SignatureFormat = (SignatureFormat)Enum
+                .Parse(typeof(SignatureFormat), Path.GetExtension(request.SignatureFile), true);
+        }
+
+        private static void DumpSignatureFile(PaymentRequest request, AuthResponse response)
+        {
+            if (string.IsNullOrEmpty(response.SignatureFile) || string.IsNullOrEmpty(request.SignatureFile))
             {
                 return;
             }
@@ -657,12 +771,11 @@ namespace BlockChyp.Client
             {
                 file.Write(rawSignature);
             }
-
         }
 
         private async Task<TerminalRouteResponse> ResolveTerminalRoute(string name)
         {
-            if (String.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 return null;
             }
@@ -701,7 +814,9 @@ namespace BlockChyp.Client
                     route.IpAddress,
                     TerminalHttpsPort,
                     path).Uri;
-            } else {
+            }
+            else
+            {
                 return new UriBuilder(
                     Uri.UriSchemeHttp,
                     route.IpAddress,
@@ -714,60 +829,18 @@ namespace BlockChyp.Client
         {
             var route = await ResolveTerminalRoute(name).ConfigureAwait(false);
 
-            return (route != null && route.Success && !route.CloudRelayEnabled);
+            return route != null && route.Success && !route.CloudRelayEnabled;
         }
 
         private TerminalRequest TerminalRequestForRoute(TerminalRouteResponse route, object request)
         {
-            if (route.TransientCredentials != null && !String.IsNullOrEmpty(route.TransientCredentials.ApiKey))
+            if (route.TransientCredentials != null && !string.IsNullOrEmpty(route.TransientCredentials.ApiKey))
             {
                 return new TerminalRequest(route.TransientCredentials, request);
-            } else {
+            }
+            else
+            {
                 return new TerminalRequest(Credentials, request);
-            }
-        }
-
-        private static T ProcessResponse<T>(HttpStatusCode statusCode, string body)
-        {
-            if (statusCode != HttpStatusCode.OK)
-            {
-                try
-                {
-                    var core = JsonConvert.DeserializeObject<CoreResponse>(body);
-
-                    string msg;
-                    if (String.IsNullOrEmpty(core.ResponseDescription))
-                    {
-                        msg = $"HTTP {statusCode}: \"{body}\"";
-                    }
-                    else
-                    {
-                        msg = core.ResponseDescription;
-                    }
-                    throw new BlockChypException(
-                        msg,
-                        statusCode,
-                        body);
-                }
-                catch (JsonException)
-                {
-                        throw new BlockChypException(
-                            $"HTTP {statusCode}: \"{body}\"",
-                            statusCode,
-                            body);
-                }
-            }
-
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(body);
-            }
-            catch (JsonException)
-            {
-                throw new BlockChypException(
-                    $"Invalid response: \"{body}\"",
-                    statusCode,
-                    body);
             }
         }
 
@@ -780,60 +853,6 @@ namespace BlockChyp.Client
             builder.Query = query;
 
             return builder.Uri;
-        }
-
-        private static HttpClient NewHttpClient()
-        {
-
-            var httpClient = new HttpClient();
-            httpClient.Timeout = Timeout.InfiniteTimeSpan;
-
-            httpClient.DefaultRequestHeaders.Clear();
-            var userAgent = AssembleUserAgent();
-            httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent);
-
-            return httpClient;
-        }
-
-        private static HttpClient NewTerminalHttpClient()
-        {
-# if NET45
-            ServicePointManager
-                .ServerCertificateValidationCallback += Crypto.ValidateTerminalCertificate;
-
-            var httpClient = NewHttpClient();
-# else
-            var clientHandler = new HttpClientHandler();
-            clientHandler
-                .ServerCertificateCustomValidationCallback += Crypto.ValidateTerminalCertificate;
-
-            var httpClient = new HttpClient(clientHandler);
-# endif
-
-            httpClient.Timeout = Timeout.InfiniteTimeSpan;
-
-            httpClient.DefaultRequestHeaders.Clear();
-            var userAgent = AssembleUserAgent();
-            httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent);
-
-            return httpClient;
-        }
-
-        private static string AssembleUserAgent()
-        {
-            var version = new AssemblyName(typeof(BlockChypClient).GetTypeInfo().Assembly.FullName).Version.ToString(3);
-            return $"BlockChyp-CSharp/{version}";
-        }
-
-        private void PopulateSignatureOptions(PaymentRequest request)
-        {
-            if (request.SignatureFormat == SignatureFormat.None || String.IsNullOrEmpty(request.SignatureFile))
-            {
-                return;
-            }
-
-            request.SignatureFormat = (SignatureFormat)Enum
-                .Parse(typeof(SignatureFormat), Path.GetExtension(request.SignatureFile), true);
         }
     }
 }

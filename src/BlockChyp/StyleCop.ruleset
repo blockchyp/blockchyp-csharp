@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for StyleCop.Analyzers" Description="Code analysis rules for BlockChyp" ToolsVersion="14.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <!--
+    Using directives outside of a namespace is the standard practice.
+     - SA1200: UsingDirectivesMustBePlacedCorrectly
+    -->
+    <Rule Id="SA1200" Action="None" />
+
+    <!--
+      'this' prefix is bad and it should feel bad.
+       - SA1101: PrefixLocalCallsWithThis
+    -->
+    <Rule Id="SA1101" Action="None" />
+
+    <!--
+      Do not require a header and copyright for every file.
+       - SA1633: FileMustHaveHeader
+    -->
+    <Rule Id="SA1633" Action="None" />
+
+    <!--
+      If we ever use generated documentation somewhere, we'll want to
+      address these.
+       - CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
+       - SA1600: ElementsMustBeDocumented
+       - SA1623: PropertySummaryDocumentationMustMatchAccessors
+       - SA1615: ElementReturnValueMustBeDocumented
+    -->
+    <Rule Id="CS1591" Action="None" />
+    <Rule Id="SA1600" Action="None" />
+    <Rule Id="SA1623" Action="None" />
+    <Rule Id="SA1615" Action="None" />
+  </Rules>
+</RuleSet>

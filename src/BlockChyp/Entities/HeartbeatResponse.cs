@@ -23,7 +23,7 @@ namespace BlockChyp.Entities
         /// compressed eliptic curve public key.
         ///
         /// For the production clockchain, this will always be:
-        /// '3cuhsckVUd9HzMjbdUSW17aY5kCcm1d6YAphJMUwmtXRj7WLyU'
+        /// '3cuhsckVUd9HzMjbdUSW17aY5kCcm1d6YAphJMUwmtXRj7WLyU'.
         /// </summary>
         [JsonProperty(PropertyName = "clockchain")]
         public string Clockchain { get; set; }

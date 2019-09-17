@@ -12,6 +12,10 @@ namespace BlockChyp.Client
         /// <summary>Prefix used for the offline cache.</summary>
         public const string DefaultOfflinePathPrefix = ".blockchyp_routes";
 
+        private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
+
+        private Dictionary<string, TerminalRouteResponse> routeCache = new Dictionary<string, TerminalRouteResponse>();
+
         /// <summary>Gets or sets the location of the persistent terminal route cache.</summary>
         /// <value>The location of the persistent terminal route cache.</value>
         public string OfflinePathPrefix { get; set; }
@@ -24,10 +28,6 @@ namespace BlockChyp.Client
         /// <value>The state of the persistent terminal route cache.</value>
         public bool OfflineEnabled { get; set; } = true;
 
-        private Dictionary<string, TerminalRouteResponse> _routeCache = new Dictionary<string, TerminalRouteResponse>();
-
-        private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
-
         /// <summary>
         /// Check the cache for a terminal route for the given root credentials.
         /// </summary>
@@ -37,9 +37,9 @@ namespace BlockChyp.Client
         {
             var cacheKey = ToTerminalRouteKey(name, rootCredentials);
 
-            if (_routeCache.ContainsKey(cacheKey))
+            if (routeCache.ContainsKey(cacheKey))
             {
-                var route = _routeCache[cacheKey];
+                var route = routeCache[cacheKey];
                 if (ValidRoute(route))
                 {
                     return route;
@@ -51,7 +51,7 @@ namespace BlockChyp.Client
                 var route = GetOffline(cacheKey, rootCredentials);
                 if (ValidRoute(route))
                 {
-                    _routeCache[cacheKey] = route;
+                    routeCache[cacheKey] = route;
 
                     return route;
                 }
@@ -69,11 +69,11 @@ namespace BlockChyp.Client
         {
             var cacheKey = ToTerminalRouteKey(route.TerminalName, rootCredentials);
 
-            _routeCache[cacheKey] = route;
+            routeCache[cacheKey] = route;
 
             if (OfflineEnabled)
             {
-                var offlineRoute = (TerminalRouteResponse) route.Clone();
+                var offlineRoute = (TerminalRouteResponse)route.Clone();
                 offlineRoute.TransientCredentials = Encrypt(offlineRoute.TransientCredentials, rootCredentials);
 
                 var offlineData = JsonConvert.SerializeObject(offlineRoute);
@@ -88,9 +88,9 @@ namespace BlockChyp.Client
 
         private bool ValidRoute(TerminalRouteResponse route)
         {
-            return (route != null
+            return route != null
                 && route.Success
-                && route.Timestamp.GetValueOrDefault(new DateTime(0)).Add(TimeToLive) > DateTime.UtcNow);
+                && route.Timestamp.GetValueOrDefault(new DateTime(0)).Add(TimeToLive) > DateTime.UtcNow;
         }
 
         private string ToTerminalRouteKey(string name, ApiCredentials rootCredentials)
@@ -103,11 +103,13 @@ namespace BlockChyp.Client
             var snekCase = key.Replace(" ", "_");
 
             string prefix;
-            if (String.IsNullOrEmpty(OfflinePathPrefix))
+            if (string.IsNullOrEmpty(OfflinePathPrefix))
             {
                 var tmp = Path.GetTempPath();
                 prefix = Path.Combine(tmp, DefaultOfflinePathPrefix);
-            } else {
+            }
+            else
+            {
                 prefix = OfflinePathPrefix;
             }
 

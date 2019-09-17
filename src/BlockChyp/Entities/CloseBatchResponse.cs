@@ -32,7 +32,7 @@ namespace BlockChyp.Entities
 
         /// <summary>
         /// The total amount of preauths opened during the batch
-        // that weren't captured.
+        /// that weren't captured.
         /// </summary>
         [JsonProperty(PropertyName = "openPreauths")]
         public string OpenPreauths { get; set; }
