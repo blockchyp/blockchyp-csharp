@@ -56,7 +56,7 @@ var request = new AuthRequest
     TransactionRef = "your invoice or tender id",
 };
 
-AuthResponse response = blockchyp.Charge(request);
+AuthResponse response = await blockchyp.ChargeAsync(request);
 
 if (response.Approved)
 {
@@ -76,7 +76,7 @@ var request = new AuthRequest
     TransactionRef = "your invoice or tender id",
 };
 
-AuthResponse response = blockchyp.Preauth(request);
+AuthResponse response = await blockchyp.PreauthAsync(request);
 
 if (response.Approved)
 {
@@ -97,7 +97,7 @@ var request = new CaptureRequest
     Amount = "55.00",
 };
 
-CaptureResponse response = blockchyp.Capture(request);
+CaptureResponse response = await blockchyp.CaptureAsync(request);
 
 if (response.Approved)
 {
@@ -117,7 +117,7 @@ var request = new AuthRequest
     TransactionRef = "your invoice or tender id",
 };
 
-AuthResponse response = blockchyp.Enroll(request);
+AuthResponse response = await blockchyp.EnrollAsync(request);
 
 if (response.Approved)
 {
@@ -140,7 +140,7 @@ var request = new RefundRequest
     Amount = "25.00", // Could be less than the original transaction if it's a partial refund
 };
 
-AuthResponse response = blockchyp.Refund(request);
+AuthResponse response = await blockchyp.RefundAsync(request);
 
 if (response.Approved)
 {
@@ -161,7 +161,7 @@ var request = new RefundRequest
     Amount = "55.00",
 };
 
-AuthResponse response = blockchyp.Refund(request);
+AuthResponse response = await blockchyp.RefundAsync(request);
 
 if (response.Approved)
 {
@@ -179,7 +179,7 @@ var request = new VoidRequest
     TransactionId = previousTransaction.TransactionId,
 };
 
-VoidResponse response = blockchyp.Void(request);
+VoidResponse response = await blockchyp.VoidAsync(request);
 
 if (response.Approved)
 {
@@ -208,7 +208,7 @@ var request = new AuthRequest
 
 try
 {
-    AuthResponse response = blockchyp.Charge(request);
+    AuthResponse response = await blockchyp.ChargeAsync(request);
 
     if (response.Approved)
     {
@@ -217,7 +217,7 @@ try
 }
 catch (WebException e) when (e.Status == WebExceptionStatus.Timeout)
 {
-    AuthResponse reverseResponse = blockchyp.Reverse(request);
+    AuthResponse reverseResponse = await blockchyp.ReverseAsync(request);
 
     if (reverseResponse.Approved)
     {
@@ -242,7 +242,7 @@ case, you'll need this code snippet to close out a batch programmatically.
 ```c#
 var request = new CloseBatchRequest();
 
-CloseBatchResponse response = blockchyp.CloseBatch(request);
+CloseBatchResponse response = await blockchyp.CloseBatchAsync(request);
 
 if (response.Success)
 {
@@ -260,7 +260,7 @@ interesting.  Pro Tip: If merchantPk is non null in the response, your
 credentials are valid.
 
 ```c#
-var response = blockchyp.Heartbeat(false);
+var response = await blockchyp.HeartbeatAsync(false);
 
 if (response.Success)
 {
@@ -284,7 +284,7 @@ var request = new PingRequest
     TerminalName = "Test Terminal"
 };
 
-var response = blockchyp.Ping(request);
+var response = await blockchyp.PingAsync(request);
 
 if (response.Success)
 {
@@ -326,7 +326,7 @@ var request = new TransactionDisplayRequest
     },
 };
 
-var response = blockchyp.NewTransactionDisplay(request);
+var response = await blockchyp.NewTransactionDisplayAsync(request);
 
 // Update the original request
 request = new TransactionDisplayRequest
@@ -349,7 +349,7 @@ request = new TransactionDisplayRequest
     },
 };
 
-response = blockchyp.UpdateTransactionDisplay(request);
+response = await blockchyp.UpdateTransactionDisplayAsync(request);
 ```
 
 ### Terminal Message
@@ -365,7 +365,7 @@ var request = new MessageRequest
     Message = "Something derogatory about Verifone.",
 };
 
-var response = blockchyp.Message(request);
+var response = await blockchyp.MessageAsync(request);
 
 if (response.Success)
 {
@@ -387,7 +387,7 @@ var request = new BooleanPromptRequest
     NoCaption = "False",
 };
 
-var response = blockchyp.BooleanPrompt(request);
+var response = await blockchyp.BooleanPromptAsync(request);
 
 if (response.Response)
 {
@@ -412,7 +412,7 @@ var request = new TextPromptRequest
     PromptType = PromptType.Email,
 };
 
-var response = blockchyp.TextPrompt(request);
+var response = await blockchyp.TextPromptAsync(request);
 
 if (response.Success)
 {
@@ -431,7 +431,7 @@ var request = new ClearRequest
     TerminalName = "Test Terminal",
 };
 
-var response = blockchyp.Clear(request);
+var response = await blockchyp.ClearAsync(request);
 
 if (response.Success)
 {
