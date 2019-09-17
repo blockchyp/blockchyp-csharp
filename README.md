@@ -44,7 +44,7 @@ var credentials = new ApiCredentials(
 var blockchyp = new BlockChypClient(credentials);
 ```
 
-### Async methods
+### Sync/Async
 
 All methods include a synchronous and an asynchronous form. You should prefer
 the asynchronous methods where possible.
