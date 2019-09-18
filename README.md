@@ -220,7 +220,7 @@ try
         Console.WriteLine("Approved!");
     }
 }
-catch (WebException e) when (e.Status == WebExceptionStatus.Timeout)
+catch (TimeoutException)
 {
     AuthResponse reverseResponse = await blockchyp.ReverseAsync(request);
 
