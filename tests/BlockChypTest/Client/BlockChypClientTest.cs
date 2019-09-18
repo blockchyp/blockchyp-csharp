@@ -12,7 +12,7 @@ namespace BlockChypTest.Client
         public async void BlockChypClientTest_Heartbeat()
         {
             var blockchyp = new BlockChypClient();
-            blockchyp.RequestTimeout = TimeSpan.FromSeconds(30);
+            blockchyp.GatewayRequestTimeout = TimeSpan.FromSeconds(30);
             var result = await blockchyp.HeartbeatAsync(false);
 
             Assert.True(result.Success);
@@ -38,7 +38,8 @@ namespace BlockChypTest.Client
         public async void BlockChypClientTest_Ping()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
-            blockchyp.RequestTimeout = TimeSpan.FromSeconds(30);
+            blockchyp.GatewayRequestTimeout = TimeSpan.FromSeconds(30);
+            blockchyp.TerminalRequestTimeout = TimeSpan.FromSeconds(30);
 
             var terminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName;
             var request = new PingRequest{TerminalName=terminalName};

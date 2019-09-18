@@ -229,6 +229,52 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
+        public void PaymentTest_GatewayTimeout()
+        {
+            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+
+            // Time out instantly
+            blockchyp.GatewayRequestTimeout = TimeSpan.FromSeconds(0);
+            blockchyp.TerminalRequestTimeout = TimeSpan.FromSeconds(30);
+            blockchyp.RouteCache.OfflineEnabled = false;
+
+            var chargeRequest = new AuthRequest{
+                Amount="55.55",
+                Test=true,
+                TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                TransactionRef=Crypto.GenerateNonce(Crypto.NonceSizeBytes),
+            };
+
+            Exception ex = Assert.Throws<TimeoutException>(() => blockchyp.Charge(chargeRequest));
+
+            Assert.Equal("Gateway request timed out", ex.Message);
+        }
+
+        [Trait("Category", "Integration")]
+        [Fact]
+        public void PaymentTest_TerminalTimeout()
+        {
+            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+
+            // Time out instantly
+            blockchyp.GatewayRequestTimeout = TimeSpan.FromSeconds(30);
+            blockchyp.TerminalRequestTimeout = TimeSpan.FromSeconds(0);
+            blockchyp.RouteCache.OfflineEnabled = false;
+
+            var chargeRequest = new AuthRequest{
+                Amount="55.55",
+                Test=true,
+                TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                TransactionRef=Crypto.GenerateNonce(Crypto.NonceSizeBytes),
+            };
+
+            Exception ex = Assert.Throws<TimeoutException>(() => blockchyp.Charge(chargeRequest));
+
+            Assert.Equal("Terminal request timed out", ex.Message);
+        }
+
+        [Trait("Category", "Integration")]
+        [Fact]
         public async void PaymentTest_TaxExemptCharge()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();

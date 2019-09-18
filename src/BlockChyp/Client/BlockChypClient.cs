@@ -109,9 +109,17 @@ namespace BlockChyp.Client
         /// <value>The location of the persistent terminal route cache.</value>
         public TerminalRouteCache RouteCache { get; set; } = new TerminalRouteCache();
 
-        /// <summary>Gets or sets the HTTP timeout used for requests.</summary>
-        /// <value>The HTTP timeout used for requests.</value>
-        public TimeSpan RequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
+        /// <summary>
+        /// Gets or sets the HTTP timeout used for requests to the gateway.
+        /// </summary>
+        /// <value>The HTTP timeout used for requests to the gateway.</value>
+        public TimeSpan GatewayRequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
+
+        /// <summary>
+        /// Gets or sets the HTTP timeout used for requests to terminals.
+        /// </summary>
+        /// <value>The HTTP timeout used for requests to terminals.</value>
+        public TimeSpan TerminalRequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
 
         /// <summary>
         /// Tests communication with the Gateway as an asynchronous operation.
@@ -561,6 +569,7 @@ namespace BlockChyp.Client
         /// <param name="name">The name of the target terminal.</param>
         /// <param name="body">The request body.</param>
         /// <typeparam name="T">The expected response entity.</typeparam>
+        /// <exception cref="TimeoutException">if HTTP request time exceeds <c>TerminalRequestTimeout</c>.</exception>
         public async Task<T> TerminalRequestAsync<T>(HttpMethod method, string path, string name, object body)
         {
             if (string.IsNullOrEmpty(name))
@@ -583,12 +592,19 @@ namespace BlockChyp.Client
             httpRequest.Content = new StringContent(JsonConvert.SerializeObject(terminalRequest), Encoding.UTF8, "application/json");
 
             var cts = new CancellationTokenSource();
-            cts.CancelAfter(RequestTimeout);
+            cts.CancelAfter(TerminalRequestTimeout);
 
-            using (var response = await TerminalClient.SendAsync(httpRequest, cts.Token).ConfigureAwait(false))
+            try
             {
-                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return ProcessResponse<T>(response.StatusCode, responseBody);
+                using (var response = await TerminalClient.SendAsync(httpRequest, cts.Token).ConfigureAwait(false))
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    return ProcessResponse<T>(response.StatusCode, responseBody);
+                }
+            }
+            catch (TaskCanceledException e)
+            {
+                throw new TimeoutException("Terminal request timed out", e);
             }
         }
 
@@ -616,6 +632,7 @@ namespace BlockChyp.Client
         /// <param name="query">A URL query string to send with the request.</param>
         /// <param name="test">Whether or not to route the request to the test gateway.</param>
         /// <typeparam name="T">The expected response entity.</typeparam>
+        /// <exception cref="TimeoutException">if HTTP request time exceeds <c>GatewayRequestTimeout</c>.</exception>
         public async Task<T> GatewayRequestAsync<T>(HttpMethod method, string path, object body, string query, bool test)
         {
             var requestUrl = ToFullyQualifiedGatewayPath(path, query, test);
@@ -636,12 +653,19 @@ namespace BlockChyp.Client
             }
 
             var cts = new CancellationTokenSource();
-            cts.CancelAfter(RequestTimeout);
+            cts.CancelAfter(GatewayRequestTimeout);
 
-            using (var response = await GatewayClient.SendAsync(request, cts.Token).ConfigureAwait(false))
+            try
             {
-                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return ProcessResponse<T>(response.StatusCode, responseBody);
+                using (var response = await GatewayClient.SendAsync(request, cts.Token).ConfigureAwait(false))
+                {
+                        string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        return ProcessResponse<T>(response.StatusCode, responseBody);
+                }
+            }
+            catch (TaskCanceledException e)
+            {
+                throw new TimeoutException("Gateway request timed out", e);
             }
         }
 
