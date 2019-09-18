@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using BlockChyp.Client;
 using BlockChyp.Entities;
@@ -44,22 +43,15 @@ namespace BlockChypTest.Client
             Assert.NotNull(result["Authorization"]);
         }
 
-        [Fact]
-        public void CryptoTest_EncryptDecrypt()
+        /// <summary>
+        /// Test that the <c>Crypto.Encrypt</c> and <c>Crypto.Decrypt</c> methods round-trip.
+        /// </summary>
+        [Property(MaxTest = 10000)]
+        public bool prop_EncryptDecrypt_RoundTrip(NonNull<string> plaintext, AesKey aesKey)
         {
-            byte[] key;
-            using (Aes aes = Aes.Create())
-            {
-                key = aes.Key;
-            }
-
-            var plaintext = "some super secret sauce";
-
-            var encrypted = Crypto.Encrypt(plaintext, key);
-
-            var roundTrip = Crypto.Decrypt(encrypted, key);
-
-            Assert.Equal(plaintext, roundTrip);
+            string ciphertext = Crypto.Encrypt(plaintext.Get, aesKey.Get);
+            string roundTripPlaintext = Crypto.Decrypt(ciphertext, aesKey.Get);
+            return plaintext.Get == roundTripPlaintext;
         }
 
         /// <summary>
