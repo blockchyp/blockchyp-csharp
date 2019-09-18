@@ -44,10 +44,8 @@ var credentials = new ApiCredentials(
 var blockchyp = new BlockChypClient(credentials);
 ```
 
-### Sync/Async
-
-All methods include a synchronous and an asynchronous form. You should prefer
-the asynchronous methods where possible.
+The BlockChyp client should be kept and re-used for subsequent requests.
+Terminal routes and HTTP connection pools are cached between requests.
 
 ### Charge
 
@@ -499,6 +497,29 @@ to the gateway. But more importantly, offline or store and forward
 processing is not available to applications using cloud relay.
 
 It's an option, but only use it if you really need it.
+
+## Sync/Async
+
+All methods include a synchronous and an asynchronous form. You should prefer
+the asynchronous methods where possible.
+
+## Terminal Route Caching
+
+In the default configuration, terminal routes are resolved once per hour.
+For all requests within that hour period, requests are routed via the
+cached route. This default behavior should work for most cases. You can
+override this behavior by setting a custom cache timeout:
+
+```c#
+blockchyp.RouteCache.TimeToLive = TimeSpan.FromMinutes(30);
+```
+
+Routes are cached to disk by default. You can disable this and maintain the
+cache in memory only as follows:
+
+```c#
+blockchyp.RouteCache.OfflineEnabled = false;
+```
 
 [blockchyp-docs]: https://docs.blockchyp.com
 [blockchyp]: https://www.blockchyp.com
