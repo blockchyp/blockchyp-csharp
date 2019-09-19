@@ -7,19 +7,19 @@ namespace BlockChyp.Entities
     [JsonConverter(typeof(StringEnumConverter))]
     public enum PromptType
     {
-        /// <summery>Prompt for email address.</summery>
+        /// <summary>Prompt for email address.</summary>
         [EnumMember(Value = "email")]
         Email,
 
-        /// <summery>Prompt for phone number.</summery>
+        /// <summary>Prompt for phone number.</summary>
         [EnumMember(Value = "phone")]
         PhoneNumber,
 
-        /// <summery>Prompt for customer number.</summery>
+        /// <summary>Prompt for customer number.</summary>
         [EnumMember(Value = "customer-number")]
         CustomerNumber,
 
-        /// <summery>Prompt for rewards number.</summery>
+        /// <summary>Prompt for rewards number.</summary>
         [EnumMember(Value = "rewards-number")]
         RewardsNumber,
     }

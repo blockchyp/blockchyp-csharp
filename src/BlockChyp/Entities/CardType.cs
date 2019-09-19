@@ -2,16 +2,16 @@ namespace BlockChyp.Entities
 {
     public enum CardType
     {
-        /// <summery>A standard credit card.</summery>
+        /// <summary>A standard credit card.</summary>
         Credit,
 
-        /// <summery>A debit card.</summery>
+        /// <summary>A debit card.</summary>
         Debit,
 
-        /// <summery>An EBT card.</summery>
+        /// <summary>An EBT card.</summary>
         EBT,
 
-        /// <summery>A blockchain-based gift card.</summery>
+        /// <summary>A blockchain-based gift card.</summary>
         BlockchainGiftCard,
     }
 }
