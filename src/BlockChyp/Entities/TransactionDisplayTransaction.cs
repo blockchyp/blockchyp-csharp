@@ -1,3 +1,4 @@
+using BlockChyp.Json;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -8,19 +9,22 @@ namespace BlockChyp.Entities
         /// The pre-tax subtotal for the line item display.
         /// </summary>
         [JsonProperty(PropertyName = "subtotal")]
-        public string Subtotal { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal Subtotal { get; set; }
 
         /// <summary>
         /// Tax for the line item display.
         /// </summary>
         [JsonProperty(PropertyName = "tax")]
-        public string Tax { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal Tax { get; set; }
 
         /// <summary>
         /// Grand total for the line item display.
         /// </summary>
         [JsonProperty(PropertyName = "total")]
-        public string Total { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal Total { get; set; }
 
         /// <summary>
         /// Array of <see cref="TransactionDisplayItem"/> for the line item display.
