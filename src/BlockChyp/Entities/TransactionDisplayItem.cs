@@ -1,3 +1,4 @@
+using BlockChyp.Json;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -20,7 +21,8 @@ namespace BlockChyp.Entities
         /// The undiscounted price per unit quantity.
         /// </summary>
         [JsonProperty(PropertyName = "price")]
-        public string Price { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal Price { get; set; }
 
         /// <summary>
         /// The line item quantity.
@@ -32,7 +34,8 @@ namespace BlockChyp.Entities
         /// The extended price for a line item.
         /// </summary>
         [JsonProperty(PropertyName = "extended")]
-        public string Extended { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal Extended { get; set; }
 
         /// <summary>
         /// An array of <see cref="TransactionDisplayDiscount"/>
