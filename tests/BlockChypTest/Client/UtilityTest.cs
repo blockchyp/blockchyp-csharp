@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using BlockChyp.Entities;
 using Xunit;
@@ -47,11 +48,11 @@ namespace BlockChypTest.Client
         [Fact]
         public async void UtilityTest_LineItemDisplay()
         {
-            var testData = new TransactionDisplayTransaction[]
+            var testData = new List<TransactionDisplayTransaction>
             {
                 new TransactionDisplayTransaction
                 {
-                    Items=new TransactionDisplayItem[]
+                    Items=new List<TransactionDisplayItem>
                     {
                         new TransactionDisplayItem
                         {
@@ -59,7 +60,7 @@ namespace BlockChypTest.Client
                             Price="150.00",
                             Quantity=1f,
                             Extended="145.00",
-                            Discounts=new TransactionDisplayDiscount[]
+                            Discounts=new List<TransactionDisplayDiscount>
                             {
                                 new TransactionDisplayDiscount
                                 {
@@ -75,7 +76,7 @@ namespace BlockChypTest.Client
                 },
                 new TransactionDisplayTransaction
                 {
-                    Items=new TransactionDisplayItem[]
+                    Items=new List<TransactionDisplayItem>
                     {
                         new TransactionDisplayItem
                         {
@@ -102,7 +103,7 @@ namespace BlockChypTest.Client
 
             Assert.True(clearResponse.Success);
 
-            for (var i = 0; i < testData.Length; i++)
+            for (var i = 0; i < testData.Count; i++)
             {
                 var txDisplayRequest = new TransactionDisplayRequest
                 {

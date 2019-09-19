@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -26,6 +27,6 @@ namespace BlockChyp.Entities
         /// Array of <see cref="TransactionDisplayItem"/> for the line item display.
         /// </summary>
         [JsonProperty(PropertyName = "items")]
-        public TransactionDisplayItem[] Items { get; set; }
+        public List<TransactionDisplayItem> Items { get; set; }
     }
 }
