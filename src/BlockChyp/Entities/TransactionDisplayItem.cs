@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -39,6 +40,6 @@ namespace BlockChyp.Entities
         /// associated with a line item.
         /// </summary>
         [JsonProperty(PropertyName = "discounts")]
-        public TransactionDisplayDiscount[] Discounts { get; set; }
+        public List<TransactionDisplayDiscount> Discounts { get; set; }
     }
 }
