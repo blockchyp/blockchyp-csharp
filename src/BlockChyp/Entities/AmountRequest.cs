@@ -1,3 +1,4 @@
+using BlockChyp.Json;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -14,25 +15,29 @@ namespace BlockChyp.Entities
         /// The transaction amount.
         /// </summary>
         [JsonProperty(PropertyName = "amount")]
-        public string Amount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// The tip amount.
         /// </summary>
         [JsonProperty(PropertyName = "tipAmount")]
-        public string TipAmount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal TipAmount { get; set; }
 
         /// <summary>
         /// The tax amount.
         /// </summary>
         [JsonProperty(PropertyName = "taxAmount")]
-        public string TaxAmount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal TaxAmount { get; set; }
 
         /// <summary>
         /// The amount of cash back requested.
         /// </summary>
         [JsonProperty(PropertyName = "cashBackAmount")]
-        public string CashBackAmount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal CashBackAmount { get; set; }
 
         /// <summary>
         /// Whether or not the request is tax exempt.
