@@ -7,19 +7,19 @@ namespace BlockChyp.Entities
     [JsonConverter(typeof(StringEnumConverter))]
     public enum SignatureFormat
     {
-        /// <summery>No format specified.</summery>
+        /// <summary>No format specified.</summary>
         [EnumMember(Value = "")]
         None,
 
-        /// <summery>PNG image format.</summery>
+        /// <summary>PNG image format.</summary>
         [EnumMember(Value = "png")]
         PNG,
 
-        /// <summery>JPG image format.</summery>
+        /// <summary>JPG image format.</summary>
         [EnumMember(Value = "jpg")]
         JPG,
 
-        /// <summery>GIF image format.</summery>
+        /// <summary>GIF image format.</summary>
         [EnumMember(Value = "gif")]
         GIF,
     }
