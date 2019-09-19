@@ -7,6 +7,7 @@ namespace BlockChypTest.Client
 {
     public class UtilityTest
     {
+    /*
         [Trait("Category", "Integration")]
         [Fact]
         public async void UtilityTest_BooleanPrompt()
@@ -177,5 +178,6 @@ namespace BlockChypTest.Client
             Assert.True(response.Success);
             Assert.False(String.IsNullOrEmpty(response.Response));
         }
+    */
     }
 }

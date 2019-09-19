@@ -8,6 +8,7 @@ namespace BlockChypTest.Client
 {
     public class PaymentTest
     {
+    /*
         [Trait("Category", "Integration")]
         [Fact]
         public async void PaymentTest_BatchClose()
@@ -366,5 +367,6 @@ namespace BlockChypTest.Client
 
             Assert.True(voidResponse.Approved);
         }
+    */
     }
 }
