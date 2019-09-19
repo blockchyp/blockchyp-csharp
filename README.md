@@ -309,14 +309,14 @@ var request = new TransactionDisplayRequest
         Subtotal = "1.00",
         Tax = "0.30",
         Total = "1.30",
-        Items = new TransactionDisplayItem[]
+        Items = new List<TransactionDisplayItem>
         {
             new TransactionDisplayItem
             {
                 Description = "Grid Square",
                 Price = "1.50",
                 Quantity = 1,
-                Discounts = new TransactionDisplayDiscount[]
+                Discounts = new List<TransactionDisplayDiscount>
                 {
                     new TransactionDisplayDiscount
                     {
@@ -340,7 +340,7 @@ request = new TransactionDisplayRequest
         Subtotal = "2.50",
         Tax = "0.70",
         Total = "3.20",
-        Items = new TransactionDisplayItem[]
+        Items = new List<TransactionDisplayItem>
         {
             new TransactionDisplayItem
             {
