@@ -1,3 +1,4 @@
+using BlockChyp.Json;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -26,25 +27,29 @@ namespace BlockChyp.Entities
         /// The requested amount.
         /// </summary>
         [JsonProperty(PropertyName = "requestedAmount")]
-        public string RequestedAmount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal RequestedAmount { get; set; }
 
         /// <summary>
         /// The authorized amount. May not match the requested amount in the
         /// event of a partial auth.
         /// </summary>
         [JsonProperty(PropertyName = "authorizedAmount")]
-        public string AuthorizedAmount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal AuthorizedAmount { get; set; }
 
         /// <summary>
         /// The tip amount.
         /// </summary>
         [JsonProperty(PropertyName = "tipAmount")]
-        public string TipAmount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal TipAmount { get; set; }
 
         /// <summary>
         /// The tax amount.
         /// </summary>
         [JsonProperty(PropertyName = "taxAmount")]
-        public string TaxAmount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal TaxAmount { get; set; }
     }
 }
