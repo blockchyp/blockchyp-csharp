@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BlockChyp.Json;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -22,13 +23,14 @@ namespace BlockChyp.Entities
         /// deposit amount.
         /// </summary>
         [JsonProperty(PropertyName = "capturedTotal")]
-        public string CapturedTotal { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal CapturedTotal { get; set; }
 
         /// <summary>
         /// The captured totals by card brand.
         /// </summary>
-        [JsonProperty(PropertyName = "cardBrands")]
-        public Dictionary<string, string> CardBrands { get; set; }
+        [JsonProperty(PropertyName = "cardBrands", ItemConverterType = typeof(CurrencyJsonConverter))]
+        public Dictionary<string, decimal> CardBrands { get; set; }
 
         /// <summary>
         /// The total amount of preauths opened during the batch
