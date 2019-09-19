@@ -1,7 +1,8 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Security.Cryptography;
+using System.Threading;
 using BlockChyp.Entities;
 using Newtonsoft.Json;
 
@@ -14,7 +15,10 @@ namespace BlockChyp.Client
 
         private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
 
-        private Dictionary<string, TerminalRouteResponse> routeCache = new Dictionary<string, TerminalRouteResponse>();
+        private static ReaderWriterLockSlim fileLock = new ReaderWriterLockSlim();
+
+        private ConcurrentDictionary<string, TerminalRouteResponse> routeCache =
+            new ConcurrentDictionary<string, TerminalRouteResponse>();
 
         /// <summary>Gets or sets the location of the persistent terminal route cache.</summary>
         /// <value>The location of the persistent terminal route cache.</value>
@@ -37,23 +41,18 @@ namespace BlockChyp.Client
         {
             var cacheKey = ToTerminalRouteKey(name, rootCredentials);
 
-            if (routeCache.ContainsKey(cacheKey))
+            if (routeCache.TryGetValue(cacheKey, out var route) && ValidRoute(route))
             {
-                var route = routeCache[cacheKey];
-                if (ValidRoute(route))
-                {
-                    return route;
-                }
+                return route;
             }
 
             if (OfflineEnabled)
             {
-                var route = GetOffline(cacheKey, rootCredentials);
-                if (ValidRoute(route))
+                var offlineRoute = GetOffline(cacheKey, rootCredentials);
+                if (ValidRoute(offlineRoute))
                 {
-                    routeCache[cacheKey] = route;
-
-                    return route;
+                    routeCache[cacheKey] = offlineRoute;
+                    return offlineRoute;
                 }
             }
 
@@ -79,10 +78,7 @@ namespace BlockChyp.Client
                 var offlineData = JsonConvert.SerializeObject(offlineRoute);
                 var offlineFile = ResolveOfflineRouteCacheLocation(cacheKey);
 
-                using (var file = new StreamWriter(offlineFile))
-                {
-                    file.Write(offlineData);
-                }
+                WriteFile(offlineFile, offlineData);
             }
         }
 
@@ -124,22 +120,64 @@ namespace BlockChyp.Client
                 return null;
             }
 
-            using (var file = new StreamReader(cacheFile))
+            string rawContent = ReadFile(cacheFile);
+            try
             {
-                var raw = file.ReadToEnd();
-                try
-                {
-                    var result = JsonConvert.DeserializeObject<TerminalRouteResponse>(raw);
-                    result.TransientCredentials = Decrypt(result.TransientCredentials, rootCredentials);
+                var result = JsonConvert.DeserializeObject<TerminalRouteResponse>(rawContent);
+                result.TransientCredentials = Decrypt(result.TransientCredentials, rootCredentials);
 
-                    return result;
-                }
-                catch (JsonException e)
+                return result;
+            }
+            catch (JsonException)
+            {
+                // File is invalid, remove it
+                DeleteFile(cacheFile);
+                return null;
+            }
+        }
+
+        private string ReadFile(string path)
+        {
+            fileLock.EnterReadLock();
+            try
+            {
+                using (var file = new StreamReader(path))
                 {
-                    throw new BlockChypException(
-                        "Invalid terminal route cache",
-                        e);
+                    return file.ReadToEnd();
                 }
+            }
+            finally
+            {
+                fileLock.ExitReadLock();
+            }
+        }
+
+        private void WriteFile(string path, string data)
+        {
+            fileLock.EnterWriteLock();
+            try
+            {
+                using (var file = new StreamWriter(path))
+                {
+                    file.Write(data);
+                }
+            }
+            finally
+            {
+                fileLock.ExitWriteLock();
+            }
+        }
+
+        private void DeleteFile(string path)
+        {
+            fileLock.EnterWriteLock();
+            try
+            {
+                File.Delete(path);
+            }
+            finally
+            {
+                fileLock.ExitWriteLock();
             }
         }
 
