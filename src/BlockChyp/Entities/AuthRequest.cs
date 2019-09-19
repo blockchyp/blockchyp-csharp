@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BlockChyp.Json;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -28,7 +29,7 @@ namespace BlockChyp.Entities
         /// <summary>
         /// A map of alternate currencies and the price in each currency.
         /// </summary>
-        [JsonProperty(PropertyName = "altPrices")]
-        public Dictionary<string, string> AltPrices { get; set; }
+        [JsonProperty(PropertyName = "altPrices", ItemConverterType = typeof(CurrencyJsonConverter))]
+        public Dictionary<string, decimal> AltPrices { get; set; }
     }
 }
