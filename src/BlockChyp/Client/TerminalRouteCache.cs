@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Security.Cryptography;
+using System.Threading;
 using BlockChyp.Entities;
 using Newtonsoft.Json;
 
@@ -13,6 +14,8 @@ namespace BlockChyp.Client
         public const string DefaultOfflinePathPrefix = ".blockchyp_routes";
 
         private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
+
+        private static ReaderWriterLockSlim fileLock = new ReaderWriterLockSlim();
 
         private ConcurrentDictionary<string, TerminalRouteResponse> routeCache =
             new ConcurrentDictionary<string, TerminalRouteResponse>();
@@ -75,10 +78,7 @@ namespace BlockChyp.Client
                 var offlineData = JsonConvert.SerializeObject(offlineRoute);
                 var offlineFile = ResolveOfflineRouteCacheLocation(cacheKey);
 
-                using (var file = new StreamWriter(offlineFile))
-                {
-                    file.Write(offlineData);
-                }
+                WriteFile(offlineFile, offlineData);
             }
         }
 
@@ -120,22 +120,64 @@ namespace BlockChyp.Client
                 return null;
             }
 
-            using (var file = new StreamReader(cacheFile))
+            string rawContent = ReadFile(cacheFile);
+            try
             {
-                var raw = file.ReadToEnd();
-                try
-                {
-                    var result = JsonConvert.DeserializeObject<TerminalRouteResponse>(raw);
-                    result.TransientCredentials = Decrypt(result.TransientCredentials, rootCredentials);
+                var result = JsonConvert.DeserializeObject<TerminalRouteResponse>(rawContent);
+                result.TransientCredentials = Decrypt(result.TransientCredentials, rootCredentials);
 
-                    return result;
-                }
-                catch (JsonException e)
+                return result;
+            }
+            catch (JsonException)
+            {
+                // File is invalid, remove it
+                DeleteFile(cacheFile);
+                return null;
+            }
+        }
+
+        private string ReadFile(string path)
+        {
+            fileLock.EnterReadLock();
+            try
+            {
+                using (var file = new StreamReader(path))
                 {
-                    throw new BlockChypException(
-                        "Invalid terminal route cache",
-                        e);
+                    return file.ReadToEnd();
                 }
+            }
+            finally
+            {
+                fileLock.ExitReadLock();
+            }
+        }
+
+        private void WriteFile(string path, string data)
+        {
+            fileLock.EnterWriteLock();
+            try
+            {
+                using (var file = new StreamWriter(path))
+                {
+                    file.Write(data);
+                }
+            }
+            finally
+            {
+                fileLock.ExitWriteLock();
+            }
+        }
+
+        private void DeleteFile(string path)
+        {
+            fileLock.EnterWriteLock();
+            try
+            {
+                File.Delete(path);
+            }
+            finally
+            {
+                fileLock.ExitWriteLock();
             }
         }
 
