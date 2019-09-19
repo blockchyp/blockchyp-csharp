@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Security.Cryptography;
 using BlockChyp.Entities;
@@ -14,7 +14,8 @@ namespace BlockChyp.Client
 
         private const string OfflineFixedKey = "a519bbdedf0d8ce1ae2a8d41e247effbe2e85fa6211e8203cad92307c7a843f2";
 
-        private Dictionary<string, TerminalRouteResponse> routeCache = new Dictionary<string, TerminalRouteResponse>();
+        private ConcurrentDictionary<string, TerminalRouteResponse> routeCache =
+            new ConcurrentDictionary<string, TerminalRouteResponse>();
 
         /// <summary>Gets or sets the location of the persistent terminal route cache.</summary>
         /// <value>The location of the persistent terminal route cache.</value>
@@ -37,23 +38,18 @@ namespace BlockChyp.Client
         {
             var cacheKey = ToTerminalRouteKey(name, rootCredentials);
 
-            if (routeCache.ContainsKey(cacheKey))
+            if (routeCache.TryGetValue(cacheKey, out var route) && ValidRoute(route))
             {
-                var route = routeCache[cacheKey];
-                if (ValidRoute(route))
-                {
-                    return route;
-                }
+                return route;
             }
 
             if (OfflineEnabled)
             {
-                var route = GetOffline(cacheKey, rootCredentials);
-                if (ValidRoute(route))
+                var offlineRoute = GetOffline(cacheKey, rootCredentials);
+                if (ValidRoute(offlineRoute))
                 {
-                    routeCache[cacheKey] = route;
-
-                    return route;
+                    routeCache[cacheKey] = offlineRoute;
+                    return offlineRoute;
                 }
             }
 
