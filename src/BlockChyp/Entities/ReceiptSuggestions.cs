@@ -1,3 +1,4 @@
+using BlockChyp.Json;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -87,7 +88,8 @@ namespace BlockChyp.Entities
         /// the requested amount for partial auth.
         /// </summary>
         [JsonProperty(PropertyName = "authorizedAmount")]
-        public string AuthorizedAmount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal AuthorizedAmount { get; set; }
 
         /// <summary>
         /// The type of transaction performed (CHARGE, PREAUTH, REFUND, etc).
