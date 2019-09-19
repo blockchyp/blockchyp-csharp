@@ -1,3 +1,4 @@
+using BlockChyp.Json;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -14,6 +15,7 @@ namespace BlockChyp.Entities
         /// The amount of the discount.
         /// </summary>
         [JsonProperty(PropertyName = "amount")]
-        public string Amount { get; set; }
+        [JsonConverter(typeof(CurrencyJsonConverter))]
+        public decimal Amount { get; set; }
     }
 }
