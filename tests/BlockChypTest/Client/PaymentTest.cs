@@ -36,7 +36,7 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void PaymentTest_Charge()
+        public async void PaymentTest_SimpleCharge()
         {
             using (var tmpdir = new TempDir())
             {
@@ -56,7 +56,11 @@ namespace BlockChypTest.Client
                 var response = await blockchyp.ChargeAsync(request);
 
                 Assert.True(response.Approved);
-                Assert.True(File.Exists(expectedSignature));
+
+                if (!response.ReceiptSuggestions.PinVerified)
+                {
+                    Assert.True(File.Exists(expectedSignature));
+                }
             }
         }
 
