@@ -101,5 +101,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "entryMethod")]
         public string EntryMethod { get; set; }
+
+        /// <summary>
+        /// Whether or not PIN verification was performed.
+        /// </summary>
+        [JsonProperty(PropertyName = "pinVerified")]
+        public bool PinVerified { get; set; }
+
+        /// <summary>
+        /// The amount of cash back that was approved.
+        /// </summary>
+        [JsonProperty(PropertyName = "cashBackAmount")]
+        public string CashBackAmount { get; set; }
     }
 }
