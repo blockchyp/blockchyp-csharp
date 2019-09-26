@@ -483,6 +483,21 @@ var request = new AuthRequest
 };
 ```
 
+## EBT Transactions
+
+EBT charge, reversal and refund transactions are supported. In order to run
+EBT transactions, PIN codes must be enabled for the merchant.
+
+An example of an EBT charge might look like:
+
+```c#
+var request = new AuthRequest{
+    CardType=CardType.EBT,
+    Amount="1.00",
+    TerminalName="Test Terminal",
+};
+```
+
 ## Cloud Relay
 
 It's not always possible for terminals to live in the same network as the
