@@ -51,6 +51,7 @@ namespace BlockChypTest.Client
                     SignatureFormat=SignatureFormat.PNG,
                     SignatureWidth=200,
                     SignatureFile=expectedSignature,
+                    CashBackEnabled=true,
                 };
 
                 var response = await blockchyp.ChargeAsync(request);

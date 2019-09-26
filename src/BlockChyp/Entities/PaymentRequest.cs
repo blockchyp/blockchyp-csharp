@@ -90,6 +90,13 @@ namespace BlockChyp.Entities
         public bool ManualEntry { get; set; }
 
         /// <summary>
+        /// Whether or not the terminal should allow cash back selection
+        /// at PIN entry.
+        /// </summary>
+        [JsonProperty(PropertyName = "cashBackEnabled")]
+        public bool CashBackEnabled { get; set; }
+
+        /// <summary>
         /// The preferred signature image output format. Supports:
         /// PNG, JPEG (case insensitive).
         /// </summary>
