@@ -869,7 +869,7 @@ namespace BlockChyp.Client
 
         private Uri ToFullyQualifiedGatewayPath(string path, string query, bool test)
         {
-            var prefix = test ? GatewayEndpoint : GatewayTestEndpoint;
+            var prefix = test ? GatewayTestEndpoint : GatewayEndpoint;
 
             var builder = new UriBuilder(prefix);
             builder.Path = path;
