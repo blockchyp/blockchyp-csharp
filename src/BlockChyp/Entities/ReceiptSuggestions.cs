@@ -46,6 +46,12 @@ namespace BlockChyp.Entities
         public string Tsi { get; set; }
 
         /// <summary>
+        /// Terminal Verification Results (Tag 95) for an EMV transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "tvr")]
+        public string Tvr { get; set; }
+
+        /// <summary>
         /// The ID of the payment terminal.
         /// </summary>
         [JsonProperty(PropertyName = "terminalId")]
