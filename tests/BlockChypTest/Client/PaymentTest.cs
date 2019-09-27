@@ -2,12 +2,21 @@ using System;
 using System.IO;
 using BlockChyp.Client;
 using BlockChyp.Entities;
+using Newtonsoft.Json;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace BlockChypTest.Client
 {
     public class PaymentTest
     {
+        private readonly ITestOutputHelper output;
+
+        public PaymentTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void PaymentTest_BatchClose()
@@ -56,12 +65,36 @@ namespace BlockChypTest.Client
 
                 var response = await blockchyp.ChargeAsync(request);
 
+                output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
+
                 Assert.True(response.Approved);
 
                 if (!response.ReceiptSuggestions.PinVerified)
                 {
                     Assert.True(File.Exists(expectedSignature));
                 }
+            }
+        }
+
+        [Trait("Category", "Integration")]
+        [Fact]
+        public async void PaymentTest_Decline()
+        {
+            using (var tmpdir = new TempDir())
+            {
+                var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+
+                var request = new AuthRequest{
+                    Amount="201.00",
+                    Test=true,
+                    TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                };
+
+                var response = await blockchyp.ChargeAsync(request);
+
+                output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
+
+                Assert.False(response.Approved);
             }
         }
 
@@ -292,13 +325,17 @@ namespace BlockChypTest.Client
             blockchyp.RouteCache.OfflineEnabled = false;
 
             var chargeRequest = new AuthRequest{
-                Amount="55.55",
+                Amount="68.00",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 TransactionRef=Crypto.GenerateNonce(Crypto.NonceSizeBytes),
             };
 
-            Exception ex = Assert.Throws<TimeoutException>(() => blockchyp.Charge(chargeRequest));
+            Exception ex = Assert.Throws<TimeoutException>(() =>
+            {
+                var response = blockchyp.Charge(chargeRequest);
+                output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
+            });
 
             Assert.Equal("Gateway request timed out", ex.Message);
         }
@@ -309,13 +346,13 @@ namespace BlockChypTest.Client
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
 
-            // Time out instantly
+            // Time out by trigger amount
             blockchyp.GatewayRequestTimeout = TimeSpan.FromSeconds(30);
-            blockchyp.TerminalRequestTimeout = TimeSpan.FromSeconds(0);
+            blockchyp.TerminalRequestTimeout = TimeSpan.FromSeconds(5);
             blockchyp.RouteCache.OfflineEnabled = false;
 
             var chargeRequest = new AuthRequest{
-                Amount="55.55",
+                Amount="68.00",
                 Test=true,
                 TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 TransactionRef=Crypto.GenerateNonce(Crypto.NonceSizeBytes),
