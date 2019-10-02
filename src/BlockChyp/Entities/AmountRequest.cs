@@ -35,6 +35,16 @@ namespace BlockChyp.Entities
         public string CashBackAmount { get; set; }
 
         /// <summary>
+        /// The amount of the transaction that should be charged to an FSA
+        /// card. This amount may be less than the transaction total, in
+        /// which case only this amount will be charged if an FSA card is
+        /// presented. If the FSA amount is paid on an FSA card, then
+        /// <see cref="ApprovalResponseWithAmounts.FsaAuth"/> will be set.
+        /// </summary>
+        [JsonProperty(PropertyName = "fsaAmount")]
+        public string FsaAmount { get; set; }
+
+        /// <summary>
         /// Whether or not the request is tax exempt.
         /// Only required for tax exempt level 2 processing.
         /// </summary>

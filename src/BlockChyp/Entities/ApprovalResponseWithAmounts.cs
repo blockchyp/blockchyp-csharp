@@ -17,6 +17,13 @@ namespace BlockChyp.Entities
         public bool AltCurrency { get; set; }
 
         /// <summary>
+        /// Indicates whether or not an <see cref="AmountRequest.FsaAmount"/>
+        /// was paid by an FSA card.
+        /// </summary>
+        [JsonProperty(PropertyName = "fsaAuth")]
+        public bool FsaAuth { get; set; }
+
+        /// <summary>
         /// The currency code.
         /// </summary>
         [JsonProperty(PropertyName = "currencyCode")]
