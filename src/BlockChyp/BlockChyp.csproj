@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Description>BlockChyp is a .NET 4.5+ class library for accessing the BlockChyp Terminal and Gateway APIs.</Description>
     <Version>1.0.6</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Authors>BlockChyp</Authors>
     <Company>BlockChyp, Inc.</Company>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
@@ -38,5 +39,10 @@
 
   <PropertyGroup>
     <CodeAnalysisRuleSet>$(ProjectDir)StyleCop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../../tools/Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>
