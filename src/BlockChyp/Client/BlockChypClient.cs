@@ -606,6 +606,18 @@ namespace BlockChyp.Client
             {
                 throw new TimeoutException("Terminal request timed out", e);
             }
+            catch (HttpRequestException)
+            {
+                // Try renegotiating the route in case this failure was due to DHCP renegotiation.
+                // If the route has not changed, the request will not be retried, preventing
+                // infinite recursion.
+                if (await RefreshTerminalRoute(route).ConfigureAwait(false))
+                {
+                    return await TerminalRequestAsync<T>(method, path, name, body);
+                }
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -809,23 +821,69 @@ namespace BlockChyp.Client
                 return cachedRoute;
             }
 
-            var requestedRoute = await GatewayRequestAsync<TerminalRouteResponse>(
+            try
+            {
+                var route = await GetTerminalRouteFromGateway(name)
+                    .ConfigureAwait(false);
+
+                if (route != null)
+                {
+                    RouteCache.Put(route, Credentials);
+                }
+
+                return route;
+            }
+            catch
+            {
+                // Try to re-use expired route if one exists. This is for
+                // situations where the network has gone down, but requests
+                // can still be fulfilled by store & forward.
+                cachedRoute = RouteCache.Get(name, Credentials, true);
+                if (cachedRoute != null)
+                {
+                    return cachedRoute;
+                }
+
+                throw;
+            }
+        }
+
+        private async Task<bool> RefreshTerminalRoute(TerminalRouteResponse route)
+        {
+            try
+            {
+                var newRoute = await GetTerminalRouteFromGateway(route.TerminalName)
+                    .ConfigureAwait(false);
+
+                if (newRoute != null)
+                {
+                    RouteCache.Put(newRoute, Credentials);
+
+                    return route.IpAddress != newRoute.IpAddress;
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async Task<TerminalRouteResponse> GetTerminalRouteFromGateway(string name)
+        {
+            var route = await GatewayRequestAsync<TerminalRouteResponse>(
                 HttpMethod.Get, $"/api/terminal-route", null, $"terminal={name}", false)
                     .ConfigureAwait(false);
 
-            if (requestedRoute != null && requestedRoute.Success)
+            if (route != null && route.Success)
             {
-                requestedRoute.Timestamp = DateTime.UtcNow;
+                route.Timestamp = DateTime.UtcNow;
 
-                if (RouteCache.OfflineEnabled)
-                {
-                    RouteCache.Put(requestedRoute, Credentials);
-                }
-
-                return requestedRoute;
+                return route;
             }
 
-            return cachedRoute;
+            return null;
         }
 
         private Uri ToFullyQualifiedTerminalPath(TerminalRouteResponse route, string path)
