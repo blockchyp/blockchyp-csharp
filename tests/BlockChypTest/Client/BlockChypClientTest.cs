@@ -64,5 +64,28 @@ namespace BlockChypTest.Client
 
             Assert.True(result.Success);
         }
+
+        [Trait("Category", "Integration")]
+        [Fact]
+        public async void BlockChypClientTest_FallbackToExpiredRoute()
+        {
+            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+
+            blockchyp.RouteCache.TimeToLive = TimeSpan.FromSeconds(0);
+
+            var terminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName;
+            var request = new PingRequest{TerminalName=terminalName};
+
+            var result = await blockchyp.PingAsync(request);
+
+            Assert.True(result.Success);
+
+            // Simulate an offline situation
+            blockchyp.GatewayEndpoint = "https://not-a-real-domain";
+
+            result = await blockchyp.PingAsync(request);
+
+            Assert.True(result.Success);
+        }
     }
 }

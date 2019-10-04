@@ -809,20 +809,36 @@ namespace BlockChyp.Client
                 return cachedRoute;
             }
 
-            var requestedRoute = await GatewayRequestAsync<TerminalRouteResponse>(
-                HttpMethod.Get, $"/api/terminal-route", null, $"terminal={name}", false)
-                    .ConfigureAwait(false);
-
-            if (requestedRoute != null && requestedRoute.Success)
+            try
             {
-                requestedRoute.Timestamp = DateTime.UtcNow;
+                var requestedRoute = await GatewayRequestAsync<TerminalRouteResponse>(
+                    HttpMethod.Get, $"/api/terminal-route", null, $"terminal={name}", false)
+                        .ConfigureAwait(false);
 
-                if (RouteCache.OfflineEnabled)
+                if (requestedRoute != null && requestedRoute.Success)
                 {
-                    RouteCache.Put(requestedRoute, Credentials);
+                    requestedRoute.Timestamp = DateTime.UtcNow;
+
+                    if (RouteCache.OfflineEnabled)
+                    {
+                        RouteCache.Put(requestedRoute, Credentials);
+                    }
+
+                    return requestedRoute;
+                }
+            }
+            catch
+            {
+                // Try to re-use expired route if one exists. This is for
+                // situations where the network has gone down, but requests
+                // can still be fulfilled by store & forward.
+                cachedRoute = RouteCache.Get(name, Credentials, true);
+                if (cachedRoute != null)
+                {
+                    return cachedRoute;
                 }
 
-                return requestedRoute;
+                throw;
             }
 
             return cachedRoute;
