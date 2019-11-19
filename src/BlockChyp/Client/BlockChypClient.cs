@@ -365,6 +365,37 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Initiates a balance check as an asynchronous operation.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<BalanceResponse> BalanceAsync(AuthRequest request)
+        {
+            BalanceResponse response;
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                response = await TerminalRequestAsync<BalanceResponse>(HttpMethod.Post, "/api/balance", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response = await GatewayRequestAsync<BalanceResponse>(HttpMethod.Post, "/api/balance", request, null, request.Test)
+                    .ConfigureAwait(false);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="BalanceAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public BalanceResponse Balance(AuthRequest request)
+        {
+            return BalanceAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
         /// Executes a manual batch close. as an asynchronous operation By default,
         /// the BlockChyp gateway will close batches at 3 AM in the merchant's local
         /// time zone. You can turn this off and run batches manually if you want.

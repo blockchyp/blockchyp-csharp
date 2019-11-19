@@ -172,6 +172,28 @@ namespace BlockChypTest.Client
 
         [Trait("Category", "Integration")]
         [Fact]
+        public async void PaymentTest_EbtBalance()
+        {
+            using (var tmpdir = new TempDir())
+            {
+                var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+
+                var request = new AuthRequest{
+                    Test=true,
+                    TerminalName=IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                    CardType=CardType.EBT,
+                };
+
+                var response = await blockchyp.BalanceAsync(request);
+
+                output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
+
+                Assert.True(response.Success);
+            }
+        }
+
+        [Trait("Category", "Integration")]
+        [Fact]
         public async void PaymentTest_ManualCharge()
         {
             var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
