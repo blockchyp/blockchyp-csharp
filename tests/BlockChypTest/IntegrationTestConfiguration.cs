@@ -56,7 +56,7 @@ namespace BlockChypTest
             internal static readonly IntegrationTestConfiguration instance = new IntegrationTestConfiguration();
         }
 
-        public const string ConfigFile = "sdk-itest-config.json";
-        public const string ConfigDir = "sdk-itest";
+        public const string ConfigFile = "blockchyp.json";
+        public const string ConfigDir = "blockchyp";
     }
 }

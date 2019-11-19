@@ -4,10 +4,10 @@ namespace BlockChypTest
 {
     public class IntegrationTestSettings
     {
-        [JsonProperty("gatewayHost")]
+        [JsonProperty("gateway")]
         public string GatewayUrl { get; set; }
 
-        [JsonProperty("testGatewayHost")]
+        [JsonProperty("testGateway")]
         public string GatewayTestUrl { get; set; }
 
         [JsonProperty("defaultTerminalName")]
