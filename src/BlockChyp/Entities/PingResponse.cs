@@ -1,13 +1,36 @@
-using System;
+/**
+ * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
+ * license that can be found in the LICENSE file.
+ *
+ * This file was generated automatically. Changes to this file will be lost every time the
+ * code is regenerated.
+ */
+
+
+
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
 {
-    public class CoreResponse
+    /// <summary>
+    /// The response to a ping request.
+    /// </summary>
+    public class PingResponse
     {
         /// <summary>
-        /// Contains extra details about the transaction in the event that
-        /// it is not approved.
+        /// Whether or not the request succeeded.
+        /// </summary>
+        [JsonProperty(PropertyName = "success")]
+        public bool Success { get; set; }
+
+        /// <summary>
+        /// The error, if an error occurred.
+        /// </summary>
+        [JsonProperty(PropertyName = "error")]
+        public string Error { get; set; }
+
+        /// <summary>
+        /// A narrative description of the transaction result.
         /// </summary>
         [JsonProperty(PropertyName = "responseDescription")]
         public string ResponseDescription { get; set; }
@@ -25,9 +48,9 @@ namespace BlockChyp.Entities
         public string BatchId { get; set; }
 
         /// <summary>
-        /// The transaction reference string assigned to the transaction
-        /// request. If no transaction ref was assiged on the request,
-        /// then the gateway will randomly generate one.
+        /// The transaction reference string assigned to the transaction request. If no
+        /// transaction ref was assiged on the request, then the gateway will randomly
+        /// generate one.
         /// </summary>
         [JsonProperty(PropertyName = "transactionRef")]
         public string TransactionRef { get; set; }
@@ -39,10 +62,10 @@ namespace BlockChyp.Entities
         public string TransactionType { get; set; }
 
         /// <summary>
-        /// The timestamp of the transaction in RFC 3339 format.
+        /// The timestamp of the transaction.
         /// </summary>
         [JsonProperty(PropertyName = "timestamp")]
-        public DateTime? Timestamp { get; set; }
+        public string Timestamp { get; set; }
 
         /// <summary>
         /// The hash of the last tick block.
@@ -51,16 +74,16 @@ namespace BlockChyp.Entities
         public string TickBlock { get; set; }
 
         /// <summary>
-        /// Whether or not the transaction was processed on the test gateway.
+        /// That the transaction was processed on the test gateway.
         /// </summary>
         [JsonProperty(PropertyName = "test")]
         public bool Test { get; set; }
 
         /// <summary>
-        /// The ECC signature of the response. Can be used to ensure that it
-        /// was signed by the terminal and detect man-in-the middle attacks.
+        /// The ECC signature of the response. Can be used to ensure that it was signed by the
+        /// terminal and detect man-in-the middle attacks.
         /// </summary>
         [JsonProperty(PropertyName = "sig")]
-        public string Signature { get; set; }
+        public string Sig { get; set; }
     }
 }

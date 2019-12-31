@@ -29,9 +29,7 @@ Install-Package BlockChyp
 
 For complete API documentation, check out the [BlockChyp Documentation][blockchyp-docs].
 
-## Examples
-
-### Basic Usage
+## Basic Usage
 
 You can provision a BlockChyp API client with a set of API credentials.
 
@@ -47,497 +45,535 @@ var blockchyp = new BlockChypClient(credentials);
 The BlockChyp client should be kept and re-used for subsequent requests.
 Terminal routes and HTTP connection pools are cached between requests.
 
-### Charge
+## Getting a Developer Kit
 
-This transaction is the basic authorize and capture transaction.
+In order to test your integration with real terminals, you'll need a BlockChyp
+Developer Kit.  Our kits include a fully functioning payment terminal with
+test pin encryption keys.  Every kit includes a comprehensive set of test
+cards with test cards for every major card brand and entry method, including
+Contactless and Contact EMV and mag stripe cards.  Each kit also includes
+test gift cards for our blockchain gift card system.
+
+Access to BlockChyp's developer program is currently invite only, but you
+can request an invitation by contacting our engineering team at **nerds@blockchyp.com**.
+
+You can also view a number of long form demos and learn more about us on our [YouTube Channel](https://www.youtube.com/channel/UCE-iIVlJic_XArs_U65ZcJg).
+
+## Transaction Code Examples
+
+You don't want to read words. You want examples. Here's a quick rundown of the
+stuff you can do with the BlockChyp C# SDK and a few basic examples.
+#### Charge
+
+Executes a standard direct preauth and capture.
 
 ```c#
-var request = new AuthRequest
+// Populate request parameters.
+AuthorizationRequest request = new AuthorizationRequest
 {
+    Test = true,
     TerminalName = "Test Terminal",
-    Amount = "55.55",
-    TransactionRef = "your invoice or tender id",
-};
-
-AuthResponse response = await blockchyp.ChargeAsync(request);
-
-if (response.Approved)
-{
-    Console.WriteLine("Approved!");
-}
-```
-
-### Preauth
-
-This transaction preauthorizes a payment.
-
-```c#
-var request = new AuthRequest
-{
-    TerminalName = "Test Terminal",
-    Amount = "50.00",
-    TransactionRef = "your invoice or tender id",
-};
-
-AuthResponse response = await blockchyp.PreauthAsync(request);
-
-if (response.Approved)
-{
-    Console.WriteLine("Approved!");
-}
-```
-
-### Capture
-
-This one captures a preauth. Can be for a different amount than the
-original authorization, optionally with a tip adjustment.
-
-```c#
-var request = new CaptureRequest
-{
-    TransactionId = preauthResponse.TransactionId,
-    TipAmount = "5.00",
     Amount = "55.00",
 };
 
-CaptureResponse response = await blockchyp.CaptureAsync(request);
+// Run the transaction.
+AuthorizationResponse response = await blockchyp.ChargeAsync(request);
 
+// View the result.
 if (response.Approved)
 {
-    Console.WriteLine("Approved!");
+    Console.WriteLine("Approved");
 }
+
+Console.WriteLine(response.AuthCode)
+Console.WriteLine(response.AuthorizedAmount)
+
 ```
+#### Preauthorization
 
-### Enroll
-
-This captures a payment method on the terminal and then enrolls it in the
-token vault. You can then use the token for recurring payments.
+Executes a preauthorization intended to be captured later.
 
 ```c#
-var request = new AuthRequest
+// Populate request parameters.
+AuthorizationRequest request = new AuthorizationRequest
+{
+    Test = true,
+    TerminalName = "Test Terminal",
+    Amount = "27.00",
+};
+
+// Run the transaction.
+AuthorizationResponse response = await blockchyp.PreauthAsync(request);
+
+// View the result.
+if (response.Approved)
+{
+    Console.WriteLine("Approved");
+}
+
+Console.WriteLine(response.AuthCode)
+Console.WriteLine(response.AuthorizedAmount)
+
+```
+#### Terminal Ping
+
+Tests connectivity with a payment terminal.
+
+```c#
+// Populate request parameters.
+PingRequest request = new PingRequest
 {
     TerminalName = "Test Terminal",
-    TransactionRef = "your invoice or tender id",
 };
 
-AuthResponse response = await blockchyp.EnrollAsync(request);
+// Run the transaction.
+PingResponse response = await blockchyp.PingAsync(request);
 
-if (response.Approved)
+// View the result.
+if (response.Success)
 {
-    Console.WriteLine("Approved!");
+    Console.WriteLine("Success");
 }
 
-string token = response.Token; // This is your re-usable token!
+
 ```
+#### Balance
 
-### Refunds (The right way)
-
-If you need to execute a refund, the best way is to do so using the
-transaction id from the transaction you're refunding. This lowers the surface
-area for fraud and makes refunds easily traceable to the original purchase.
+Checks the remaining balance on a payment method.
 
 ```c#
-var request = new RefundRequest
+// Populate request parameters.
+BalanceRequest request = new BalanceRequest
 {
-    TransactionId = previousTransaction.TransactionId,
-    Amount = "25.00", // Could be less than the original transaction if it's a partial refund
-};
-
-AuthResponse response = await blockchyp.RefundAsync(request);
-
-if (response.Approved)
-{
-    Console.WriteLine("Approved!");
-}
-```
-
-### Refunds (The wrong way)
-
-If you absolutely must do a refund without referencing the previous
-transaction here's how you do it. But please don't.
-
-```c#
-var request = new RefundRequest
-{
+    Test = true,
     TerminalName = "Test Terminal",
-    TransactionId = previousTransaction.TransactionId,
-    Amount = "55.00",
+    CardType = CardType.EBT,
 };
 
-AuthResponse response = await blockchyp.RefundAsync(request);
+// Run the transaction.
+BalanceResponse response = await blockchyp.BalanceAsync(request);
 
-if (response.Approved)
+// View the result.
+if (response.Success)
 {
-    Console.WriteLine("Approved!");
+    Console.WriteLine("Success");
 }
+
+
 ```
+#### Terminal Clear
 
-### Void
-
-You can void a transaction anytime before the batch closes. Here's an example.
+Clears the line item display and any in progress transaction.
 
 ```c#
-var request = new VoidRequest
+// Populate request parameters.
+ClearTerminalRequest request = new ClearTerminalRequest
 {
-    TransactionId = previousTransaction.TransactionId,
-};
-
-VoidResponse response = await blockchyp.VoidAsync(request);
-
-if (response.Approved)
-{
-    Console.WriteLine("Approved!");
-}
-```
-
-### Time Out Reversal
-
-We love time out reversals. Don't be afraid to use them whenever a request to
-a BlockChyp terminal times out. You have up to two minutes to reverse any
-transaction. The only caveat is that you must assign transactionRef values
-when you build the original request. Otherwise, we have no real way of
-knowing which transaction you're trying to reverse because we may not have
-assigned it an id yet. And if we did assign it an id, you wouldn't know
-what it is because your request to the terminal timed out before you got a
-response.
-
-```c#
-var request = new AuthRequest
-{
+    Test = true,
     TerminalName = "Test Terminal",
-    TransactionRef = "your invoice or tender id",
-    Amount = "50.00",
 };
 
-try
-{
-    AuthResponse response = await blockchyp.ChargeAsync(request);
+// Run the transaction.
+Acknowledgement response = await blockchyp.ClearAsync(request);
 
-    if (response.Approved)
-    {
-        Console.WriteLine("Approved!");
-    }
-}
-catch (TimeoutException)
-{
-    AuthResponse reverseResponse = await blockchyp.ReverseAsync(request);
-
-    if (reverseResponse.Approved)
-    {
-        // The transaction was authorized, but the response never
-        // came back for some reason. It has now been reversed.
-    }
-    else
-    {
-        // We never actually got the transaction, but that's ok.
-        // Reversals are idempotent. When in doubt, send a reversal.
-    }
-}
-
-```
-
-### Batch Close
-
-By default, batches always close at 3 AM in the merchant's local time zone.
-You can adjust this in the dashboard or turn off automatic batching, in which
-case, you'll need this code snippet to close out a batch programmatically.
-
-```c#
-var request = new CloseBatchRequest();
-
-CloseBatchResponse response = await blockchyp.CloseBatchAsync(request);
-
+// View the result.
 if (response.Success)
 {
-    Console.WriteLine("Batch closed!");
-    Console.WriteLine($"Captured total: {response.CapturedTotal}");
-    Console.WriteLine($"Uncaptured transaction volume: {response.OpenPreauths}");
+    Console.WriteLine("Success");
 }
+
+
 ```
+#### Terms & Conditions Capture
 
-### Heartbeat
-
-This method is used primarily to test connectivity with the gateway.
-But it also returns a timestamp and some blockchain stuff you might find
-interesting.  Pro Tip: If merchantPk is non null in the response, your
-credentials are valid.
+Prompts the user to accept terms and conditions.
 
 ```c#
-var response = await blockchyp.HeartbeatAsync(false);
-
-if (response.Success)
+// Populate request parameters.
+TermsAndConditionsRequest request = new TermsAndConditionsRequest
 {
-    Console.WriteLine("Gateway is up");
-}
-
-if (!String.IsNullOrEmpty(response.MerchantPublicKey))
-{
-    Console.WriteLine("Authentication is valid");
-}
-```
-
-### Ping
-
-This gives you the ability to test if communication with a terminal
-is possible.
-
-```c#
-var request = new PingRequest
-{
-    TerminalName = "Test Terminal"
+    Test = true,
+    TerminalName = "Test Terminal",
+    TcAlias = "hippa",
+    TcName = "HIPPA Disclosure",
+    TcContent = "Full contract text",
+    SigFormat = SignatureFormat.PNG,
+    SigWidth = 200,
+    SigRequired = true,
 };
 
-var response = await blockchyp.PingAsync(request);
+// Run the transaction.
+TermsAndConditionsResponse response = await blockchyp.TermsAndConditionsAsync(request);
 
+// View the result.
 if (response.Success)
 {
-    Console.WriteLine("Terminal is online");
+    Console.WriteLine("Success");
 }
+
+Console.WriteLine(response.Sig)
+Console.WriteLine(response.SigFile)
+
 ```
+#### Update Transaction Display
 
-### Terminal Line Item Display
-
-This fun option gives you the ability to display line items and totals
-on the terminals as orders are scanned or entered. Use liberally.
+Appends items to an existing transaction display Subtotal, Tax, and Total are
+overwritten by the request. Items with the same description are combined into
+groups.
 
 ```c#
-var request = new TransactionDisplayRequest
+// Populate request parameters.
+TransactionDisplayRequest request = new TransactionDisplayRequest
 {
+    Test = true,
     TerminalName = "Test Terminal",
     Transaction = new TransactionDisplayTransaction
     {
-        Subtotal = "1.00",
-        Tax = "0.30",
-        Total = "1.30",
+        Subtotal = "60.00",
+        Tax = "5.00",
+        Total = "65.00",
         Items = new List<TransactionDisplayItem>
         {
             new TransactionDisplayItem
             {
-                Description = "Grid Square",
-                Price = "1.50",
-                Quantity = 1,
+                Description = "Leki Trekking Poles",
+                Price = "35.00",
+                Quantity = 2,
+                Extended = "70.00",
                 Discounts = new List<TransactionDisplayDiscount>
                 {
                     new TransactionDisplayDiscount
                     {
-                        Amount = "0.50",
-                        Description = "Member Discount",
-                    },
+                        Description = "memberDiscount",
+                        Amount = "10.00",
+                    }
                 },
-            },
+            }
         },
     },
 };
 
-var response = await blockchyp.NewTransactionDisplayAsync(request);
+// Run the transaction.
+Acknowledgement response = await blockchyp.UpdateTransactionDisplayAsync(request);
 
-// Update the original request
-request = new TransactionDisplayRequest
+// View the result.
+if (response.Success)
 {
+    Console.WriteLine("Succeded");
+}
+
+
+```
+#### New Transaction Display
+
+Displays a new transaction on the terminal.
+
+```c#
+// Populate request parameters.
+TransactionDisplayRequest request = new TransactionDisplayRequest
+{
+    Test = true,
     TerminalName = "Test Terminal",
     Transaction = new TransactionDisplayTransaction
     {
-        Subtotal = "2.50",
-        Tax = "0.70",
-        Total = "3.20",
+        Subtotal = "60.00",
+        Tax = "5.00",
+        Total = "65.00",
         Items = new List<TransactionDisplayItem>
         {
             new TransactionDisplayItem
             {
-                Description = "Headlight Fluid",
-                Price = "0.50",
+                Description = "Leki Trekking Poles",
+                Price = "35.00",
                 Quantity = 2,
-            },
-        }
+                Extended = "70.00",
+                Discounts = new List<TransactionDisplayDiscount>
+                {
+                    new TransactionDisplayDiscount
+                    {
+                        Description = "memberDiscount",
+                        Amount = "10.00",
+                    }
+                },
+            }
+        },
     },
 };
 
-response = await blockchyp.UpdateTransactionDisplayAsync(request);
-```
+// Run the transaction.
+Acknowledgement response = await blockchyp.NewTransactionDisplayAsync(request);
 
-### Terminal Message
-
-This one displays a message on the terminal. These might be little thank
-you's or some kind of promotional message. The message is displayed for
-thirty seconds before the terminal is placed in the idle state.
-
-```c#
-var request = new MessageRequest
-{
-    TerminalName = "Test Terminal",
-    Message = "Something derogatory about Verifone.",
-};
-
-var response = await blockchyp.MessageAsync(request);
-
+// View the result.
 if (response.Success)
 {
-    Console.WriteLine("The truth is now out there.");
+    Console.WriteLine("Succeded");
 }
+
+
 ```
+#### Text Prompt
 
-### Terminal Yes/No Prompt
-
-This one lets you ask the user yes or no questions. You might do this for
-suggestive selling or if the POS is feeling lonely.
+Asks the consumer text based question.
 
 ```c#
-var request = new BooleanPromptRequest
+// Populate request parameters.
+TextPromptRequest request = new TextPromptRequest
 {
-    TerminalName = "Test Terminal",
-    Prompt = "True or False: Everything I say is a lie",
-    YesCaption = "True",
-    NoCaption = "False",
-};
-
-var response = await blockchyp.BooleanPromptAsync(request);
-
-if (response.Response)
-{
-    Console.WriteLine("Correct!");
-}
-```
-
-### Terminal Text Prompt
-
-This option allows you to prompt the user for text or numeric data.
-You can use this to capture email addresses, phone numbers,
-customer numbers, and rewards numbers.
-
-Unlike boolean prompts, which support freeform prompt text, PCI rules restrict
-free form prompts when text can be entered because you might prompt the user
-for card numbers or pin codes - and that would be bad.
-
-```c#
-var request = new TextPromptRequest
-{
+    Test = true,
     TerminalName = "Test Terminal",
     PromptType = PromptType.Email,
 };
 
-var response = await blockchyp.TextPromptAsync(request);
+// Run the transaction.
+TextPromptResponse response = await blockchyp.TextPromptAsync(request);
 
+// View the result.
 if (response.Success)
 {
-    Console.WriteLine($"User entered: {response.Response}");
+    Console.WriteLine("Success");
 }
+
+Console.WriteLine(response.Response)
+
 ```
+#### Boolean Prompt
 
-### Clearing The Terminal
-
-This example shows you how to clear and reset the terminal.
-Any in progress line item display, prompt, or transaction will be cancelled.
+Asks the consumer a yes/no question.
 
 ```c#
-var request = new ClearRequest
+// Populate request parameters.
+BooleanPromptRequest request = new BooleanPromptRequest
 {
+    Test = true,
+    TerminalName = "Test Terminal",
+    Prompt = "Would you like to become a member?",
+    YesCaption = "Yes",
+    NoCaption = "No",
+};
+
+// Run the transaction.
+BooleanPromptResponse response = await blockchyp.BooleanPromptAsync(request);
+
+// View the result.
+if (response.Success)
+{
+    Console.WriteLine("Success");
+}
+
+Console.WriteLine(response.Response)
+
+```
+#### Display Message
+
+Displays a short message on the terminal.
+
+```c#
+// Populate request parameters.
+MessageRequest request = new MessageRequest
+{
+    Test = true,
+    TerminalName = "Test Terminal",
+    Message = "Thank you for your business.",
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.MessageAsync(request);
+
+// View the result.
+if (response.Success)
+{
+    Console.WriteLine("Success");
+}
+
+
+```
+#### Refund
+
+Executes a refund.
+
+```c#
+// Populate request parameters.
+RefundRequest request = new RefundRequest
+{
+    TerminalName = "Test Terminal",
+    TransactionId = "<PREVIOUS TRANSACTION ID>",
+    Amount = "5.00",
+};
+
+// Run the transaction.
+AuthorizationResponse response = await blockchyp.RefundAsync(request);
+
+// View the result.
+if (response.Approved)
+{
+    Console.WriteLine("Approved");
+}
+
+
+```
+#### Enroll
+
+Adds a new payment method to the token vault.
+
+```c#
+// Populate request parameters.
+EnrollRequest request = new EnrollRequest
+{
+    Test = true,
     TerminalName = "Test Terminal",
 };
 
-var response = await blockchyp.ClearAsync(request);
+// Run the transaction.
+EnrollResponse response = await blockchyp.EnrollAsync(request);
 
-if (response.Success)
+// View the result.
+if (response.Approved)
 {
-    Console.WriteLine("Terminal was cleared");
+    Console.WriteLine("Approved");
 }
+
+Console.WriteLine(response.Token)
+
 ```
+#### Gift Card Activation
 
-## The Test Flag
-
-During development, you'll want to send requests to the test API. You can
-do this by setting the test flag in any payment request.
+Activates or recharges a gift card.
 
 ```c#
-var request = new AuthRequest
+// Populate request parameters.
+GiftActivateRequest request = new GiftActivateRequest
 {
     Test = true,
+    TerminalName = "Test Terminal",
+    Amount = "50.00",
+};
+
+// Run the transaction.
+GiftActivateResponse response = await blockchyp.GiftActivateAsync(request);
+
+// View the result.
+if (response.Approved)
+{
+    Console.WriteLine("Approved");
 }
+
+Console.WriteLine(response.Amount)
+Console.WriteLine(response.CurrentBalance)
+Console.WriteLine(response.PublicKey)
+
 ```
+#### Time Out Reversal
 
-## Signature Capture
+Executes a manual time out reversal.
 
-If the payment terminal prompts the user for an on-screen signature, BlockChyp
-uploads the signature image to our web scale database for archival.
-
-By default, the signature is not returned. You do have the option of getting
-the image back in PNG or JPEG format, either as hex or written to file.
+We love time out reversals. Don't be afraid to use them whenever a request to a
+BlockChyp terminal times out. You have up to two minutes to reverse any
+transaction. The only caveat is that you must assign transactionRef values when
+you build the original request. Otherwise, we have no real way of knowing which
+transaction you're trying to reverse because we may not have assigned it an id
+yet. And if we did assign it an id, you wouldn't know what it is because your
+request to the terminal timed out before you got a response.
 
 ```c#
-var request = new AuthRequest
+// Populate request parameters.
+AuthorizationRequest request = new AuthorizationRequest
 {
-    SignatureFormat = SignatureFormat.PNG,
-    SignatureWidth = 200,
-    SignatureFile = "signature.png", // The signature will be written out to this file
+    TerminalName = "Test Terminal",
+    TransactionRef = "<LAST TRANSACTION REF>",
 };
-```
 
-## Keyed Entry mode
+// Run the transaction.
+AuthorizationResponse response = await blockchyp.ReverseAsync(request);
 
-If you need the consumer to enter a card number by hand, set the manual entry
-flag on an authorization request.
-
-```c#
-var request = new AuthRequest
+// View the result.
+if (response.Approved)
 {
-    ManualEntry = true,
+    Console.WriteLine("Approved");
+}
+
+
+```
+#### Capture Preauthorization
+
+Captures a preauthorization.
+
+```c#
+// Populate request parameters.
+CaptureRequest request = new CaptureRequest
+{
+    Test = true,
+    TransactionId = "<PREAUTH TRANSACTION ID>",
 };
+
+// Run the transaction.
+CaptureResponse response = await blockchyp.CaptureAsync(request);
+
+// View the result.
+if (response.Approved)
+{
+    Console.WriteLine("Approved");
+}
+
+
 ```
+#### Close Batch
 
-## EBT Transactions
-
-EBT charge, reversal and refund transactions are supported. In order to run
-EBT transactions, PIN codes must be enabled for the merchant.
-
-An example of an EBT charge might look like:
+Closes the current credit card batch.
 
 ```c#
-var request = new AuthRequest{
-    CardType=CardType.EBT,
-    Amount="1.00",
-    TerminalName="Test Terminal",
+// Populate request parameters.
+CloseBatchRequest request = new CloseBatchRequest
+{
+    Test = true,
 };
+
+// Run the transaction.
+CloseBatchResponse response = await blockchyp.CloseBatchAsync(request);
+
+// View the result.
+if (response.Success)
+{
+    Console.WriteLine("Success");
+}
+
+Console.WriteLine(response.CapturedTotal)
+Console.WriteLine(response.OpenPreauths)
+
 ```
+#### Void Transaction
 
-## Cloud Relay
-
-It's not always possible for terminals to live in the same network as the
-application they're integrated with. For example, cloud or SaaS based
-applications may not have access to the in store network. To address this,
-terminals can be configured for cloud relay when they're activated.
-
-When a terminal is configured for cloud relay, the SDK will send
-transactions to the Gateway and the Gateway will relay them back to the
-terminal. This is a bit slower since requests have to make a round trip out
-to the gateway. But more importantly, offline or store and forward
-processing is not available to applications using cloud relay.
-
-It's an option, but only use it if you really need it.
-
-## Sync/Async
-
-All methods include a synchronous and an asynchronous form. You should prefer
-the asynchronous methods where possible.
-
-## Terminal Route Caching
-
-In the default configuration, terminal routes are resolved once per hour.
-For all requests within that hour period, requests are routed via the
-cached route. This default behavior should work for most cases. You can
-override this behavior by setting a custom cache timeout:
+Discards a previous preauth transaction.
 
 ```c#
-blockchyp.RouteCache.TimeToLive = TimeSpan.FromMinutes(30);
+// Populate request parameters.
+VoidRequest request = new VoidRequest
+{
+    Test = true,
+    TransactionId = "<PREVIOUS TRANSACTION ID>",
+};
+
+// Run the transaction.
+VoidResponse response = await blockchyp.VoidAsync(request);
+
+// View the result.
+if (response.Approved)
+{
+    Console.WriteLine("Approved");
+}
+
+
 ```
+## Contributions
 
-Routes are cached to disk by default. You can disable this and maintain the
-cache in memory only as follows:
+BlockChyp welcomes contributions from the open source community, but bear in mind
+that this repository has been generated by our internal SDK Generator tool.  If
+we choose to accept a PR or contribution, your code will be moved into our SDK
+Generator project, which is a private repository.
 
-```c#
-blockchyp.RouteCache.OfflineEnabled = false;
-```
+## License
 
-[blockchyp-docs]: https://docs.blockchyp.com
-[blockchyp]: https://www.blockchyp.com
-[dotnet-cli]: https://docs.microsoft.com/en-us/dotnet/core/tools/
-[nuget-cli]: https://docs.microsoft.com/en-us/nuget/tools/nuget-exe-cli-reference
-[package-manager-console]: https://docs.microsoft.com/en-us/nuget/tools/package-manager-console
+Copyright BlockChyp, Inc., 2019
+
+Distributed under the terms of the [MIT] license, blockchyp-csharp is free and open source software.
+
+[MIT]: https://github.com/blockchyp/blockchyp-csharp/blob/master/LICENSE

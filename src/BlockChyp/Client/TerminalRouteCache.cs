@@ -39,9 +39,21 @@ namespace BlockChyp.Client
         /// <param name="rootCredentials">The root credentials used to establish the route.</param>
         public TerminalRouteResponse Get(string name, ApiCredentials rootCredentials)
         {
+            return Get(name, rootCredentials, false);
+        }
+
+        /// <summary>
+        /// Check the cache for a terminal route for the given root credentials,
+        /// with the option to ignore TTL.
+        /// </summary>
+        /// <param name="name">The name of the terminal.</param>
+        /// <param name="rootCredentials">The root credentials used to establish the route.</param>
+        /// <param name="includeExpired">Whether or not to include expired routes.</param>
+        public TerminalRouteResponse Get(string name, ApiCredentials rootCredentials, bool includeExpired)
+        {
             var cacheKey = ToTerminalRouteKey(name, rootCredentials);
 
-            if (routeCache.TryGetValue(cacheKey, out var route) && ValidRoute(route))
+            if (routeCache.TryGetValue(cacheKey, out var route) && ValidRoute(route, includeExpired))
             {
                 return route;
             }
@@ -49,7 +61,7 @@ namespace BlockChyp.Client
             if (OfflineEnabled)
             {
                 var offlineRoute = GetOffline(cacheKey, rootCredentials);
-                if (ValidRoute(offlineRoute))
+                if (ValidRoute(offlineRoute, includeExpired))
                 {
                     routeCache[cacheKey] = offlineRoute;
                     return offlineRoute;
@@ -84,9 +96,18 @@ namespace BlockChyp.Client
 
         private bool ValidRoute(TerminalRouteResponse route)
         {
-            return route != null
-                && route.Success
-                && route.Timestamp.GetValueOrDefault(new DateTime(0)).Add(TimeToLive) > DateTime.UtcNow;
+            return ValidRoute(route, false);
+        }
+
+        private bool ValidRoute(TerminalRouteResponse route, bool includeExpired)
+        {
+            if (route == null || !route.Success)
+            {
+                return false;
+            }
+
+            return includeExpired ||
+                route.Timestamp.GetValueOrDefault(new DateTime(0)).Add(TimeToLive) > DateTime.UtcNow;
         }
 
         private string ToTerminalRouteKey(string name, ApiCredentials rootCredentials)

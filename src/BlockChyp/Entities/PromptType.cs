@@ -7,6 +7,10 @@ namespace BlockChyp.Entities
     [JsonConverter(typeof(StringEnumConverter))]
     public enum PromptType
     {
+        /// <summary>Prompt for a monetary amount.</summary>
+        [EnumMember(Value = "amount")]
+        Amount,
+
         /// <summary>Prompt for email address.</summary>
         [EnumMember(Value = "email")]
         Email,

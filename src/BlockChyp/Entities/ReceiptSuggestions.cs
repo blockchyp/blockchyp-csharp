@@ -1,55 +1,63 @@
+/**
+ * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
+ * license that can be found in the LICENSE file.
+ *
+ * This file was generated automatically. Changes to this file will be lost every time the
+ * code is regenerated.
+ */
+
+
+
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
 {
+    /// <summary>
+    /// EMV fields we recommend developers put on their receipts.
+    /// </summary>
     public class ReceiptSuggestions
     {
         /// <summary>
-        /// EMV application identifier.
+        /// The EMV Application Identifier.
         /// </summary>
         [JsonProperty(PropertyName = "aid")]
         public string Aid { get; set; }
 
         /// <summary>
-        /// The application request cryptogram. This is a digital signature
-        /// typically used for offline authorization.
+        /// The EMV Application Request Cryptogram.
         /// </summary>
         [JsonProperty(PropertyName = "arqc")]
         public string Arqc { get; set; }
 
         /// <summary>
-        /// EMV issuer application data. This is a proprietary data field sent
-        /// by the card issuer.
+        /// The EMV Issuer Application Data.
         /// </summary>
         [JsonProperty(PropertyName = "iad")]
         public string Iad { get; set; }
 
         /// <summary>
-        /// EMV authorization response code (Tag 8A).
+        /// The EMV Authorization Response Code.
         /// </summary>
         [JsonProperty(PropertyName = "arc")]
         public string Arc { get; set; }
 
         /// <summary>
-        /// EMV transaction certificate. Another kind of digital signature
-        /// used for offline authorization.
+        /// The EMV Transaction Certificate.
         /// </summary>
         [JsonProperty(PropertyName = "tc")]
         public string Tc { get; set; }
 
         /// <summary>
-        /// EMV transaction status information (Tag 9B). A bit field indicating
-        /// what type of risk management checks the terminal performed
-        /// during the transaction.
-        /// </summary>
-        [JsonProperty(PropertyName = "tsi")]
-        public string Tsi { get; set; }
-
-        /// <summary>
-        /// Terminal Verification Results (Tag 95) for an EMV transaction.
+        /// The EMV Terminal Verification Response.
         /// </summary>
         [JsonProperty(PropertyName = "tvr")]
         public string Tvr { get; set; }
+
+        /// <summary>
+        /// The EMV Transaction Status Indicator.
+        /// </summary>
+        [JsonProperty(PropertyName = "tsi")]
+        public string Tsi { get; set; }
 
         /// <summary>
         /// The ID of the payment terminal.
@@ -64,33 +72,38 @@ namespace BlockChyp.Entities
         public string MerchantName { get; set; }
 
         /// <summary>
+        /// The ID of the merchant.
+        /// </summary>
+        [JsonProperty(PropertyName = "merchantId")]
+        public string MerchantId { get; set; }
+
+        /// <summary>
         /// The partially masked merchant key required on EMV receipts.
         /// </summary>
         [JsonProperty(PropertyName = "merchantKey")]
         public string MerchantKey { get; set; }
 
         /// <summary>
-        /// The description of the selected AID.
+        /// A description of the selected AID.
         /// </summary>
         [JsonProperty(PropertyName = "applicationLabel")]
         public string ApplicationLabel { get; set; }
 
         /// <summary>
-        /// Whether or not the receipt should contain a signature line.
+        /// That the receipt should contain a signature line.
         /// </summary>
         [JsonProperty(PropertyName = "requestSignature")]
         public bool RequestSignature { get; set; }
 
         /// <summary>
-        /// The masked primary account number of the payment card, as required
-        /// on EMV receipts.
+        /// The masked primary account number of the payment card, as required.
         /// </summary>
         [JsonProperty(PropertyName = "maskedPan")]
         public string MaskedPan { get; set; }
 
         /// <summary>
-        /// The amount authorized by the payment network. Could be less than
-        /// the requested amount for partial auth.
+        /// The amount authorized by the payment network. Could be less than the requested
+        /// amount for partial auth.
         /// </summary>
         [JsonProperty(PropertyName = "authorizedAmount")]
         public string AuthorizedAmount { get; set; }
@@ -102,14 +115,13 @@ namespace BlockChyp.Entities
         public string TransactionType { get; set; }
 
         /// <summary>
-        /// The method by which the payment card was entered
-        /// (MSR, CHIP, KEYED, etc.)
+        /// The method by which the payment card was entered (MSR, CHIP, KEYED, etc.).
         /// </summary>
         [JsonProperty(PropertyName = "entryMethod")]
         public string EntryMethod { get; set; }
 
         /// <summary>
-        /// Whether or not PIN verification was performed.
+        /// That PIN verification was performed.
         /// </summary>
         [JsonProperty(PropertyName = "pinVerified")]
         public bool PinVerified { get; set; }

@@ -1,3 +1,11 @@
+/**
+ * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
+ * license that can be found in the LICENSE file.
+ *
+ * This file was generated automatically. Changes to this file will be lost every time the
+ * code is regenerated.
+ */
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -122,389 +130,177 @@ namespace BlockChyp.Client
         public TimeSpan TerminalRequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
 
         /// <summary>
-        /// Tests communication with the Gateway as an asynchronous operation.
-        /// If authentication is successful, a merchantPk value is returned.
-        /// </summary>
-        /// <param name="test">Whether or not to route the the transaction to the test gateway.</param>
-        public async Task<HeartbeatResponse> HeartbeatAsync(bool test)
-        {
-            return await GatewayRequestAsync<HeartbeatResponse>(HttpMethod.Get, "/api/heartbeat", null, null, test)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="HeartbeatAsync"/>.
-        /// </summary>
-        /// <param name="test">Whether or not to route the the transaction to the test gateway.</param>
-        public HeartbeatResponse Heartbeat(bool test)
-        {
-            return GatewayRequest<HeartbeatResponse>(HttpMethod.Get, "/api/heartbeat", null, null, test);
-        }
-
-        /// <summary>
-        /// Tests local communication with a terminal as an asynchronous operation.
+        /// Executes a standard direct preauth and capture.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> PingAsync(PingRequest request)
-        {
-            return await TerminalRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/test", request.TerminalName, request)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="PingAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public Acknowledgement Ping(PingRequest request)
-        {
-            return TerminalRequest<Acknowledgement>(HttpMethod.Post, "/api/test", request.TerminalName, request);
-        }
-
-        /// <summary>
-        /// Enrolls the payment method in the recurring payment token vault
-        /// as an asynchronous operation. Any amounts passed in are ignored.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> EnrollAsync(AuthRequest request)
+        public async Task<AuthorizationResponse> ChargeAsync(AuthorizationRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
             {
-                return await TerminalRequestAsync<AuthResponse>(HttpMethod.Post, "/api/enroll", request.TerminalName, request)
+                return await TerminalRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/charge", request.TerminalName, request)
                     .ConfigureAwait(false);
             }
             else
             {
-                return await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/enroll", request, null, request.Test)
+                return await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/charge", request, null, request.Test)
                     .ConfigureAwait(false);
             }
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="EnrollAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public AuthResponse Enroll(AuthRequest request)
-        {
-            return EnrollAsync(request)
-                .ConfigureAwait(false).GetAwaiter().GetResult();
-        }
-
-        /// <summary>
-        /// Performs a standard auth and capture as an asynchronous operation.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> ChargeAsync(AuthRequest request)
-        {
-            PopulateSignatureOptions(request);
-
-            AuthResponse response;
-            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
-            {
-                response = await TerminalRequestAsync<AuthResponse>(HttpMethod.Post, "/api/charge", request.TerminalName, request)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                response = await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/charge", request, null, request.Test)
-                    .ConfigureAwait(false);
-            }
-
-            DumpSignatureFile(request, response);
-
-            return response;
         }
 
         /// <summary>
         /// Synchronous form of <see cref="ChargeAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public AuthResponse Charge(AuthRequest request)
+        public AuthorizationResponse Charge(AuthorizationRequest request)
         {
             return ChargeAsync(request)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Executes a time out reversal as an asynchronous operation. This
-        /// is an idempotent operation. You should perform a reversal in
-        /// situations where your request for authorization times out or gives
-        /// an ambiguous result. Reversal must be completed within 2 minutes of
-        /// the original auth. To use this method, a unique transactionRef must
-        /// be provided at authorization time. That transactionRef can then be
-        /// used to reverse the transaction.
+        /// Executes a preauthorization intended to be captured later.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> ReverseAsync(AuthRequest request)
+        public async Task<AuthorizationResponse> PreauthAsync(AuthorizationRequest request)
         {
-            return await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/reverse", request, null, request.Test)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="ReverseAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public AuthResponse Reverse(AuthRequest request)
-        {
-            return GatewayRequest<AuthResponse>(HttpMethod.Post, "/api/reverse", request, null, request.Test);
-        }
-
-        /// <summary>
-        /// Preauthorizes a transaction for capture at a later time as an
-        /// asynchronous operation.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> PreauthAsync(AuthRequest request)
-        {
-            PopulateSignatureOptions(request);
-
-            AuthResponse response;
             if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
             {
-                response = await TerminalRequestAsync<AuthResponse>(HttpMethod.Post, "/api/preauth", request.TerminalName, request)
+                return await TerminalRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/preauth", request.TerminalName, request)
                     .ConfigureAwait(false);
             }
             else
             {
-                response = await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/preauth", request, null, request.Test)
+                return await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/preauth", request, null, request.Test)
                     .ConfigureAwait(false);
             }
-
-            DumpSignatureFile(request, response);
-
-            return response;
         }
 
         /// <summary>
         /// Synchronous form of <see cref="PreauthAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public AuthResponse Preauth(AuthRequest request)
+        public AuthorizationResponse Preauth(AuthorizationRequest request)
         {
             return PreauthAsync(request)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
-        /// <summary>Captures a preauth as an asynchronous operation.</summary>
-        /// <param name="request">The request details.</param>
-        public async Task<CaptureResponse> CaptureAsync(CaptureRequest request)
-        {
-            return await GatewayRequestAsync<CaptureResponse>(HttpMethod.Post, "/api/capture", request, null, request.Test)
-                .ConfigureAwait(false);
-        }
-
         /// <summary>
-        /// Synchronous form of <see cref="CaptureAsync"/>.
+        /// Tests connectivity with a payment terminal.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public CaptureResponse Capture(CaptureRequest request)
+        public async Task<PingResponse> PingAsync(PingRequest request)
         {
-            return GatewayRequest<CaptureResponse>(HttpMethod.Post, "/api/capture", request, null, request.Test);
-        }
-
-        /// <summary>Voids an existing transaction as an asynchronous operation.</summary>
-        /// <param name="request">The request details.</param>
-        public async Task<VoidResponse> VoidAsync(VoidRequest request)
-        {
-            return await GatewayRequestAsync<VoidResponse>(HttpMethod.Post, "/api/void", request, null, request.Test)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="VoidAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public VoidResponse Void(VoidRequest request)
-        {
-            return GatewayRequest<VoidResponse>(HttpMethod.Post, "/api/void", request, null, request.Test);
-        }
-
-        /// <summary>
-        /// Initiates a refund transaction as an asynchronous operation.
-        /// You can perform a full or partial refund by referencing a previous
-        /// transaction. You can also do a free range refund without
-        /// referencing a previous transaction, but please, pretty please,
-        /// don't do this. Basing a refund on a previous transaction
-        /// eliminates a lot of potential fraud.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<AuthResponse> RefundAsync(RefundRequest request)
-        {
-            PopulateSignatureOptions(request);
-
-            if (!string.IsNullOrEmpty(request.TransactionId))
-            {
-                request.TerminalName = null;
-            }
-
-            AuthResponse response;
             if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
             {
-                response = await TerminalRequestAsync<AuthResponse>(HttpMethod.Post, "/api/refund", request.TerminalName, request)
+                return await TerminalRequestAsync<PingResponse>(HttpMethod.Post, "/api/test", request.TerminalName, request)
                     .ConfigureAwait(false);
             }
             else
             {
-                response = await GatewayRequestAsync<AuthResponse>(HttpMethod.Post, "/api/refund", request, null, request.Test)
+                return await GatewayRequestAsync<PingResponse>(HttpMethod.Post, "/api/terminal-test", request, null, request.Test)
                     .ConfigureAwait(false);
             }
-
-            DumpSignatureFile(request, response);
-
-            return response;
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="Refund"/>.
+        /// Synchronous form of <see cref="PingAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public AuthResponse Refund(RefundRequest request)
+        public PingResponse Ping(PingRequest request)
         {
-            return RefundAsync(request)
+            return PingAsync(request)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Executes a manual batch close. as an asynchronous operation By default,
-        /// the BlockChyp gateway will close batches at 3 AM in the merchant's local
-        /// time zone. You can turn this off and run batches manually if you want.
+        /// Checks the remaining balance on a payment method.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<CloseBatchResponse> CloseBatchAsync(CloseBatchRequest request)
-        {
-            return await GatewayRequestAsync<CloseBatchResponse>(HttpMethod.Post, "/api/close-batch", request, null, false)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="CloseBatchAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public CloseBatchResponse CloseBatch(CloseBatchRequest request)
-        {
-            return GatewayRequest<CloseBatchResponse>(HttpMethod.Post, "/api/close-batch", request, null, false);
-        }
-
-        /// <summary>Displays a message on the terminal screen as an asynchronous operation.</summary>
-        /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> MessageAsync(MessageRequest request)
+        public async Task<BalanceResponse> BalanceAsync(BalanceRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
             {
-                return await TerminalRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/message", request.TerminalName, request)
+                return await TerminalRequestAsync<BalanceResponse>(HttpMethod.Post, "/api/balance", request.TerminalName, request)
                     .ConfigureAwait(false);
             }
             else
             {
-                return await GatewayRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/message", request, null, false)
+                return await GatewayRequestAsync<BalanceResponse>(HttpMethod.Post, "/api/balance", request, null, request.Test)
                     .ConfigureAwait(false);
             }
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="MessageAsync"/>.
+        /// Synchronous form of <see cref="BalanceAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public Acknowledgement Message(MessageRequest request)
+        public BalanceResponse Balance(BalanceRequest request)
         {
-            return MessageAsync(request)
+            return BalanceAsync(request)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Captures text input from the user as an asynchronous operation.
-        /// This can be used for things like email addresses, phone numbers,
-        /// and loyalty program numbers. You have to specify a promptType in
-        /// the request, since free form prompt text is not permitted by
-        /// PCI rules.
+        /// Clears the line item display and any in progress transaction.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<TextPromptResponse> TextPromptAsync(TextPromptRequest request)
+        public async Task<Acknowledgement> ClearAsync(ClearTerminalRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
             {
-                return await TerminalRequestAsync<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request.TerminalName, request)
+                return await TerminalRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/clear", request.TerminalName, request)
                     .ConfigureAwait(false);
             }
             else
             {
-                return await GatewayRequestAsync<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request, null, false)
+                return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-clear", request, null, request.Test)
                     .ConfigureAwait(false);
             }
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="TextPromptAsync"/>.
+        /// Synchronous form of <see cref="ClearAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public TextPromptResponse TextPrompt(TextPromptRequest request)
+        public Acknowledgement Clear(ClearTerminalRequest request)
         {
-            return TextPromptAsync(request)
+            return ClearAsync(request)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Asks the user a yes or no question as an asynchronous operation.
-        /// You can use this for things like suggestive selling. You can also
-        /// use this for surveys, but BlockChyp does have a built in survey
-        /// feature that merchants can use with no custom code required.
+        /// Prompts the user to accept terms and conditions.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<BooleanPromptResponse> BooleanPromptAsync(BooleanPromptRequest request)
+        public async Task<TermsAndConditionsResponse> TermsAndConditionsAsync(TermsAndConditionsRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
             {
-                return await TerminalRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request.TerminalName, request)
+                return await TerminalRequestAsync<TermsAndConditionsResponse>(HttpMethod.Post, "/api/tc", request.TerminalName, request)
                     .ConfigureAwait(false);
             }
             else
             {
-                return await GatewayRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request, null, false)
+                return await GatewayRequestAsync<TermsAndConditionsResponse>(HttpMethod.Post, "/api/terminal-tc", request, null, request.Test)
                     .ConfigureAwait(false);
             }
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="BooleanPromptAsync"/>.
+        /// Synchronous form of <see cref="TermsAndConditionsAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public BooleanPromptResponse BooleanPrompt(BooleanPromptRequest request)
+        public TermsAndConditionsResponse TermsAndConditions(TermsAndConditionsRequest request)
         {
-            return BooleanPromptAsync(request)
+            return TermsAndConditionsAsync(request)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Resets the line item display with a new transaction
-        /// as an asynchronous operation.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> NewTransactionDisplayAsync(TransactionDisplayRequest request)
-        {
-            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
-            {
-                return await TerminalRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/txdisplay", request.TerminalName, request)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-txdisplay", request, null, false)
-                    .ConfigureAwait(false);
-            }
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="NewTransactionDisplayAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public Acknowledgement NewTransactionDisplay(TransactionDisplayRequest request)
-        {
-            return NewTransactionDisplayAsync(request)
-                .ConfigureAwait(false).GetAwaiter().GetResult();
-        }
-
-        /// <summary>
-        /// Adds to an existing line item display as an asynchronous operation.
+        /// Appends items to an existing transaction display Subtotal, Tax, and Total are
+        /// overwritten by the request. Items with the same description are combined into
+        /// groups.
         /// </summary>
         /// <param name="request">The request details.</param>
         public async Task<Acknowledgement> UpdateTransactionDisplayAsync(TransactionDisplayRequest request)
@@ -516,7 +312,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Put, "/api/terminal-txdisplay", request, null, false)
+                return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Put, "/api/terminal-txdisplay", request, null, request.Test)
                     .ConfigureAwait(false);
             }
         }
@@ -532,32 +328,283 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Clears the line item display and returns the terminal to idle
-        /// as an asynchronous operation.
+        /// Displays a new transaction on the terminal.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<Acknowledgement> ClearAsync(ClearRequest request)
+        public async Task<Acknowledgement> NewTransactionDisplayAsync(TransactionDisplayRequest request)
         {
             if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
             {
-                return await TerminalRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/clear", request.TerminalName, request)
+                return await TerminalRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/txdisplay", request.TerminalName, request)
                     .ConfigureAwait(false);
             }
             else
             {
-                return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-clear", request, null, false)
+                return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-txdisplay", request, null, request.Test)
                     .ConfigureAwait(false);
             }
         }
 
         /// <summary>
-        /// Synchronous form of <see cref="ClearAsync"/>.
+        /// Synchronous form of <see cref="NewTransactionDisplayAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public Acknowledgement Clear(ClearRequest request)
+        public Acknowledgement NewTransactionDisplay(TransactionDisplayRequest request)
         {
-            return ClearAsync(request)
+            return NewTransactionDisplayAsync(request)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Asks the consumer text based question.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TextPromptResponse> TextPromptAsync(TextPromptRequest request)
+        {
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                return await TerminalRequestAsync<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                return await GatewayRequestAsync<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request, null, request.Test)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TextPromptAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TextPromptResponse TextPrompt(TextPromptRequest request)
+        {
+            return TextPromptAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Asks the consumer a yes/no question.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<BooleanPromptResponse> BooleanPromptAsync(BooleanPromptRequest request)
+        {
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                return await TerminalRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                return await GatewayRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request, null, request.Test)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="BooleanPromptAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public BooleanPromptResponse BooleanPrompt(BooleanPromptRequest request)
+        {
+            return BooleanPromptAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Displays a short message on the terminal.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> MessageAsync(MessageRequest request)
+        {
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                return await TerminalRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/message", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/message", request, null, request.Test)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MessageAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement Message(MessageRequest request)
+        {
+            return MessageAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Executes a refund.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<AuthorizationResponse> RefundAsync(RefundRequest request)
+        {
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                return await TerminalRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/refund", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                return await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/refund", request, null, request.Test)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="RefundAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public AuthorizationResponse Refund(RefundRequest request)
+        {
+            return RefundAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Adds a new payment method to the token vault.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<EnrollResponse> EnrollAsync(EnrollRequest request)
+        {
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                return await TerminalRequestAsync<EnrollResponse>(HttpMethod.Post, "/api/enroll", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                return await GatewayRequestAsync<EnrollResponse>(HttpMethod.Post, "/api/enroll", request, null, request.Test)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="EnrollAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public EnrollResponse Enroll(EnrollRequest request)
+        {
+            return EnrollAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Activates or recharges a gift card.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<GiftActivateResponse> GiftActivateAsync(GiftActivateRequest request)
+        {
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                return await TerminalRequestAsync<GiftActivateResponse>(HttpMethod.Post, "/api/gift-activate", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                return await GatewayRequestAsync<GiftActivateResponse>(HttpMethod.Post, "/api/gift-activate", request, null, request.Test)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="GiftActivateAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public GiftActivateResponse GiftActivate(GiftActivateRequest request)
+        {
+            return GiftActivateAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Executes a manual time out reversal.
+        ///
+        /// We love time out reversals. Don't be afraid to use them whenever a request to a
+        /// BlockChyp terminal times out. You have up to two minutes to reverse any
+        /// transaction. The only caveat is that you must assign transactionRef values
+        /// when you build the original request. Otherwise, we have no real way of knowing
+        /// which transaction you're trying to reverse because we may not have assigned it
+        /// an id yet. And if we did assign it an id, you wouldn't know what it is because your
+        /// request to the terminal timed out before you got a response.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<AuthorizationResponse> ReverseAsync(AuthorizationRequest request)
+        {
+            return await GatewayRequestAsync<AuthorizationRequest>(HttpMethod.Post, "/api/reverse", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="ReverseAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public AuthorizationResponse Reverse(AuthorizationRequest request)
+        {
+            return GatewayRequest<AuthorizationResponse>(HttpMethod.Post, "/api/reverse", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Captures a preauthorization.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CaptureResponse> CaptureAsync(CaptureRequest request)
+        {
+            return await GatewayRequestAsync<CaptureRequest>(HttpMethod.Post, "/api/capture", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="CaptureAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CaptureResponse Capture(CaptureRequest request)
+        {
+            return GatewayRequest<CaptureResponse>(HttpMethod.Post, "/api/capture", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Closes the current credit card batch.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CloseBatchResponse> CloseBatchAsync(CloseBatchRequest request)
+        {
+            return await GatewayRequestAsync<CloseBatchRequest>(HttpMethod.Post, "/api/close-batch", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="CloseBatchAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CloseBatchResponse CloseBatch(CloseBatchRequest request)
+        {
+            return GatewayRequest<CloseBatchResponse>(HttpMethod.Post, "/api/close-batch", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Discards a previous preauth transaction.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<VoidResponse> VoidAsync(VoidRequest request)
+        {
+            return await GatewayRequestAsync<VoidRequest>(HttpMethod.Post, "/api/void", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="VoidAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public VoidResponse Void(VoidRequest request)
+        {
+            return GatewayRequest<VoidResponse>(HttpMethod.Post, "/api/void", request, null, request.Test);
         }
 
         /// <summary>
@@ -605,6 +652,18 @@ namespace BlockChyp.Client
             catch (TaskCanceledException e)
             {
                 throw new TimeoutException("Terminal request timed out", e);
+            }
+            catch (HttpRequestException)
+            {
+                // Try renegotiating the route in case this failure was due to DHCP renegotiation.
+                // If the route has not changed, the request will not be retried, preventing
+                // infinite recursion.
+                if (await RefreshTerminalRoute(route).ConfigureAwait(false))
+                {
+                    return await TerminalRequestAsync<T>(method, path, name, body);
+                }
+
+                throw;
             }
         }
 
@@ -809,23 +868,69 @@ namespace BlockChyp.Client
                 return cachedRoute;
             }
 
-            var requestedRoute = await GatewayRequestAsync<TerminalRouteResponse>(
+            try
+            {
+                var route = await GetTerminalRouteFromGateway(name)
+                    .ConfigureAwait(false);
+
+                if (route != null)
+                {
+                    RouteCache.Put(route, Credentials);
+                }
+
+                return route;
+            }
+            catch
+            {
+                // Try to re-use expired route if one exists. This is for
+                // situations where the network has gone down, but requests
+                // can still be fulfilled by store & forward.
+                cachedRoute = RouteCache.Get(name, Credentials, true);
+                if (cachedRoute != null)
+                {
+                    return cachedRoute;
+                }
+
+                throw;
+            }
+        }
+
+        private async Task<bool> RefreshTerminalRoute(TerminalRouteResponse route)
+        {
+            try
+            {
+                var newRoute = await GetTerminalRouteFromGateway(route.TerminalName)
+                    .ConfigureAwait(false);
+
+                if (newRoute != null)
+                {
+                    RouteCache.Put(newRoute, Credentials);
+
+                    return route.IpAddress != newRoute.IpAddress;
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async Task<TerminalRouteResponse> GetTerminalRouteFromGateway(string name)
+        {
+            var route = await GatewayRequestAsync<TerminalRouteResponse>(
                 HttpMethod.Get, $"/api/terminal-route", null, $"terminal={name}", false)
                     .ConfigureAwait(false);
 
-            if (requestedRoute != null && requestedRoute.Success)
+            if (route != null && route.Success)
             {
-                requestedRoute.Timestamp = DateTime.UtcNow;
+                route.Timestamp = DateTime.UtcNow;
 
-                if (RouteCache.OfflineEnabled)
-                {
-                    RouteCache.Put(requestedRoute, Credentials);
-                }
-
-                return requestedRoute;
+                return route;
             }
 
-            return cachedRoute;
+            return null;
         }
 
         private Uri ToFullyQualifiedTerminalPath(TerminalRouteResponse route, string path)
