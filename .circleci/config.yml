@@ -10,20 +10,14 @@ jobs:
       - restore_cache:
           keys:
             - nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
-            - nuget-
 
       - run:
-          name: Restore
-          command: dotnet restore -v n
+          name: Build
+          command: make build
+
       - run:
           name: Test
-          command: dotnet test tests/BlockChypTest/BlockChypTest.csproj --filter "Category!=Integration" -v n
-      - run:
-          name: Build
-          command: dotnet build src/BlockChyp/BlockChyp.csproj -c Release -v n
-      - run:
-          name: Package
-          command: dotnet pack src/BlockChyp/BlockChyp.csproj -c Release -v n
+          command: make test
 
       - save_cache:
           key: nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
@@ -42,12 +36,10 @@ jobs:
     steps:
       - attach_workspace:
           at: src/BlockChyp/bin
+
       - run:
           name: Publish
-          command: |
-            dotnet nuget push src/BlockChyp/bin/Release/BlockChyp.*.nupkg \
-              --api-key "$NUGET_API_KEY" \
-              --source https://api.nuget.org/v3/index.json
+          command: make publish
 
 workflows:
   version: 2
