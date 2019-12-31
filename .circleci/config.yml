@@ -2,6 +2,7 @@ version: 1
 jobs:
   build:
     docker:
+      # This image doesn't have GNU make, so we just call commands directly
       - image: mcr.microsoft.com/dotnet/core/sdk:2.2
 
     steps:
@@ -13,11 +14,15 @@ jobs:
 
       - run:
           name: Build
-          command: make build
+          command: |
+            dotnet restore -v n
+            dotnet build src/BlockChyp/BlockChyp.csproj -c Release -v n
+            dotnet pack src/BlockChyp/BlockChyp.csproj -c Release -v n
 
       - run:
           name: Test
-          command: make test
+          command: dotnet test tests/BlockChypTest/BlockChypTest.csproj \
+            --filter "Category!=Integration" -v n
 
       - save_cache:
           key: nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
@@ -39,7 +44,9 @@ jobs:
 
       - run:
           name: Publish
-          command: make publish
+          command: dotnet nuget push src/BlockChyp/bin/Release/BlockChyp.*.nupkg \
+            --api-key "${NUGET_API_KEY}" \
+            --source https://api.nuget.org/v3/index.json
 
 workflows:
   version: 2
