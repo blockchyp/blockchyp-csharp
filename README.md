@@ -563,6 +563,30 @@ if (response.Approved)
 
 
 ```
+## Running Integration Tests
+
+If you'd like to run the integration tests, create a new file on your system
+called `sdk-itest-config.json` with the API credentials you'll be using as
+shown in the example below.
+
+```
+{
+ "gatewayHost": "https://api.blockchyp.com",
+ "testGatewayHost": "https://test.blockchyp.com",
+ "apiKey": "PZZNEFK7HFULCB3HTLA7HRQDJU",
+ "bearerToken": "QUJCHIKNXOMSPGQ4QLT2UJX5DI",
+ "signingKey": "f88a72d8bc0965f193abc7006bbffa240663c10e4d1dc3ba2f81e0ca10d359f5"
+}
+```
+
+This file can be located in a few different places, but is usually located
+at `<USER_HOME>/.config/blockchyp/sdk-itest-config.json`.  All BlockChyp SDK's
+use the same configuration file.
+
+To run the integration test suite via `make`, type the following command:
+
+`make integration`
+
 ## Contributions
 
 BlockChyp welcomes contributions from the open source community, but bear in mind
