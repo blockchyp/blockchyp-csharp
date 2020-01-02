@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class SimpleGiftActivateTest
+    public class SimpleGiftActivateTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,7 +27,7 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_SimpleGiftActivateTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("SimpleGiftActivate");
 
             GiftActivateRequest request = new GiftActivateRequest
             {
@@ -36,11 +36,13 @@ namespace BlockChypTest.Integration
                 Amount = "50.00",
             };
 
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+
             GiftActivateResponse response = await blockchyp.GiftActivateAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Approved);
+            Assert.True(response.Approved, "response.Approved");
             Assert.NotEmpty(response.PublicKey);
         }
     }

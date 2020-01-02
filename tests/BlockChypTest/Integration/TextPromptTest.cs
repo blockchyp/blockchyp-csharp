@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class TextPromptTest
+    public class TextPromptTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,7 +27,7 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_TextPromptTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("TextPrompt");
 
             TextPromptRequest request = new TextPromptRequest
             {
@@ -36,11 +36,13 @@ namespace BlockChypTest.Integration
                 PromptType = PromptType.Email,
             };
 
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+
             TextPromptResponse response = await blockchyp.TextPromptAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Success);
+            Assert.True(response.Success, "response.Success");
             Assert.NotEmpty(response.Response);
         }
     }

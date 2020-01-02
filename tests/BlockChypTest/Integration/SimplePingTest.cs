@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class SimplePingTest
+    public class SimplePingTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,18 +27,21 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_SimplePingTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("SimplePing");
 
             PingRequest request = new PingRequest
             {
+                Test = true,
                 TerminalName = "Test Terminal",
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             PingResponse response = await blockchyp.PingAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Success);
+            Assert.True(response.Success, "response.Success");
         }
     }
 }

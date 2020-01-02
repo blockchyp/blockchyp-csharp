@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class TerminalEbtBalanceTest
+    public class TerminalEbtBalanceTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,7 +27,7 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_TerminalEbtBalanceTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("TerminalEbtBalance");
 
             BalanceRequest request = new BalanceRequest
             {
@@ -36,11 +36,13 @@ namespace BlockChypTest.Integration
                 CardType = CardType.EBT,
             };
 
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+
             BalanceResponse response = await blockchyp.BalanceAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Success);
+            Assert.True(response.Success, "response.Success");
             Assert.NotEmpty(response.RemainingBalance);
         }
     }

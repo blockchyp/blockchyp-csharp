@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class SimpleMessageTest
+    public class SimpleMessageTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,20 +27,22 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_SimpleMessageTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("SimpleMessage");
 
             MessageRequest request = new MessageRequest
             {
                 Test = true,
                 TerminalName = "Test Terminal",
-                Message = "Thank you for your business.",
+                Message = "Thank You For Your Business",
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             Acknowledgement response = await blockchyp.MessageAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Success);
+            Assert.True(response.Success, "response.Success");
         }
     }
 }

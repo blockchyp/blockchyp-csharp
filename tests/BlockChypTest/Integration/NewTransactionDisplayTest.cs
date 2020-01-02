@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class NewTransactionDisplayTest
+    public class NewTransactionDisplayTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,7 +27,7 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_NewTransactionDisplayTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("NewTransactionDisplay");
 
             TransactionDisplayRequest request = new TransactionDisplayRequest
             {
@@ -35,9 +35,9 @@ namespace BlockChypTest.Integration
                 TerminalName = "Test Terminal",
                 Transaction = new TransactionDisplayTransaction
                 {
-                    Subtotal = "60.00",
+                    Subtotal = "35.00",
                     Tax = "5.00",
-                    Total = "65.00",
+                    Total = "70.00",
                     Items = new List<TransactionDisplayItem>
                     {
                         new TransactionDisplayItem
@@ -59,11 +59,13 @@ namespace BlockChypTest.Integration
                 },
             };
 
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+
             Acknowledgement response = await blockchyp.NewTransactionDisplayAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Success);
+            Assert.True(response.Success, "response.Success");
         }
     }
 }

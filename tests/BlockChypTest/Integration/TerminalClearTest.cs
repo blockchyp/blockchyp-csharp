@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class TerminalClearTest
+    public class TerminalClearTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,7 +27,7 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_TerminalClearTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("TerminalClear");
 
             ClearTerminalRequest request = new ClearTerminalRequest
             {
@@ -35,11 +35,13 @@ namespace BlockChypTest.Integration
                 TerminalName = "Test Terminal",
             };
 
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+
             Acknowledgement response = await blockchyp.ClearAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Success);
+            Assert.True(response.Success, "response.Success");
         }
     }
 }

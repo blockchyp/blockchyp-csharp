@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class PanChargeTest
+    public class PanChargeTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,21 +27,24 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_PanChargeTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("PanCharge");
 
             AuthorizationRequest request = new AuthorizationRequest
             {
+                Pan = "4111111111111111",
+                Amount = "25.55",
                 Test = true,
-                TerminalName = "Test Terminal",
-                Amount = "55.00",
+                TransactionRef = Guid.NewGuid().ToString("N"),
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             AuthorizationResponse response = await blockchyp.ChargeAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Approved);
-            Assert.True(response.Test);
+            Assert.True(response.Approved, "response.Approved");
+            Assert.True(response.Test, "response.Test");
             Assert.Equal(6, response.AuthCode.Length);
             Assert.NotEmpty(response.TransactionId);
             Assert.NotEmpty(response.Timestamp);

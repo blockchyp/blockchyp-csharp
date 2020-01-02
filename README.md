@@ -3,23 +3,23 @@
 [![NuGet](https://img.shields.io/nuget/v/blockchyp.svg)](https://www.nuget.org/packages/BlockChyp/)
 [![Build Status](https://circleci.com/gh/blockchyp/blockchyp-csharp/tree/master.svg?style=shield)](https://circleci.com/gh/blockchyp/blockchyp-csharp/tree/master)
 
-The [BlockChyp][blockchyp] .NET SDK, with support for .NET standard 2.0 and .NET Framework 4.5+.
+The [BlockChyp] .NET SDK, with support for .NET standard 2.0 and .NET Framework 4.5+.
 
 ## Installation
 
-Using the [.NET CLI][dotnet-cli]:
+Using the [.NET CLI]:
 
 ```sh
 dotnet add package BlockChyp
 ```
 
-Using the [NuGet CLI][nuget-cli]:
+Using the [NuGet CLI]:
 
 ```sh
 nuget install BlockChyp
 ```
 
-Using the [Package Manager Console][package-manager-console]:
+Using the [Package Manager Console]:
 
 ```powershell
 Install-Package BlockChyp
@@ -27,7 +27,7 @@ Install-Package BlockChyp
 
 ## API Documentation
 
-For complete API documentation, check out the [BlockChyp Documentation][blockchyp-docs].
+For complete API documentation, check out the [BlockChyp Documentation].
 
 ## Basic Usage
 
@@ -586,6 +586,12 @@ use the same configuration file.
 To run the integration test suite via `make`, type the following command:
 
 `make integration`
+
+[BlockChyp Documentation]: https://docs.blockchyp.com
+[BlockChyp]: https://www.blockchyp.com
+[.NET CLI]: https://docs.microsoft.com/en-us/dotnet/core/tools/
+[NuGet CLI]: https://docs.microsoft.com/en-us/nuget/tools/nuget-exe-cli-reference
+[Package Manager Console]: https://docs.microsoft.com/en-us/nuget/tools/package-manager-console
 
 ## Contributions
 

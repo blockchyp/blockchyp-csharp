@@ -21,7 +21,8 @@ jobs:
 
       - run:
           name: Test
-          command: dotnet test tests/BlockChypTest/BlockChypTest.csproj \
+          command: >
+            dotnet test tests/BlockChypTest/BlockChypTest.csproj
             --filter "Category!=Integration" -v n
 
       - save_cache:
@@ -44,8 +45,9 @@ jobs:
 
       - run:
           name: Publish
-          command: dotnet nuget push src/BlockChyp/bin/Release/BlockChyp.*.nupkg \
-            --api-key "${NUGET_API_KEY}" \
+          command: >
+            dotnet nuget push src/BlockChyp/bin/Release/BlockChyp.*.nupkg
+            --api-key "${NUGET_API_KEY}"
             --source https://api.nuget.org/v3/index.json
 
 workflows:

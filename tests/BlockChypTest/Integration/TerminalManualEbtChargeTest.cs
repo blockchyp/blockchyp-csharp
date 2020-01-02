@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class TerminalManualEbtChargeTest
+    public class TerminalManualEbtChargeTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,21 +27,25 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_TerminalManualEbtChargeTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("TerminalManualEbtCharge");
 
             AuthorizationRequest request = new AuthorizationRequest
             {
-                Test = true,
                 TerminalName = "Test Terminal",
-                Amount = "55.00",
+                Amount = "27.00",
+                Test = true,
+                CardType = CardType.EBT,
+                ManualEntry = true,
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             AuthorizationResponse response = await blockchyp.ChargeAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Approved);
-            Assert.True(response.Test);
+            Assert.True(response.Approved, "response.Approved");
+            Assert.True(response.Test, "response.Test");
             Assert.Equal(6, response.AuthCode.Length);
             Assert.NotEmpty(response.TransactionId);
             Assert.NotEmpty(response.Timestamp);

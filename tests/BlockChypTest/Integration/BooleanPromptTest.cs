@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class BooleanPromptTest
+    public class BooleanPromptTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,7 +27,7 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_BooleanPromptTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("BooleanPrompt");
 
             BooleanPromptRequest request = new BooleanPromptRequest
             {
@@ -38,12 +38,14 @@ namespace BlockChypTest.Integration
                 NoCaption = "No",
             };
 
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+
             BooleanPromptResponse response = await blockchyp.BooleanPromptAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Success);
-            Assert.True(response.Response);
+            Assert.True(response.Success, "response.Success");
+            Assert.True(response.Response, "response.Response");
         }
     }
 }

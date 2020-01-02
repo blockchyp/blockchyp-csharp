@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class SimpleBatchCloseTest
+    public class SimpleBatchCloseTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,18 +27,34 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_SimpleBatchCloseTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("SimpleBatchClose");
+
+            AuthorizationRequest setupRequest = new AuthorizationRequest
+            {
+                Pan = "4111111111111111",
+                Amount = "25.55",
+                Test = true,
+                TransactionRef = Guid.NewGuid().ToString("N"),
+            };
+
+            output.WriteLine("Setup request: {0}", JsonConvert.SerializeObject(setupRequest));
+
+            AuthorizationResponse setupResponse = await blockchyp.ChargeAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", JsonConvert.SerializeObject(setupResponse));
 
             CloseBatchRequest request = new CloseBatchRequest
             {
                 Test = true,
             };
 
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+
             CloseBatchResponse response = await blockchyp.CloseBatchAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Success);
+            Assert.True(response.Success, "response.Success");
             Assert.NotEmpty(response.CapturedTotal);
             Assert.NotEmpty(response.OpenPreauths);
         }

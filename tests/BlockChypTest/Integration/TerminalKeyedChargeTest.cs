@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class TerminalKeyedChargeTest
+    public class TerminalKeyedChargeTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,21 +27,24 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_TerminalKeyedChargeTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("TerminalKeyedCharge");
 
             AuthorizationRequest request = new AuthorizationRequest
             {
-                Test = true,
                 TerminalName = "Test Terminal",
-                Amount = "55.00",
+                Amount = "11.11",
+                ManualEntry = true,
+                Test = true,
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             AuthorizationResponse response = await blockchyp.ChargeAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Approved);
-            Assert.True(response.Test);
+            Assert.True(response.Approved, "response.Approved");
+            Assert.True(response.Test, "response.Test");
             Assert.Equal(6, response.AuthCode.Length);
             Assert.NotEmpty(response.TransactionId);
             Assert.NotEmpty(response.Timestamp);

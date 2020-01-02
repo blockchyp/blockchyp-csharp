@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class SimpleCaptureTest
+    public class SimpleCaptureTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,19 +27,34 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_SimpleCaptureTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("SimpleCapture");
+
+            AuthorizationRequest setupRequest = new AuthorizationRequest
+            {
+                Pan = "4111111111111111",
+                Amount = "25.55",
+                Test = true,
+            };
+
+            output.WriteLine("Setup request: {0}", JsonConvert.SerializeObject(setupRequest));
+
+            AuthorizationResponse setupResponse = await blockchyp.PreauthAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", JsonConvert.SerializeObject(setupResponse));
 
             CaptureRequest request = new CaptureRequest
             {
+                TransactionId = setupResponse.TransactionId,
                 Test = true,
-                TransactionId = "<PREAUTH TRANSACTION ID>",
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             CaptureResponse response = await blockchyp.CaptureAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Approved);
+            Assert.True(response.Approved, "response.Approved");
         }
     }
 }

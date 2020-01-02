@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class PanEnrollTest
+    public class PanEnrollTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,20 +27,22 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_PanEnrollTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("PanEnroll");
 
             EnrollRequest request = new EnrollRequest
             {
+                Pan = "4111111111111111",
                 Test = true,
-                TerminalName = "Test Terminal",
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             EnrollResponse response = await blockchyp.EnrollAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Approved);
-            Assert.True(response.Test);
+            Assert.True(response.Approved, "response.Approved");
+            Assert.True(response.Test, "response.Test");
             Assert.Equal(6, response.AuthCode.Length);
             Assert.NotEmpty(response.TransactionId);
             Assert.NotEmpty(response.Timestamp);

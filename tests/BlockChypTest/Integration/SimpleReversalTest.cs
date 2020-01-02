@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class SimpleReversalTest
+    public class SimpleReversalTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,19 +27,35 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_SimpleReversalTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("SimpleReversal");
+
+            AuthorizationRequest setupRequest = new AuthorizationRequest
+            {
+                Pan = "4111111111111111",
+                Amount = "25.55",
+                Test = true,
+                TransactionRef = Guid.NewGuid().ToString("N"),
+            };
+
+            output.WriteLine("Setup request: {0}", JsonConvert.SerializeObject(setupRequest));
+
+            AuthorizationResponse setupResponse = await blockchyp.ChargeAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", JsonConvert.SerializeObject(setupResponse));
 
             AuthorizationRequest request = new AuthorizationRequest
             {
-                TerminalName = "Test Terminal",
-                TransactionRef = "<LAST TRANSACTION REF>",
+                TransactionRef = setupResponse.TransactionRef,
+                Test = true,
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             AuthorizationResponse response = await blockchyp.ReverseAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Approved);
+            Assert.True(response.Approved, "response.Approved");
         }
     }
 }

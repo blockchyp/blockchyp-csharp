@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class SimpleRefundTest
+    public class SimpleRefundTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
@@ -27,20 +27,35 @@ namespace BlockChypTest.Integration
         [Fact]
         public async void Run_SimpleRefundTest()
         {
-            var blockchyp = IntegrationTestConfiguration.Instance.GetTestClient();
+            ShowTestOnTerminal("SimpleRefund");
+
+            AuthorizationRequest setupRequest = new AuthorizationRequest
+            {
+                Pan = "4111111111111111",
+                Amount = "25.55",
+                Test = true,
+                TransactionRef = Guid.NewGuid().ToString("N"),
+            };
+
+            output.WriteLine("Setup request: {0}", JsonConvert.SerializeObject(setupRequest));
+
+            AuthorizationResponse setupResponse = await blockchyp.ChargeAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", JsonConvert.SerializeObject(setupResponse));
 
             RefundRequest request = new RefundRequest
             {
-                TerminalName = "Test Terminal",
-                TransactionId = "<PREVIOUS TRANSACTION ID>",
-                Amount = "5.00",
+                TransactionId = setupResponse.TransactionId,
+                Test = true,
             };
+
+            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
 
             AuthorizationResponse response = await blockchyp.RefundAsync(request);
 
             output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
 
-            Assert.True(response.Approved);
+            Assert.True(response.Approved, "response.Approved");
         }
     }
 }
