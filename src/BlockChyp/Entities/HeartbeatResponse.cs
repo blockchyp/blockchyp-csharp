@@ -1,14 +1,10 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using System;
-
-
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -17,7 +13,7 @@ namespace BlockChyp.Entities
     /// The response to a basic API health check. If the security context permits it, the
     /// response may also include the public key of the current merchant.
     /// </summary>
-    public class HeartbeatResponse
+    public class HeartbeatResponse : IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.

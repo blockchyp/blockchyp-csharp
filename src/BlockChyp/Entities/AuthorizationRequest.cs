@@ -1,14 +1,10 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
-
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using System.Collections.Generic;
-
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -16,7 +12,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// An authorization request for a charge, preauth, or reverse transaction.
     /// </summary>
-    public class AuthorizationRequest
+    public class AuthorizationRequest : ICoreRequest, IPaymentMethod, IPreviousTransaction, IRequestAmount, ISignatureRequest, ISubtotals, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no
@@ -49,12 +45,6 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }
-
-        /// <summary>
-        /// The name of the target payment terminal.
-        /// </summary>
-        [JsonProperty(PropertyName = "terminalName")]
-        public string TerminalName { get; set; }
 
         /// <summary>
         /// The payment token to be used for this transaction. This should be used for
@@ -158,6 +148,12 @@ namespace BlockChyp.Entities
         public string PaymentType { get; set; }
 
         /// <summary>
+        /// The ID of the previous transaction being referenced.
+        /// </summary>
+        [JsonProperty(PropertyName = "transactionId")]
+        public string TransactionId { get; set; }
+
+        /// <summary>
         /// The transaction currency code.
         /// </summary>
         [JsonProperty(PropertyName = "currencyCode")]
@@ -174,6 +170,26 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "taxExempt")]
         public bool TaxExempt { get; set; }
+
+        /// <summary>
+        /// A location on the filesystem which a customer signature should be written to.
+        /// </summary>
+        [JsonProperty(PropertyName = "sigFile")]
+        public string SigFile { get; set; }
+
+        /// <summary>
+        /// The image format to be used for returning signatures.
+        /// </summary>
+        [JsonProperty(PropertyName = "sigFormat")]
+        public SignatureFormat SigFormat { get; set; }
+
+        /// <summary>
+        /// The width that the signature image should be scaled to, preserving the aspect
+        /// ratio. If not provided, the signature is returned in the terminal's max
+        /// resolution.
+        /// </summary>
+        [JsonProperty(PropertyName = "sigWidth")]
+        public int SigWidth { get; set; }
 
         /// <summary>
         /// The tip amount.
@@ -215,30 +231,10 @@ namespace BlockChyp.Entities
         public string EbtEligibleAmount { get; set; }
 
         /// <summary>
-        /// A location on the filesystem which a customer signature should be written to.
+        /// The name of the target payment terminal.
         /// </summary>
-        [JsonProperty(PropertyName = "sigFile")]
-        public string SigFile { get; set; }
-
-        /// <summary>
-        /// The image format to be used for returning signatures.
-        /// </summary>
-        [JsonProperty(PropertyName = "sigFormat")]
-        public SignatureFormat SigFormat { get; set; }
-
-        /// <summary>
-        /// The width that the signature image should be scaled to, preserving the aspect
-        /// ratio. If not provided, the signature is returned in the terminal's max
-        /// resolution.
-        /// </summary>
-        [JsonProperty(PropertyName = "sigWidth")]
-        public int SigWidth { get; set; }
-
-        /// <summary>
-        /// The ID of the previous transaction being referenced.
-        /// </summary>
-        [JsonProperty(PropertyName = "transactionId")]
-        public string TransactionId { get; set; }
+        [JsonProperty(PropertyName = "terminalName")]
+        public string TerminalName { get; set; }
 
         /// <summary>
         /// Used to validate online gift card authorizations.

@@ -32,7 +32,7 @@ test:
 # Runs integration tests
 .PHONY: integration
 integration:
-	$(DOTNET) test tests/BlockChypTest/BlockChypTest.csproj --filter "Category==Integration" -v n
+	$(DOTNET) test tests/BlockChypTest/BlockChypTest.csproj --filter "Category=Integration" -v n
 
 # Performs any tasks necessary before a release build
 .PHONY: stage

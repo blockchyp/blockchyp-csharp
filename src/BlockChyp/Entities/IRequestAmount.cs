@@ -4,25 +4,26 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
-using Newtonsoft.Json;
-
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// An item level discount for transaction display. Discounts never combine.
+    /// Request details about tender amounts.
     /// </summary>
-    public class TransactionDisplayDiscount
+    public interface IRequestAmount
     {
         /// <summary>
-        /// The discount description.
+        /// The transaction currency code.
         /// </summary>
-        [JsonProperty(PropertyName = "description")]
-        public string Description { get; set; }
+        string CurrencyCode { get; set; }
 
         /// <summary>
-        /// The amount of the discount.
+        /// The requested amount.
         /// </summary>
-        [JsonProperty(PropertyName = "amount")]
-        public string Amount { get; set; }
+        string Amount { get; set; }
+
+        /// <summary>
+        /// That the request is tax exempt. Only required for tax exempt level 2 processing.
+        /// </summary>
+        bool TaxExempt { get; set; }
     }
 }

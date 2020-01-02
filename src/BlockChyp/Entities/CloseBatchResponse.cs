@@ -1,14 +1,10 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
-
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using System.Collections.Generic;
-
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -16,7 +12,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a close batch request.
     /// </summary>
-    public class CloseBatchResponse
+    public class CloseBatchResponse : IAbstractAcknowledgement, ICoreResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.

@@ -4,25 +4,21 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
-using Newtonsoft.Json;
-
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// An item level discount for transaction display. Discounts never combine.
+    /// Response fields for an approved transaction.
     /// </summary>
-    public class TransactionDisplayDiscount
+    public interface IApprovalResponse
     {
         /// <summary>
-        /// The discount description.
+        /// That the transaction was approved.
         /// </summary>
-        [JsonProperty(PropertyName = "description")]
-        public string Description { get; set; }
+        bool Approved { get; set; }
 
         /// <summary>
-        /// The amount of the discount.
+        /// The auth code from the payment network.
         /// </summary>
-        [JsonProperty(PropertyName = "amount")]
-        public string Amount { get; set; }
+        string AuthCode { get; set; }
     }
 }

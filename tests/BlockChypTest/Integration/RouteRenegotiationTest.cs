@@ -3,7 +3,7 @@ using BlockChyp.Client;
 using BlockChyp.Entities;
 using Xunit;
 
-namespace BlockChypTest.Client
+namespace BlockChypTest.Integration
 {
     public class BlockChypClientTest
     {

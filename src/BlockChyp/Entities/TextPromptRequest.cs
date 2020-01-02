@@ -1,12 +1,8 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
-
-
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using Newtonsoft.Json;
 
@@ -15,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A text prompt request.
     /// </summary>
-    public class TextPromptRequest
+    public class TextPromptRequest : ICoreRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

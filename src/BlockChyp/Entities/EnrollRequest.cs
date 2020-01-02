@@ -1,12 +1,8 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
-
-
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using Newtonsoft.Json;
 
@@ -15,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The information needed to enroll a new payment method in the token vault.
     /// </summary>
-    public class EnrollRequest
+    public class EnrollRequest : ICoreRequest, IPaymentMethod, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no
@@ -48,12 +44,6 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }
-
-        /// <summary>
-        /// The name of the target payment terminal.
-        /// </summary>
-        [JsonProperty(PropertyName = "terminalName")]
-        public string TerminalName { get; set; }
 
         /// <summary>
         /// The payment token to be used for this transaction. This should be used for
@@ -155,5 +145,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "paymentType")]
         public string PaymentType { get; set; }
+
+        /// <summary>
+        /// The name of the target payment terminal.
+        /// </summary>
+        [JsonProperty(PropertyName = "terminalName")]
+        public string TerminalName { get; set; }
     }
 }

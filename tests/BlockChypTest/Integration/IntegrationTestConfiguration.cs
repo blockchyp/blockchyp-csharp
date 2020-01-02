@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using BlockChyp.Client;
 using BlockChyp.Entities;
 
-namespace BlockChypTest
+namespace BlockChypTest.Integration
 {
     public class IntegrationTestConfiguration
     {
@@ -56,7 +56,7 @@ namespace BlockChypTest
             internal static readonly IntegrationTestConfiguration instance = new IntegrationTestConfiguration();
         }
 
-        public const string ConfigFile = "blockchyp.json";
+        public const string ConfigFile = "sdk-itest-config.json";
         public const string ConfigDir = "blockchyp";
     }
 }

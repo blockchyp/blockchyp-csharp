@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace BlockChypTest
+namespace BlockChypTest.Integration
 {
     public class IntegrationTestSettings
     {

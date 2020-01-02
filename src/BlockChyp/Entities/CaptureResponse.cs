@@ -1,12 +1,8 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
-
-
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using Newtonsoft.Json;
 
@@ -15,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a capture request.
     /// </summary>
-    public class CaptureResponse
+    public class CaptureResponse : IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentAmounts, IPaymentMethodResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -34,6 +30,18 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "responseDescription")]
         public string ResponseDescription { get; set; }
+
+        /// <summary>
+        /// That the transaction was approved.
+        /// </summary>
+        [JsonProperty(PropertyName = "approved")]
+        public bool Approved { get; set; }
+
+        /// <summary>
+        /// The auth code from the payment network.
+        /// </summary>
+        [JsonProperty(PropertyName = "authCode")]
+        public string AuthCode { get; set; }
 
         /// <summary>
         /// The ID assigned to the transaction.
@@ -85,72 +93,6 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "sig")]
         public string Sig { get; set; }
-
-        /// <summary>
-        /// That the transaction was approved.
-        /// </summary>
-        [JsonProperty(PropertyName = "approved")]
-        public bool Approved { get; set; }
-
-        /// <summary>
-        /// The auth code from the payment network.
-        /// </summary>
-        [JsonProperty(PropertyName = "authCode")]
-        public string AuthCode { get; set; }
-
-        /// <summary>
-        /// The hex encoded signature data.
-        /// </summary>
-        [JsonProperty(PropertyName = "sigFile")]
-        public string SigFile { get; set; }
-
-        /// <summary>
-        /// The payment token, if the payment was enrolled in the vault.
-        /// </summary>
-        [JsonProperty(PropertyName = "token")]
-        public string Token { get; set; }
-
-        /// <summary>
-        /// The entry method for the transaction (CHIP, MSR, KEYED, etc).
-        /// </summary>
-        [JsonProperty(PropertyName = "entryMethod")]
-        public string EntryMethod { get; set; }
-
-        /// <summary>
-        /// The card brand (VISA, MC, AMEX, etc).
-        /// </summary>
-        [JsonProperty(PropertyName = "paymentType")]
-        public string PaymentType { get; set; }
-
-        /// <summary>
-        /// The masked primary account number.
-        /// </summary>
-        [JsonProperty(PropertyName = "maskedPan")]
-        public string MaskedPan { get; set; }
-
-        /// <summary>
-        /// The BlockChyp public key if the user presented a BlockChyp payment card.
-        /// </summary>
-        [JsonProperty(PropertyName = "publicKey")]
-        public string PublicKey { get; set; }
-
-        /// <summary>
-        /// That the transaction did something that would put the system in PCI scope.
-        /// </summary>
-        [JsonProperty(PropertyName = "ScopeAlert")]
-        public bool ScopeAlert { get; set; }
-
-        /// <summary>
-        /// The cardholder name.
-        /// </summary>
-        [JsonProperty(PropertyName = "cardHolder")]
-        public string CardHolder { get; set; }
-
-        /// <summary>
-        /// Suggested receipt fields.
-        /// </summary>
-        [JsonProperty(PropertyName = "receiptSuggestions")]
-        public ReceiptSuggestions ReceiptSuggestions { get; set; }
 
         /// <summary>
         /// Whether or not the transaction was approved for a partial amount.
@@ -219,5 +161,53 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "authorizedCashBackAmount")]
         public string AuthorizedCashBackAmount { get; set; }
+
+        /// <summary>
+        /// The payment token, if the payment was enrolled in the vault.
+        /// </summary>
+        [JsonProperty(PropertyName = "token")]
+        public string Token { get; set; }
+
+        /// <summary>
+        /// The entry method for the transaction (CHIP, MSR, KEYED, etc).
+        /// </summary>
+        [JsonProperty(PropertyName = "entryMethod")]
+        public string EntryMethod { get; set; }
+
+        /// <summary>
+        /// The card brand (VISA, MC, AMEX, etc).
+        /// </summary>
+        [JsonProperty(PropertyName = "paymentType")]
+        public string PaymentType { get; set; }
+
+        /// <summary>
+        /// The masked primary account number.
+        /// </summary>
+        [JsonProperty(PropertyName = "maskedPan")]
+        public string MaskedPan { get; set; }
+
+        /// <summary>
+        /// The BlockChyp public key if the user presented a BlockChyp payment card.
+        /// </summary>
+        [JsonProperty(PropertyName = "publicKey")]
+        public string PublicKey { get; set; }
+
+        /// <summary>
+        /// That the transaction did something that would put the system in PCI scope.
+        /// </summary>
+        [JsonProperty(PropertyName = "ScopeAlert")]
+        public bool ScopeAlert { get; set; }
+
+        /// <summary>
+        /// The cardholder name.
+        /// </summary>
+        [JsonProperty(PropertyName = "cardHolder")]
+        public string CardHolder { get; set; }
+
+        /// <summary>
+        /// Suggested receipt fields.
+        /// </summary>
+        [JsonProperty(PropertyName = "receiptSuggestions")]
+        public ReceiptSuggestions ReceiptSuggestions { get; set; }
     }
 }

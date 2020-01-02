@@ -1,12 +1,8 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
-
-
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using Newtonsoft.Json;
 
@@ -15,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to an enroll request.
     /// </summary>
-    public class EnrollResponse
+    public class EnrollResponse : IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentMethodResponse, ISignatureResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -34,6 +30,18 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "responseDescription")]
         public string ResponseDescription { get; set; }
+
+        /// <summary>
+        /// That the transaction was approved.
+        /// </summary>
+        [JsonProperty(PropertyName = "approved")]
+        public bool Approved { get; set; }
+
+        /// <summary>
+        /// The auth code from the payment network.
+        /// </summary>
+        [JsonProperty(PropertyName = "authCode")]
+        public string AuthCode { get; set; }
 
         /// <summary>
         /// The ID assigned to the transaction.
@@ -133,18 +141,6 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "receiptSuggestions")]
         public ReceiptSuggestions ReceiptSuggestions { get; set; }
-
-        /// <summary>
-        /// That the transaction was approved.
-        /// </summary>
-        [JsonProperty(PropertyName = "approved")]
-        public bool Approved { get; set; }
-
-        /// <summary>
-        /// The auth code from the payment network.
-        /// </summary>
-        [JsonProperty(PropertyName = "authCode")]
-        public string AuthCode { get; set; }
 
         /// <summary>
         /// The hex encoded signature data.

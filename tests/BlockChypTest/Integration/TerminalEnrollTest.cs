@@ -1,12 +1,11 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using BlockChyp.Entities;
 using Newtonsoft.Json;
@@ -42,7 +41,7 @@ namespace BlockChypTest.Integration
 
             Assert.True(response.Approved);
             Assert.True(response.Test);
-            Assert.Equal(6, response.AuthCode.Count())
+            Assert.Equal(6, response.AuthCode.Length);
             Assert.NotEmpty(response.TransactionId);
             Assert.NotEmpty(response.Timestamp);
             Assert.NotEmpty(response.TickBlock);

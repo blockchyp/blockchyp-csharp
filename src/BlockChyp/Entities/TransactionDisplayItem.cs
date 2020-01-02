@@ -1,13 +1,10 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
-
-
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -57,6 +54,6 @@ namespace BlockChyp.Entities
         /// Are displayed under their corresponding item.
         /// </summary>
         [JsonProperty(PropertyName = "discounts")]
-        public TransactionDisplayDiscount Discounts { get; set; }
+        public List<TransactionDisplayDiscount> Discounts { get; set; }
     }
 }

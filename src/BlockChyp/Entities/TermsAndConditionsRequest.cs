@@ -1,12 +1,8 @@
-/**
- * Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is governed by a
- * license that can be found in the LICENSE file.
- *
- * This file was generated automatically. Changes to this file will be lost every time the
- * code is regenerated.
- */
-
-
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
 
 using Newtonsoft.Json;
 
@@ -15,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The fields needed for custom Terms and Conditions prompts.
     /// </summary>
-    public class TermsAndConditionsRequest
+    public class TermsAndConditionsRequest : ICoreRequest, IPreviousTransaction, ISignatureRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no
@@ -50,12 +46,6 @@ namespace BlockChyp.Entities
         public int Timeout { get; set; }
 
         /// <summary>
-        /// The name of the target payment terminal.
-        /// </summary>
-        [JsonProperty(PropertyName = "terminalName")]
-        public string TerminalName { get; set; }
-
-        /// <summary>
         /// The ID of the previous transaction being referenced.
         /// </summary>
         [JsonProperty(PropertyName = "transactionId")]
@@ -80,6 +70,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "sigWidth")]
         public int SigWidth { get; set; }
+
+        /// <summary>
+        /// The name of the target payment terminal.
+        /// </summary>
+        [JsonProperty(PropertyName = "terminalName")]
+        public string TerminalName { get; set; }
 
         /// <summary>
         /// An alias for a Terms and Conditions template configured in the BlockChyp
