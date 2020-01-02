@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// A T&C signature capture response.
+    /// A signature capture response for Terms and Conditions.
     /// </summary>
     public class TermsAndConditionsResponse
     {

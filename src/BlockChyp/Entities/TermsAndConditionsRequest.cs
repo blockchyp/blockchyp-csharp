@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// The fields needed for custom T&C prompts.
+    /// The fields needed for custom Terms and Conditions prompts.
     /// </summary>
     public class TermsAndConditionsRequest
     {
@@ -82,13 +82,14 @@ namespace BlockChyp.Entities
         public int SigWidth { get; set; }
 
         /// <summary>
-        /// A reference to a T&C assembled in the dashboard.
+        /// An alias for a Terms and Conditions template configured in the BlockChyp
+        /// dashboard.
         /// </summary>
         [JsonProperty(PropertyName = "tcAlias")]
         public string TcAlias { get; set; }
 
         /// <summary>
-        /// The name of the T&Cs the user is accepting.
+        /// The name of the Terms and Conditions the user is accepting.
         /// </summary>
         [JsonProperty(PropertyName = "tcName")]
         public string TcName { get; set; }

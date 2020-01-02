@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// The response to authorization requests.
+    /// The response to an authorization request.
     /// </summary>
     public class AuthorizationResponse
     {

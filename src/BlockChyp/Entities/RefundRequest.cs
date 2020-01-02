@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Refund requests.
+    /// A refund request.
     /// </summary>
     public class RefundRequest
     {

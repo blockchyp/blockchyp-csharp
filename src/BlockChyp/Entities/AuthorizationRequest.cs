@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Auth requests for charge, preauth, and reverse transaction types.
+    /// An authorization request for a charge, preauth, or reverse transaction.
     /// </summary>
     public class AuthorizationRequest
     {

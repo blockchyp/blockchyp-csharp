@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Balance requests.
+    /// A request for the remaining balance on a payment type.
     /// </summary>
     public class BalanceRequest
     {
