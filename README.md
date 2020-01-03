@@ -63,6 +63,7 @@ You can also view a number of long form demos and learn more about us on our [Yo
 
 You don't want to read words. You want examples. Here's a quick rundown of the
 stuff you can do with the BlockChyp C# SDK and a few basic examples.
+
 #### Charge
 
 Executes a standard direct preauth and capture.
@@ -89,6 +90,7 @@ Console.WriteLine(response.AuthCode)
 Console.WriteLine(response.AuthorizedAmount)
 
 ```
+
 #### Preauthorization
 
 Executes a preauthorization intended to be captured later.
@@ -115,6 +117,7 @@ Console.WriteLine(response.AuthCode)
 Console.WriteLine(response.AuthorizedAmount)
 
 ```
+
 #### Terminal Ping
 
 Tests connectivity with a payment terminal.
@@ -137,6 +140,7 @@ if (response.Success)
 
 
 ```
+
 #### Balance
 
 Checks the remaining balance on a payment method.
@@ -161,6 +165,7 @@ if (response.Success)
 
 
 ```
+
 #### Terminal Clear
 
 Clears the line item display and any in progress transaction.
@@ -184,6 +189,7 @@ if (response.Success)
 
 
 ```
+
 #### Terms & Conditions Capture
 
 Prompts the user to accept terms and conditions.
@@ -215,6 +221,7 @@ Console.WriteLine(response.Sig)
 Console.WriteLine(response.SigFile)
 
 ```
+
 #### Update Transaction Display
 
 Appends items to an existing transaction display Subtotal, Tax, and Total are
@@ -264,6 +271,7 @@ if (response.Success)
 
 
 ```
+
 #### New Transaction Display
 
 Displays a new transaction on the terminal.
@@ -311,6 +319,7 @@ if (response.Success)
 
 
 ```
+
 #### Text Prompt
 
 Asks the consumer text based question.
@@ -336,6 +345,7 @@ if (response.Success)
 Console.WriteLine(response.Response)
 
 ```
+
 #### Boolean Prompt
 
 Asks the consumer a yes/no question.
@@ -363,6 +373,7 @@ if (response.Success)
 Console.WriteLine(response.Response)
 
 ```
+
 #### Display Message
 
 Displays a short message on the terminal.
@@ -387,6 +398,7 @@ if (response.Success)
 
 
 ```
+
 #### Refund
 
 Executes a refund.
@@ -411,6 +423,7 @@ if (response.Approved)
 
 
 ```
+
 #### Enroll
 
 Adds a new payment method to the token vault.
@@ -435,6 +448,7 @@ if (response.Approved)
 Console.WriteLine(response.Token)
 
 ```
+
 #### Gift Card Activation
 
 Activates or recharges a gift card.
@@ -462,6 +476,7 @@ Console.WriteLine(response.CurrentBalance)
 Console.WriteLine(response.PublicKey)
 
 ```
+
 #### Time Out Reversal
 
 Executes a manual time out reversal.
@@ -493,6 +508,7 @@ if (response.Approved)
 
 
 ```
+
 #### Capture Preauthorization
 
 Captures a preauthorization.
@@ -516,6 +532,7 @@ if (response.Approved)
 
 
 ```
+
 #### Close Batch
 
 Closes the current credit card batch.
@@ -540,6 +557,7 @@ Console.WriteLine(response.CapturedTotal)
 Console.WriteLine(response.OpenPreauths)
 
 ```
+
 #### Void Transaction
 
 Discards a previous preauth transaction.
@@ -563,6 +581,7 @@ if (response.Approved)
 
 
 ```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system
