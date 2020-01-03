@@ -12,10 +12,16 @@ jobs:
           keys:
             - nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
 
+      - run: dotnet restore -v n
+
+      - save_cache:
+          key: nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
+          paths:
+            - $HOME/.nuget/packages
+
       - run:
           name: Build
           command: |
-            dotnet restore -v n
             dotnet build src/BlockChyp/BlockChyp.csproj -c Release -v n
             dotnet pack src/BlockChyp/BlockChyp.csproj -c Release -v n
 
@@ -24,11 +30,6 @@ jobs:
           command: >
             dotnet test tests/BlockChypTest/BlockChypTest.csproj
             --filter "Category!=Integration" -v n
-
-      - save_cache:
-          key: nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
-          paths:
-            - $HOME/.nuget/packages
 
       - persist_to_workspace:
           root: src/BlockChyp/bin
