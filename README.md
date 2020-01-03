@@ -45,6 +45,37 @@ var blockchyp = new BlockChypClient(credentials);
 The BlockChyp client should be kept and re-used for subsequent requests.
 Terminal routes and HTTP connection pools are cached between requests.
 
+
+## The Rest APIs
+
+All BlockChyp SDKs provide a convenient way of accessing the BlockChyp REST APIs.
+You can checkout the REST API documentation via the links below.
+
+[Terminal REST API Docs](https://docs.blockchyp.com/rest-api/terminal/index.html)
+
+[Gateway REST API Docs](https://docs.blockchyp.com/rest-api/gateway/index.html)
+
+## Other SDKs
+
+BlockChyp has officially supported SDKs for eight different development platforms and counting.
+Here's the full list with links to their GitHub repositories.
+
+[Go SDK](https://github.com/blockchyp/blockchyp-go)
+
+[Node.js/JavaScript SDK](https://github.com/blockchyp/blockchyp-js)
+
+[Java SDK](https://github.com/blockchyp/blockchyp-java)
+
+[.net/C# SDK](https://github.com/blockchyp/blockchyp-csharp)
+
+[Ruby SDK](https://github.com/blockchyp/blockchyp-ruby)
+
+[PHP SDK](https://github.com/blockchyp/blockchyp-php)
+
+[Python SDK](https://github.com/blockchyp/blockchyp-python)
+
+[iOS (Objective-C/Swift) SDK](https://github.com/blockchyp/blockchyp-ios)
+
 ## Getting a Developer Kit
 
 In order to test your integration with real terminals, you'll need a BlockChyp
