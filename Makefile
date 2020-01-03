@@ -10,13 +10,13 @@ DOCKER := docker
 DOTNET := dotnet
 
 # Integration test config
+export BC_TEST_DELAY := 5
 IMAGE := mcr.microsoft.com/dotnet/core/sdk:2.2
-TEST :=
+SCMROOT := $(shell git rev-parse --show-toplevel)
+PWD := $(shell pwd)
 CACHE := $(HOME)/.local/share/blockchyp/itest-cache
-HOSTCONFIGFILE := $(HOME)/.config/blockchyp/sdk-itest-config.json
-CONFIGFILE := $(CACHE)/sdk-itest-config.json
-HOSTCERTFILE := src/BlockChyp/Assets/BlockChyp.crt
-CERTFILE := $(CACHE)/blockchyp.crt
+CONFIGFILE := $(HOME)/.config/blockchyp/sdk-itest-config.json
+CACHEPATHS := $(dir $(CONFIGFILE)) $(HOME)/.nuget $(HOME)/.dotnet $(HOME)/.local
 ifeq ($(shell uname -s), Linux)
 HOSTIP = $(shell ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
 else
@@ -48,16 +48,16 @@ test:
 .PHONY: integration
 integration:
 	$(if $(LOCALBUILD),,\
-		mkdir -p $(CACHE) ; \
-		sed 's/localhost/$(HOSTIP)/' $(HOSTCONFIGFILE) >$(CONFIGFILE) ; \
-		/bin/cp $(HOSTCERTFILE) $(CERTFILE) ; \
+		$(foreach path,$(CACHEPATHS),mkdir -p $(CACHE)/$(path) ; ) \
+		sed 's/localhost/$(HOSTIP)/' $(CONFIGFILE) >$(CACHE)/$(CONFIGFILE) ; \
 		$(DOCKER) run \
-		-v $(shell pwd):/tmp/workspace:Z \
-		-v $(CACHE)/.nuget:/root/.nuget:Z \
-		-v $(CACHE)/blockchyp.crt:/tmp/workspace/src/BlockChyp/Assets/BlockChyp.crt:Z \
-		-v $(CACHE)/sdk-itest-config.json:/root/.config/blockchyp/sdk-itest-config.json:Z \
+		-u $(shell id -u):$(shell id -g) \
+		-v $(SCMROOT):$(SCMROOT):Z \
+		-v /etc/passwd:/etc/passwd:ro \
+		$(foreach path,$(CACHEPATHS),-v $(CACHE)/$(path):$(path):Z) \
 		-e BC_TEST_DELAY=$(BC_TEST_DELAY) \
-		-w /tmp/workspace \
+		-e HOME=$(HOME) \
+		-w $(PWD) \
 		--rm $(IMAGE)) \
 	$(DOTNET) test tests/BlockChypTest/BlockChypTest.csproj \
 	$(if $(TEST), --filter FullyQualifiedName~$(TEST),--filter Category=Integration) \
