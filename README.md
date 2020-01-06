@@ -2,7 +2,7 @@
 
 [![Build Status](https://circleci.com/gh/blockchyp/blockchyp-csharp/tree/master.svg?style=shield)](https://circleci.com/gh/blockchyp/blockchyp-csharp/tree/master)
 [![NuGet](https://img.shields.io/nuget/v/blockchyp.svg)](https://www.nuget.org/packages/BlockChyp/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/blockchyp/blockchyp-csharp/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/blockchyp/blockchyp-csharp/blob/master/LICENSE)
 
 The [BlockChyp] .NET SDK, with support for .NET standard 2.0 and .NET Framework 4.5+.
 
