@@ -6,8 +6,9 @@ RELEASE := $(or $(BUILD_NUMBER), 1)
 VERSION := $(or $(TAG:v%=%),$(LASTTAG:v%=%))-$(or $(BUILD_NUMBER), 1)$(if $(TAG),,.$(SNAPINFO))
 
 # Executables
-DOCKER := docker
-DOTNET := dotnet
+DOCKER = docker
+DOTNET = dotnet
+SED = sed
 
 # Integration test config
 export BC_TEST_DELAY := 5
@@ -66,6 +67,9 @@ integration:
 # Performs any tasks necessary before a release build
 .PHONY: stage
 stage:
+	$(eval major=$(basename $(VERSION)))
+	$(SED) -i 's|<Version>.*</Version>|<Version>$(VERSION)</Version>|' src/BlockChyp/BlockChyp.csproj
+	$(SED) -i 's|<AssemblyVersion>.*</AssemblyVersion>|<AssemblyVersion>$(major).0.0.0</AssemblyVersion>|' src/BlockChyp/BlockChyp.csproj
 
 # Publishes package
 .PHONY: publish
