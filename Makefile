@@ -67,8 +67,8 @@ integration:
 # Performs any tasks necessary before a release build
 .PHONY: stage
 stage:
-	$(eval major=$(basename $(VERSION)))
-	$(SED) -i 's|<Version>.*</Version>|<Version>$(VERSION)</Version>|' src/BlockChyp/BlockChyp.csproj
+	$(eval major = $(basename $(VERSION)))
+	$(SED) -i 's|<Version>.*</Version>|<Version>$(shell sed 's/-/./' <<<$(VERSION))</Version>|' src/BlockChyp/BlockChyp.csproj
 	$(SED) -i 's|<AssemblyVersion>.*</AssemblyVersion>|<AssemblyVersion>$(major).0.0.0</AssemblyVersion>|' src/BlockChyp/BlockChyp.csproj
 
 # Publishes package
