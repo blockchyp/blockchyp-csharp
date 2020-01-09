@@ -119,13 +119,13 @@ namespace BlockChyp.Client
         /// Gets or sets the HTTP timeout used for requests to the gateway.
         /// </summary>
         /// <value>The HTTP timeout used for requests to the gateway.</value>
-        public TimeSpan GatewayRequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
+        public TimeSpan GatewayRequestTimeout { get; set; } = TimeSpan.FromSeconds(20);
 
         /// <summary>
         /// Gets or sets the HTTP timeout used for requests to terminals.
         /// </summary>
         /// <value>The HTTP timeout used for requests to terminals.</value>
-        public TimeSpan TerminalRequestTimeout { get; set; } = Timeout.InfiniteTimeSpan;
+        public TimeSpan TerminalRequestTimeout { get; set; } = TimeSpan.FromSeconds(120);
 
         /// <summary>
         /// Executes a standard direct preauth and capture.
@@ -846,8 +846,9 @@ namespace BlockChyp.Client
             var httpRequest = new HttpRequestMessage(method, requestUrl);
             httpRequest.Content = new StringContent(JsonConvert.SerializeObject(terminalRequest), Encoding.UTF8, "application/json");
 
+            var timeout = GetTimeout(body, TerminalRequestTimeout);
             var cts = new CancellationTokenSource();
-            cts.CancelAfter(TerminalRequestTimeout);
+            cts.CancelAfter(timeout);
 
             try
             {
@@ -919,8 +920,9 @@ namespace BlockChyp.Client
                 }
             }
 
+            var timeout = GetTimeout(body, GatewayRequestTimeout);
             var cts = new CancellationTokenSource();
-            cts.CancelAfter(GatewayRequestTimeout);
+            cts.CancelAfter(timeout);
 
             try
             {
@@ -1065,6 +1067,17 @@ namespace BlockChyp.Client
             var rawSignature = Crypto.FromHex(response.SigFile);
 
             File.WriteAllBytes(request.SigFile, rawSignature);
+        }
+
+        private static TimeSpan GetTimeout(object body, TimeSpan defaultTimeout)
+        {
+            var coreRequest = body as ICoreRequest;
+            if (coreRequest != null && coreRequest.Timeout > 0)
+            {
+                return TimeSpan.FromMilliseconds(coreRequest.Timeout);
+            }
+
+            return defaultTimeout;
         }
 
         private async Task<TerminalRouteResponse> ResolveTerminalRoute(string name)
