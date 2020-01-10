@@ -34,7 +34,7 @@ namespace BlockChyp.Entities
         bool Test { get; set; }
 
         /// <summary>
-        /// The request timeout in milliseconds.
+        /// The request timeout in seconds.
         /// </summary>
         int Timeout { get; set; }
     }

@@ -41,7 +41,7 @@ namespace BlockChyp.Entities
         public bool Test { get; set; }
 
         /// <summary>
-        /// The request timeout in milliseconds.
+        /// The request timeout in seconds.
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }

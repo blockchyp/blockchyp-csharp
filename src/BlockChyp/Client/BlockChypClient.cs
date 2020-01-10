@@ -147,7 +147,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/charge", request, null, request.Test)
+                response = await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/charge", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -190,7 +190,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/preauth", request, null, request.Test)
+                response = await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/preauth", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -233,7 +233,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<PingResponse>(HttpMethod.Post, "/api/terminal-test", request, null, request.Test)
+                response = await GatewayRequestAsync<PingResponse>(HttpMethod.Post, "/api/terminal-test", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -276,7 +276,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<BalanceResponse>(HttpMethod.Post, "/api/balance", request, null, request.Test)
+                response = await GatewayRequestAsync<BalanceResponse>(HttpMethod.Post, "/api/balance", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -319,7 +319,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-clear", request, null, request.Test)
+                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-clear", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -362,7 +362,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<TermsAndConditionsResponse>(HttpMethod.Post, "/api/terminal-tc", request, null, request.Test)
+                response = await GatewayRequestAsync<TermsAndConditionsResponse>(HttpMethod.Post, "/api/terminal-tc", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -407,7 +407,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Put, "/api/terminal-txdisplay", request, null, request.Test)
+                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Put, "/api/terminal-txdisplay", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -450,7 +450,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-txdisplay", request, null, request.Test)
+                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-txdisplay", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -493,7 +493,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request, null, request.Test)
+                response = await GatewayRequestAsync<TextPromptResponse>(HttpMethod.Post, "/api/text-prompt", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -536,7 +536,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request, null, request.Test)
+                response = await GatewayRequestAsync<BooleanPromptResponse>(HttpMethod.Post, "/api/boolean-prompt", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -579,7 +579,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/message", request, null, request.Test)
+                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/message", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -622,7 +622,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/refund", request, null, request.Test)
+                response = await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/refund", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -665,7 +665,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<EnrollResponse>(HttpMethod.Post, "/api/enroll", request, null, request.Test)
+                response = await GatewayRequestAsync<EnrollResponse>(HttpMethod.Post, "/api/enroll", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -708,7 +708,7 @@ namespace BlockChyp.Client
             }
             else
             {
-                response = await GatewayRequestAsync<GiftActivateResponse>(HttpMethod.Post, "/api/gift-activate", request, null, request.Test)
+                response = await GatewayRequestAsync<GiftActivateResponse>(HttpMethod.Post, "/api/gift-activate", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -858,7 +858,7 @@ namespace BlockChyp.Client
                     return ProcessResponse<T>(response.StatusCode, responseBody);
                 }
             }
-            catch (TaskCanceledException e)
+            catch (OperationCanceledException e)
             {
                 throw new TimeoutException("Terminal request timed out", e);
             }
@@ -899,9 +899,10 @@ namespace BlockChyp.Client
         /// <param name="body">The request body.</param>
         /// <param name="query">A URL query string to send with the request.</param>
         /// <param name="test">Whether or not to route the request to the test gateway.</param>
+        /// <param name="relay">Whether or not the request will be relayed to a terminal.</param>
         /// <typeparam name="T">The expected response entity.</typeparam>
         /// <exception cref="TimeoutException">if HTTP request time exceeds <c>GatewayRequestTimeout</c>.</exception>
-        public async Task<T> GatewayRequestAsync<T>(HttpMethod method, string path, object body, string query, bool test)
+        public async Task<T> GatewayRequestAsync<T>(HttpMethod method, string path, object body, string query, bool test, bool relay = false)
         {
             var requestUrl = ToFullyQualifiedGatewayPath(path, query, test);
             var request = new HttpRequestMessage(method, requestUrl);
@@ -920,7 +921,7 @@ namespace BlockChyp.Client
                 }
             }
 
-            var timeout = GetTimeout(body, GatewayRequestTimeout);
+            var timeout = GetTimeout(body, relay ? TerminalRequestTimeout : GatewayRequestTimeout);
             var cts = new CancellationTokenSource();
             cts.CancelAfter(timeout);
 
@@ -932,7 +933,7 @@ namespace BlockChyp.Client
                         return ProcessResponse<T>(response.StatusCode, responseBody);
                 }
             }
-            catch (TaskCanceledException e)
+            catch (OperationCanceledException e)
             {
                 throw new TimeoutException("Gateway request timed out", e);
             }
@@ -946,10 +947,11 @@ namespace BlockChyp.Client
         /// <param name="body">The request body.</param>
         /// <param name="query">A URL query string to send with the request.</param>
         /// <param name="test">Whether or not to route the request to the test gateway.</param>
+        /// <param name="relay">Whether or not the request will be relayed to a terminal.</param>
         /// <typeparam name="T">The expected response entity.</typeparam>
-        public T GatewayRequest<T>(HttpMethod method, string path, object body, string query, bool test)
+        public T GatewayRequest<T>(HttpMethod method, string path, object body, string query, bool test, bool relay = false)
         {
-            return GatewayRequestAsync<T>(method, path, body, query, test)
+            return GatewayRequestAsync<T>(method, path, body, query, test, relay)
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
@@ -1074,7 +1076,7 @@ namespace BlockChyp.Client
             var coreRequest = body as ICoreRequest;
             if (coreRequest != null && coreRequest.Timeout > 0)
             {
-                return TimeSpan.FromMilliseconds(coreRequest.Timeout);
+                return TimeSpan.FromSeconds(coreRequest.Timeout);
             }
 
             return defaultTimeout;
