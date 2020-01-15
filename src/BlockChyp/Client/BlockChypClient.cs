@@ -732,6 +732,49 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns the current status of a terminal.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TerminalStatusResponse> TerminalStatusAsync(TerminalStatusRequest request)
+        {
+            ISignatureRequest signatureRequest = request as ISignatureRequest;
+            if (signatureRequest != null)
+            {
+                PopulateSignatureOptions(signatureRequest);
+            }
+
+            TerminalStatusResponse response;
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                response = await TerminalRequestAsync<TerminalStatusResponse>(HttpMethod.Post, "/api/terminal-status", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response = await GatewayRequestAsync<TerminalStatusResponse>(HttpMethod.Post, "/api/terminal-status", request, null, request.Test, relay: true)
+                    .ConfigureAwait(false);
+            }
+
+            ISignatureResponse signatureResponse = response as ISignatureResponse;
+            if (signatureRequest != null && signatureResponse != null)
+            {
+                DumpSignatureFile(signatureRequest, signatureResponse);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TerminalStatusAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TerminalStatusResponse TerminalStatus(TerminalStatusRequest request)
+        {
+            return TerminalStatusAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
         /// Executes a manual time out reversal.
         ///
         /// We love time out reversals. Don't be afraid to use them whenever a request to a

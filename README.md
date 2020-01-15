@@ -542,6 +542,27 @@ Console.WriteLine($"Approved: {response.Approved}");
 
 ```
 
+#### Terminal Status
+
+Returns the current status of a terminal.
+
+```c#
+// Populate request parameters.
+TerminalStatusRequest request = new TerminalStatusRequest
+{
+    TerminalName = "Test Terminal",
+};
+
+// Run the transaction.
+TerminalStatusResponse response = await blockchyp.TerminalStatusAsync(request);
+
+// View the result.
+Console.WriteLine($"Success: {response.Success}");
+Console.WriteLine(response.Idle);
+Console.WriteLine(response.Status);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system
