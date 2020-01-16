@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Information needed to test connectivity with a terminal.
     /// </summary>
-    public class PingRequest : ICoreRequest, ITerminalReference
+    public class PingRequest : BaseEntity, ICoreRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

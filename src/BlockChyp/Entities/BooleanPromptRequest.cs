@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A simple yes no prompt request.
     /// </summary>
-    public class BooleanPromptRequest : ICoreRequest, ITerminalReference
+    public class BooleanPromptRequest : BaseEntity, ICoreRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

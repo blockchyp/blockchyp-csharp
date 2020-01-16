@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The information needed to activate or recharge a gift card.
     /// </summary>
-    public class GiftActivateRequest : ICoreRequest, IRequestAmount, ITerminalReference
+    public class GiftActivateRequest : BaseEntity, ICoreRequest, IRequestAmount, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Shows details about a white listed card.
     /// </summary>
-    public class WhiteListedCard
+    public class WhiteListedCard : BaseEntity
     {
         /// <summary>
         /// The card BIN.

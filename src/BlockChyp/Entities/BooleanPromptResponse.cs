@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a boolean prompt request.
     /// </summary>
-    public class BooleanPromptResponse : IAbstractAcknowledgement
+    public class BooleanPromptResponse : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.

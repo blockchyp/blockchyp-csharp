@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A request for the status of a terminal.
     /// </summary>
-    public class TerminalStatusRequest : ICoreRequest, ITerminalReference
+    public class TerminalStatusRequest : BaseEntity, ICoreRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

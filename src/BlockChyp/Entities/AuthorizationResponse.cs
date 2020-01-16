@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to an authorization request.
     /// </summary>
-    public class AuthorizationResponse : IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentAmounts, IPaymentMethodResponse, ISignatureResponse
+    public class AuthorizationResponse : BaseEntity, IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentAmounts, IPaymentMethodResponse, ISignatureResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.

@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a balance request.
     /// </summary>
-    public class BalanceResponse : IAbstractAcknowledgement, ICoreResponse, IPaymentMethodResponse
+    public class BalanceResponse : BaseEntity, IAbstractAcknowledgement, ICoreResponse, IPaymentMethodResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.

@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BlockChyp.Entities;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -37,7 +36,7 @@ namespace BlockChypTest.Integration
                 Test = true,
             };
 
-            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+            output.WriteLine("Request: {0}", request);
 
             await Assert.ThrowsAsync<TimeoutException>(() => blockchyp.ChargeAsync(request));
         }

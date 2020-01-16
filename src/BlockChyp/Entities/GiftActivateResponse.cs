@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a gift activate request.
     /// </summary>
-    public class GiftActivateResponse : IAbstractAcknowledgement, ICoreResponse
+    public class GiftActivateResponse : BaseEntity, IAbstractAcknowledgement, ICoreResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.

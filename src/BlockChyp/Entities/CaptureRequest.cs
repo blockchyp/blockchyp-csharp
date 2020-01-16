@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The information needed to capture a preauth.
     /// </summary>
-    public class CaptureRequest : ICoreRequest, IPreviousTransaction, IRequestAmount, ISubtotals
+    public class CaptureRequest : BaseEntity, ICoreRequest, IPreviousTransaction, IRequestAmount, ISubtotals
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

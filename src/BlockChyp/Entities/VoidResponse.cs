@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a void request.
     /// </summary>
-    public class VoidResponse : IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentMethodResponse, ISignatureResponse
+    public class VoidResponse : BaseEntity, IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentMethodResponse, ISignatureResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.

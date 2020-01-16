@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A message to be displayed on the terminal screen.
     /// </summary>
-    public class MessageRequest : ICoreRequest, ITerminalReference
+    public class MessageRequest : BaseEntity, ICoreRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

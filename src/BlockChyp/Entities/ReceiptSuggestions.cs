@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// EMV fields we recommend developers put on their receipts.
     /// </summary>
-    public class ReceiptSuggestions
+    public class ReceiptSuggestions : BaseEntity
     {
         /// <summary>
         /// The EMV Application Identifier.

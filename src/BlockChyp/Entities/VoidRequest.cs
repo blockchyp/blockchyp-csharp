@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A void request.
     /// </summary>
-    public class VoidRequest : ICoreRequest, IPreviousTransaction
+    public class VoidRequest : BaseEntity, ICoreRequest, IPreviousTransaction
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

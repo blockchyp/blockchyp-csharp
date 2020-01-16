@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A basic api acknowledgement.
     /// </summary>
-    public class Acknowledgement : IAbstractAcknowledgement
+    public class Acknowledgement : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.

@@ -12,7 +12,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// An authorization request for a charge, preauth, or reverse transaction.
     /// </summary>
-    public class AuthorizationRequest : ICoreRequest, IPaymentMethod, IPreviousTransaction, IRequestAmount, ISignatureRequest, ISubtotals, ITerminalReference
+    public class AuthorizationRequest : BaseEntity, ICoreRequest, IPaymentMethod, IPreviousTransaction, IRequestAmount, ISignatureRequest, ISubtotals, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

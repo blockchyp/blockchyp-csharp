@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A refund request.
     /// </summary>
-    public class RefundRequest : ICoreRequest, IPaymentMethod, IPreviousTransaction, IRequestAmount, ISignatureRequest, ISubtotals, ITerminalReference
+    public class RefundRequest : BaseEntity, ICoreRequest, IPaymentMethod, IPreviousTransaction, IRequestAmount, ISignatureRequest, ISubtotals, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

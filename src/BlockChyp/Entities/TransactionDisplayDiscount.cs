@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// An item level discount for transaction display. Discounts never combine.
     /// </summary>
-    public class TransactionDisplayDiscount
+    public class TransactionDisplayDiscount : BaseEntity
     {
         /// <summary>
         /// The discount description.

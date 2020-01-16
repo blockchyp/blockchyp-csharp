@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BlockChyp.Entities;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,11 +33,11 @@ namespace BlockChypTest.Integration
                 TerminalName = "Test Terminal",
             };
 
-            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+            output.WriteLine("Request: {0}", request);
 
             TerminalStatusResponse response = await blockchyp.TerminalStatusAsync(request);
 
-            output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
+            output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Success, "response.Success");
             Assert.True(response.Idle, "response.Idle");

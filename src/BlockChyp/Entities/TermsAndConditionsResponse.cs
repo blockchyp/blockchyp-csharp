@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A signature capture response for Terms and Conditions.
     /// </summary>
-    public class TermsAndConditionsResponse : IAbstractAcknowledgement, ICoreResponse, ISignatureResponse
+    public class TermsAndConditionsResponse : BaseEntity, IAbstractAcknowledgement, ICoreResponse, ISignatureResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.

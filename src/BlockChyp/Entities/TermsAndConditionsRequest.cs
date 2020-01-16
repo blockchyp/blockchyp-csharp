@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The fields needed for custom Terms and Conditions prompts.
     /// </summary>
-    public class TermsAndConditionsRequest : ICoreRequest, IPreviousTransaction, ISignatureRequest, ITerminalReference
+    public class TermsAndConditionsRequest : BaseEntity, ICoreRequest, IPreviousTransaction, ISignatureRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BlockChyp.Entities;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -36,11 +35,11 @@ namespace BlockChypTest.Integration
                 Message = "Thank You For Your Business",
             };
 
-            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+            output.WriteLine("Request: {0}", request);
 
             Acknowledgement response = await blockchyp.MessageAsync(request);
 
-            output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
+            output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Success, "response.Success");
         }

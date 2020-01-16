@@ -13,7 +13,7 @@ namespace BlockChyp.Entities
     /// The response to a basic API health check. If the security context permits it, the
     /// response may also include the public key of the current merchant.
     /// </summary>
-    public class HeartbeatResponse : IAbstractAcknowledgement
+    public class HeartbeatResponse : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.

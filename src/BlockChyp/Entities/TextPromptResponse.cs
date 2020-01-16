@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a text prompt request.
     /// </summary>
-    public class TextPromptResponse : IAbstractAcknowledgement
+    public class TextPromptResponse : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.

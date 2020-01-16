@@ -12,7 +12,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a close batch request.
     /// </summary>
-    public class CloseBatchResponse : IAbstractAcknowledgement, ICoreResponse
+    public class CloseBatchResponse : BaseEntity, IAbstractAcknowledgement, ICoreResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.

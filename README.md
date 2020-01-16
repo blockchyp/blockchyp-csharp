@@ -113,9 +113,7 @@ AuthorizationRequest request = new AuthorizationRequest
 AuthorizationResponse response = await blockchyp.ChargeAsync(request);
 
 // View the result.
-Console.WriteLine($"Approved: {response.Approved}");
-Console.WriteLine(response.AuthCode);
-Console.WriteLine(response.AuthorizedAmount);
+Console.WriteLine(response);
 
 ```
 
@@ -136,9 +134,7 @@ AuthorizationRequest request = new AuthorizationRequest
 AuthorizationResponse response = await blockchyp.PreauthAsync(request);
 
 // View the result.
-Console.WriteLine($"Approved: {response.Approved}");
-Console.WriteLine(response.AuthCode);
-Console.WriteLine(response.AuthorizedAmount);
+Console.WriteLine(response);
 
 ```
 
@@ -157,7 +153,7 @@ PingRequest request = new PingRequest
 PingResponse response = await blockchyp.PingAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
+Console.WriteLine(response);
 
 ```
 
@@ -178,7 +174,7 @@ BalanceRequest request = new BalanceRequest
 BalanceResponse response = await blockchyp.BalanceAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
+Console.WriteLine(response);
 
 ```
 
@@ -198,7 +194,7 @@ ClearTerminalRequest request = new ClearTerminalRequest
 Acknowledgement response = await blockchyp.ClearAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
+Console.WriteLine(response);
 
 ```
 
@@ -224,9 +220,7 @@ TermsAndConditionsRequest request = new TermsAndConditionsRequest
 TermsAndConditionsResponse response = await blockchyp.TermsAndConditionsAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
-Console.WriteLine(response.Sig);
-Console.WriteLine(response.SigFile);
+Console.WriteLine(response);
 
 ```
 
@@ -272,7 +266,7 @@ TransactionDisplayRequest request = new TransactionDisplayRequest
 Acknowledgement response = await blockchyp.UpdateTransactionDisplayAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
+Console.WriteLine(response);
 
 ```
 
@@ -316,7 +310,7 @@ TransactionDisplayRequest request = new TransactionDisplayRequest
 Acknowledgement response = await blockchyp.NewTransactionDisplayAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
+Console.WriteLine(response);
 
 ```
 
@@ -337,8 +331,7 @@ TextPromptRequest request = new TextPromptRequest
 TextPromptResponse response = await blockchyp.TextPromptAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
-Console.WriteLine(response.Response);
+Console.WriteLine(response);
 
 ```
 
@@ -361,8 +354,7 @@ BooleanPromptRequest request = new BooleanPromptRequest
 BooleanPromptResponse response = await blockchyp.BooleanPromptAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
-Console.WriteLine(response.Response);
+Console.WriteLine(response);
 
 ```
 
@@ -383,7 +375,7 @@ MessageRequest request = new MessageRequest
 Acknowledgement response = await blockchyp.MessageAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
+Console.WriteLine(response);
 
 ```
 
@@ -404,7 +396,7 @@ RefundRequest request = new RefundRequest
 AuthorizationResponse response = await blockchyp.RefundAsync(request);
 
 // View the result.
-Console.WriteLine($"Approved: {response.Approved}");
+Console.WriteLine(response);
 
 ```
 
@@ -424,8 +416,7 @@ EnrollRequest request = new EnrollRequest
 EnrollResponse response = await blockchyp.EnrollAsync(request);
 
 // View the result.
-Console.WriteLine($"Approved: {response.Approved}");
-Console.WriteLine(response.Token);
+Console.WriteLine(response);
 
 ```
 
@@ -446,10 +437,7 @@ GiftActivateRequest request = new GiftActivateRequest
 GiftActivateResponse response = await blockchyp.GiftActivateAsync(request);
 
 // View the result.
-Console.WriteLine($"Approved: {response.Approved}");
-Console.WriteLine(response.Amount);
-Console.WriteLine(response.CurrentBalance);
-Console.WriteLine(response.PublicKey);
+Console.WriteLine(response);
 
 ```
 
@@ -477,7 +465,7 @@ AuthorizationRequest request = new AuthorizationRequest
 AuthorizationResponse response = await blockchyp.ReverseAsync(request);
 
 // View the result.
-Console.WriteLine($"Approved: {response.Approved}");
+Console.WriteLine(response);
 
 ```
 
@@ -497,7 +485,7 @@ CaptureRequest request = new CaptureRequest
 CaptureResponse response = await blockchyp.CaptureAsync(request);
 
 // View the result.
-Console.WriteLine($"Approved: {response.Approved}");
+Console.WriteLine(response);
 
 ```
 
@@ -516,9 +504,7 @@ CloseBatchRequest request = new CloseBatchRequest
 CloseBatchResponse response = await blockchyp.CloseBatchAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
-Console.WriteLine(response.CapturedTotal);
-Console.WriteLine(response.OpenPreauths);
+Console.WriteLine(response);
 
 ```
 
@@ -538,7 +524,7 @@ VoidRequest request = new VoidRequest
 VoidResponse response = await blockchyp.VoidAsync(request);
 
 // View the result.
-Console.WriteLine($"Approved: {response.Approved}");
+Console.WriteLine(response);
 
 ```
 
@@ -557,9 +543,7 @@ TerminalStatusRequest request = new TerminalStatusRequest
 TerminalStatusResponse response = await blockchyp.TerminalStatusAsync(request);
 
 // View the result.
-Console.WriteLine($"Success: {response.Success}");
-Console.WriteLine(response.Idle);
-Console.WriteLine(response.Status);
+Console.WriteLine(response);
 
 ```
 

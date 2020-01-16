@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BlockChyp.Entities;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -36,11 +35,11 @@ namespace BlockChypTest.Integration
                 Test = true,
             };
 
-            output.WriteLine("Setup request: {0}", JsonConvert.SerializeObject(setupRequest));
+            output.WriteLine("Setup request: {0}", setupRequest);
 
             AuthorizationResponse setupResponse = await blockchyp.PreauthAsync(setupRequest);
 
-            output.WriteLine("Setup Response: {0}", JsonConvert.SerializeObject(setupResponse));
+            output.WriteLine("Setup Response: {0}", setupResponse);
 
             CaptureRequest request = new CaptureRequest
             {
@@ -48,11 +47,11 @@ namespace BlockChypTest.Integration
                 Test = true,
             };
 
-            output.WriteLine("Request: {0}", JsonConvert.SerializeObject(request));
+            output.WriteLine("Request: {0}", request);
 
             CaptureResponse response = await blockchyp.CaptureAsync(request);
 
-            output.WriteLine("Response: {0}", JsonConvert.SerializeObject(response));
+            output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Approved, "response.Approved");
         }

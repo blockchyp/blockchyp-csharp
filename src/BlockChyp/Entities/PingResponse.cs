@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to a ping request.
     /// </summary>
-    public class PingResponse : IAbstractAcknowledgement, ICoreResponse
+    public class PingResponse : BaseEntity, IAbstractAcknowledgement, ICoreResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.

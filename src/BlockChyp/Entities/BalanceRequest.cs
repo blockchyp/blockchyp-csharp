@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A request for the remaining balance on a payment type.
     /// </summary>
-    public class BalanceRequest : ICoreRequest, IPaymentMethod, ITerminalReference
+    public class BalanceRequest : BaseEntity, ICoreRequest, IPaymentMethod, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

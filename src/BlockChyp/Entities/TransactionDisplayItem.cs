@@ -14,7 +14,7 @@ namespace BlockChyp.Entities
     /// match. Calculated subtotal amounts are rounded to two decimal places of precision.
     /// Quantity is a floating point number that is not rounded at all.
     /// </summary>
-    public class TransactionDisplayItem
+    public class TransactionDisplayItem : BaseEntity
     {
         /// <summary>
         /// A unique value identifying the item. This is not required, but recommended

@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The information needed to manually close a credit card batch.
     /// </summary>
-    public class CloseBatchRequest : ICoreRequest
+    public class CloseBatchRequest : BaseEntity, ICoreRequest
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

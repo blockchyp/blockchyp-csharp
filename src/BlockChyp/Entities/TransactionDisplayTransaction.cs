@@ -12,7 +12,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The items to display on a terminal.
     /// </summary>
-    public class TransactionDisplayTransaction
+    public class TransactionDisplayTransaction : BaseEntity
     {
         /// <summary>
         /// The subtotal to display.

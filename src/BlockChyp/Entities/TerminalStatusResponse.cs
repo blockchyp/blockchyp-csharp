@@ -12,7 +12,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The current status of a terminal.
     /// </summary>
-    public class TerminalStatusResponse : IAbstractAcknowledgement
+    public class TerminalStatusResponse : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.

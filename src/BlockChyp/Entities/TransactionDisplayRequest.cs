@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Used to start or update a transaction line item display on a terminal.
     /// </summary>
-    public class TransactionDisplayRequest : ICoreRequest, ITerminalReference
+    public class TransactionDisplayRequest : BaseEntity, ICoreRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

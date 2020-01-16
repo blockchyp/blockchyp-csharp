@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The information needed to enroll a new payment method in the token vault.
     /// </summary>
-    public class ClearTerminalRequest : ICoreRequest, ITerminalReference
+    public class ClearTerminalRequest : BaseEntity, ICoreRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no

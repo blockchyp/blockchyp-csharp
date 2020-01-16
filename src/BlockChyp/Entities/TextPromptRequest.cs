@@ -11,7 +11,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A text prompt request.
     /// </summary>
-    public class TextPromptRequest : ICoreRequest, ITerminalReference
+    public class TextPromptRequest : BaseEntity, ICoreRequest, ITerminalReference
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no
