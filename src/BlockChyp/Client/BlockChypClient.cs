@@ -386,7 +386,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Appends items to an existing transaction display Subtotal, Tax, and Total are
+        /// Appends items to an existing transaction display. Subtotal, Tax, and Total are
         /// overwritten by the request. Items with the same description are combined into
         /// groups.
         /// </summary>
@@ -474,7 +474,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Asks the consumer text based question.
+        /// Asks the consumer a text based question.
         /// </summary>
         /// <param name="request">The request details.</param>
         public async Task<TextPromptResponse> TextPromptAsync(TextPromptRequest request)

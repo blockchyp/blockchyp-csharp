@@ -40,6 +40,7 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Response: {0}", response);
 
+            Assert.True(response.Success, "response.Success");
             Assert.True(response.Approved, "response.Approved");
             Assert.True(response.Test, "response.Test");
             Assert.Equal(6, response.AuthCode.Length);

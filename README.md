@@ -100,6 +100,7 @@ stuff you can do with the BlockChyp C# SDK and a few basic examples.
 
 Executes a standard direct preauth and capture.
 
+
 ```c#
 // Populate request parameters.
 AuthorizationRequest request = new AuthorizationRequest
@@ -120,6 +121,7 @@ Console.WriteLine(response);
 #### Preauthorization
 
 Executes a preauthorization intended to be captured later.
+
 
 ```c#
 // Populate request parameters.
@@ -142,6 +144,7 @@ Console.WriteLine(response);
 
 Tests connectivity with a payment terminal.
 
+
 ```c#
 // Populate request parameters.
 PingRequest request = new PingRequest
@@ -160,6 +163,7 @@ Console.WriteLine(response);
 #### Balance
 
 Checks the remaining balance on a payment method.
+
 
 ```c#
 // Populate request parameters.
@@ -182,6 +186,7 @@ Console.WriteLine(response);
 
 Clears the line item display and any in progress transaction.
 
+
 ```c#
 // Populate request parameters.
 ClearTerminalRequest request = new ClearTerminalRequest
@@ -201,6 +206,7 @@ Console.WriteLine(response);
 #### Terms & Conditions Capture
 
 Prompts the user to accept terms and conditions.
+
 
 ```c#
 // Populate request parameters.
@@ -226,9 +232,10 @@ Console.WriteLine(response);
 
 #### Update Transaction Display
 
-Appends items to an existing transaction display Subtotal, Tax, and Total are
+Appends items to an existing transaction display.  Subtotal, Tax, and Total are
 overwritten by the request. Items with the same description are combined into
 groups.
+
 
 ```c#
 // Populate request parameters.
@@ -274,6 +281,7 @@ Console.WriteLine(response);
 
 Displays a new transaction on the terminal.
 
+
 ```c#
 // Populate request parameters.
 TransactionDisplayRequest request = new TransactionDisplayRequest
@@ -316,7 +324,8 @@ Console.WriteLine(response);
 
 #### Text Prompt
 
-Asks the consumer text based question.
+Asks the consumer a text based question.
+
 
 ```c#
 // Populate request parameters.
@@ -338,6 +347,7 @@ Console.WriteLine(response);
 #### Boolean Prompt
 
 Asks the consumer a yes/no question.
+
 
 ```c#
 // Populate request parameters.
@@ -362,6 +372,7 @@ Console.WriteLine(response);
 
 Displays a short message on the terminal.
 
+
 ```c#
 // Populate request parameters.
 MessageRequest request = new MessageRequest
@@ -382,6 +393,7 @@ Console.WriteLine(response);
 #### Refund
 
 Executes a refund.
+
 
 ```c#
 // Populate request parameters.
@@ -404,6 +416,7 @@ Console.WriteLine(response);
 
 Adds a new payment method to the token vault.
 
+
 ```c#
 // Populate request parameters.
 EnrollRequest request = new EnrollRequest
@@ -423,6 +436,7 @@ Console.WriteLine(response);
 #### Gift Card Activation
 
 Activates or recharges a gift card.
+
 
 ```c#
 // Populate request parameters.
@@ -453,6 +467,7 @@ transaction you're trying to reverse because we may not have assigned it an id
 yet. And if we did assign it an id, you wouldn't know what it is because your
 request to the terminal timed out before you got a response.
 
+
 ```c#
 // Populate request parameters.
 AuthorizationRequest request = new AuthorizationRequest
@@ -472,6 +487,7 @@ Console.WriteLine(response);
 #### Capture Preauthorization
 
 Captures a preauthorization.
+
 
 ```c#
 // Populate request parameters.
@@ -493,6 +509,7 @@ Console.WriteLine(response);
 
 Closes the current credit card batch.
 
+
 ```c#
 // Populate request parameters.
 CloseBatchRequest request = new CloseBatchRequest
@@ -511,6 +528,7 @@ Console.WriteLine(response);
 #### Void Transaction
 
 Discards a previous preauth transaction.
+
 
 ```c#
 // Populate request parameters.
@@ -531,6 +549,7 @@ Console.WriteLine(response);
 #### Terminal Status
 
 Returns the current status of a terminal.
+
 
 ```c#
 // Populate request parameters.
