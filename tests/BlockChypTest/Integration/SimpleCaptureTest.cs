@@ -53,6 +53,7 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Response: {0}", response);
 
+            Assert.True(response.Success, "response.Success");
             Assert.True(response.Approved, "response.Approved");
         }
     }
