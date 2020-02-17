@@ -775,6 +775,49 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Captures and returns a signature.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CaptureSignatureResponse> CaptureSignatureAsync(CaptureSignatureRequest request)
+        {
+            ISignatureRequest signatureRequest = request as ISignatureRequest;
+            if (signatureRequest != null)
+            {
+                PopulateSignatureOptions(signatureRequest);
+            }
+
+            CaptureSignatureResponse response;
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                response = await TerminalRequestAsync<CaptureSignatureResponse>(HttpMethod.Post, "/api/capture-signature", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response = await GatewayRequestAsync<CaptureSignatureResponse>(HttpMethod.Post, "/api/capture-signature", request, null, request.Test, relay: true)
+                    .ConfigureAwait(false);
+            }
+
+            ISignatureResponse signatureResponse = response as ISignatureResponse;
+            if (signatureRequest != null && signatureResponse != null)
+            {
+                DumpSignatureFile(signatureRequest, signatureResponse);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="CaptureSignatureAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CaptureSignatureResponse CaptureSignature(CaptureSignatureRequest request)
+        {
+            return CaptureSignatureAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
         /// Executes a manual time out reversal.
         ///
         /// We love time out reversals. Don't be afraid to use them whenever a request to a

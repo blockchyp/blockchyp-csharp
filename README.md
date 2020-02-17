@@ -566,6 +566,28 @@ Console.WriteLine(response);
 
 ```
 
+#### Capture Signature.
+
+Captures and returns a signature.
+
+
+```c#
+// Populate request parameters.
+CaptureSignatureRequest request = new CaptureSignatureRequest
+{
+    TerminalName = "Test Terminal",
+    SigFormat = SignatureFormat.PNG,
+    SigWidth = 200,
+};
+
+// Run the transaction.
+CaptureSignatureResponse response = await blockchyp.CaptureSignatureAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system
