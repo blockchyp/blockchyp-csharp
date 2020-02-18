@@ -192,6 +192,14 @@ namespace BlockChyp.Entities
         public int SigWidth { get; set; }
 
         /// <summary>
+        /// Whether or not signature prompt should be skipped on the terminal. The terminal
+        /// will indicate whether or not a signature is required by the card in the receipt
+        /// suggestions response.
+        /// </summary>
+        [JsonProperty(PropertyName = "disableSignature")]
+        public bool DisableSignature { get; set; }
+
+        /// <summary>
         /// The tip amount.
         /// </summary>
         [JsonProperty(PropertyName = "tipAmount")]
