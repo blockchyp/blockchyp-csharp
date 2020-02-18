@@ -47,6 +47,11 @@ namespace BlockChyp.Entities
         string CardHolder { get; set; }
 
         /// <summary>
+        /// Address verification results if address information was submitted.
+        /// </summary>
+        AvsResponse AvsResponse { get; set; }
+
+        /// <summary>
         /// Suggested receipt fields.
         /// </summary>
         ReceiptSuggestions ReceiptSuggestions { get; set; }

@@ -137,6 +137,12 @@ namespace BlockChyp.Entities
         public string CardHolder { get; set; }
 
         /// <summary>
+        /// Address verification results if address information was submitted.
+        /// </summary>
+        [JsonProperty(PropertyName = "avsResponse")]
+        public AvsResponse AvsResponse { get; set; }
+
+        /// <summary>
         /// Suggested receipt fields.
         /// </summary>
         [JsonProperty(PropertyName = "receiptSuggestions")]
