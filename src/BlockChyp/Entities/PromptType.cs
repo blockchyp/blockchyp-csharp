@@ -26,5 +26,13 @@ namespace BlockChyp.Entities
         /// <summary>Prompt for rewards number.</summary>
         [EnumMember(Value = "rewards-number")]
         RewardsNumber,
+
+        /// <summary>Prompt for first name.</summary>
+        [EnumMember(Value = "first-name")]
+        FirstName,
+
+        /// <summary>Prompt for last name.</summary>
+        [EnumMember(Value = "last-name")]
+        LastName,
     }
 }
