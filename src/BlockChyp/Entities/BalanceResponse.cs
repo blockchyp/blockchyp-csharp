@@ -137,6 +137,12 @@ namespace BlockChyp.Entities
         public ReceiptSuggestions ReceiptSuggestions { get; set; }
 
         /// <summary>
+        /// Customer data, if any.
+        /// </summary>
+        [JsonProperty(PropertyName = "customer")]
+        public Customer Customer { get; set; }
+
+        /// <summary>
         /// Remaining balance on the payment method.
         /// </summary>
         [JsonProperty(PropertyName = "remainingBalance")]

@@ -151,5 +151,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "terminalName")]
         public string TerminalName { get; set; }
+
+        /// <summary>
+        /// Customer with which the new token should be associated.
+        /// </summary>
+        [JsonProperty(PropertyName = "customer")]
+        public Customer Customer { get; set; }
     }
 }

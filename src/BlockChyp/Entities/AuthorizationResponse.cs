@@ -217,6 +217,12 @@ namespace BlockChyp.Entities
         public ReceiptSuggestions ReceiptSuggestions { get; set; }
 
         /// <summary>
+        /// Customer data, if any.
+        /// </summary>
+        [JsonProperty(PropertyName = "customer")]
+        public Customer Customer { get; set; }
+
+        /// <summary>
         /// The hex encoded signature data.
         /// </summary>
         [JsonProperty(PropertyName = "sigFile")]

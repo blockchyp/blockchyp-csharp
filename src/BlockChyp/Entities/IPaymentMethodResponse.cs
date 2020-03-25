@@ -55,5 +55,10 @@ namespace BlockChyp.Entities
         /// Suggested receipt fields.
         /// </summary>
         ReceiptSuggestions ReceiptSuggestions { get; set; }
+
+        /// <summary>
+        /// Customer data, if any.
+        /// </summary>
+        Customer Customer { get; set; }
     }
 }

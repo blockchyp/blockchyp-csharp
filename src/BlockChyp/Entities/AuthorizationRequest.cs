@@ -281,5 +281,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "altPrices")]
         public Dictionary<string, string> AltPrices { get; set; }
+
+        /// <summary>
+        /// Suggested receipt fields.
+        /// </summary>
+        [JsonProperty(PropertyName = "customer")]
+        public Customer Customer { get; set; }
     }
 }

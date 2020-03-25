@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// The response to a capture request.
+    /// Models the status of a transaction.
     /// </summary>
-    public class CaptureResponse : BaseEntity, IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentAmounts, IPaymentMethodResponse
+    public class TransactionStatus : BaseEntity, IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentAmounts, IPaymentMethodResponse, ISignatureResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -221,5 +221,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "customer")]
         public Customer Customer { get; set; }
+
+        /// <summary>
+        /// The hex encoded signature data.
+        /// </summary>
+        [JsonProperty(PropertyName = "sigFile")]
+        public string SigFile { get; set; }
+
+        /// <summary>
+        /// That the transaction was flagged for store and forward due to network problems.
+        /// </summary>
+        [JsonProperty(PropertyName = "storeAndForward")]
+        public bool StoreAndForward { get; set; }
     }
 }

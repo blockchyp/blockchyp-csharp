@@ -902,6 +902,101 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Updates or creates a customer record.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CustomerResponse> UpdateCustomerAsync(UpdateCustomerRequest request)
+        {
+            return await GatewayRequestAsync<CustomerResponse>(HttpMethod.Post, "/api/update-customer", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UpdateCustomerAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CustomerResponse UpdateCustomer(UpdateCustomerRequest request)
+        {
+            return GatewayRequest<CustomerResponse>(HttpMethod.Post, "/api/update-customer", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Retrieves a customer by id.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CustomerResponse> CustomerAsync(CustomerRequest request)
+        {
+            return await GatewayRequestAsync<CustomerResponse>(HttpMethod.Post, "/api/customer", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="CustomerAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CustomerResponse Customer(CustomerRequest request)
+        {
+            return GatewayRequest<CustomerResponse>(HttpMethod.Post, "/api/customer", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Searches the customer database.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CustomerSearchResponse> CustomerSearchAsync(CustomerSearchRequest request)
+        {
+            return await GatewayRequestAsync<CustomerSearchResponse>(HttpMethod.Post, "/api/customer-search", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="CustomerSearchAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CustomerSearchResponse CustomerSearch(CustomerSearchRequest request)
+        {
+            return GatewayRequest<CustomerSearchResponse>(HttpMethod.Post, "/api/customer-search", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Retrieves the current status of a transaction.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<AuthorizationResponse> TransactionStatusAsync(TransactionStatusRequest request)
+        {
+            return await GatewayRequestAsync<AuthorizationResponse>(HttpMethod.Post, "/api/tx-status", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TransactionStatusAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public AuthorizationResponse TransactionStatus(TransactionStatusRequest request)
+        {
+            return GatewayRequest<AuthorizationResponse>(HttpMethod.Post, "/api/tx-status", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Creates and send a payment link to a customer.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PaymentLinkResponse> SendPaymentLinkAsync(PaymentLinkRequest request)
+        {
+            return await GatewayRequestAsync<PaymentLinkResponse>(HttpMethod.Post, "/api/send-payment-link", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SendPaymentLinkAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PaymentLinkResponse SendPaymentLink(PaymentLinkRequest request)
+        {
+            return GatewayRequest<PaymentLinkResponse>(HttpMethod.Post, "/api/send-payment-link", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Sends a request to a terminal and returns its response
         /// as an asynchronous operation.
         /// </summary>

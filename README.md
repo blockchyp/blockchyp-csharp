@@ -588,6 +588,142 @@ Console.WriteLine(response);
 
 ```
 
+#### Update Customer
+
+Updates or creates a customer record.
+
+
+```c#
+// Populate request parameters.
+UpdateCustomerRequest request = new UpdateCustomerRequest
+{
+    Customer = new Customer
+    {
+        Id = "ID of the customer to update",
+        CustomerRef = "Customer reference string",
+        FirstName = "FirstName",
+        LastName = "LastName",
+        CompanyName = "Company Name",
+        EmailAddress = "support@blockchyp.com",
+        SmsNumber = "(123) 123-1231",
+    },
+};
+
+// Run the transaction.
+CustomerResponse response = await blockchyp.UpdateCustomerAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Retrieve Customer
+
+Retrieves a customer by id.
+
+
+```c#
+// Populate request parameters.
+CustomerRequest request = new CustomerRequest
+{
+    CustomerId = "ID of the customer to retrieve",
+};
+
+// Run the transaction.
+CustomerResponse response = await blockchyp.CustomerAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Search Customer
+
+Searches the customer database.
+
+
+```c#
+// Populate request parameters.
+CustomerSearchRequest request = new CustomerSearchRequest
+{
+    Query = "(123) 123-1234",
+};
+
+// Run the transaction.
+CustomerSearchResponse response = await blockchyp.CustomerSearchAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Transaction Status
+
+Retrieves the current status of a transaction.
+
+
+```c#
+// Populate request parameters.
+TransactionStatusRequest request = new TransactionStatusRequest
+{
+    TransactionId = "ID of transaction to retrieve",
+};
+
+// Run the transaction.
+AuthorizationResponse response = await blockchyp.TransactionStatusAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Send Payment Link
+
+Creates and send a payment link to a customer.
+
+
+```c#
+// Populate request parameters.
+PaymentLinkRequest request = new PaymentLinkRequest
+{
+    Amount = "199.99",
+    Description = "Widget",
+    Subject = "Widget invoice",
+    Transaction = new TransactionDisplayTransaction
+    {
+        Subtotal = "195.00",
+        Tax = "4.99",
+        Total = "199.99",
+        Items = new List<TransactionDisplayItem>
+        {
+            new TransactionDisplayItem
+            {
+                Description = "Widget",
+                Price = "195.00",
+                Quantity = 1,
+            }
+        },
+    },
+    AutoSend = true,
+    Customer = new Customer
+    {
+        CustomerRef = "Customer reference string",
+        FirstName = "FirstName",
+        LastName = "LastName",
+        CompanyName = "Company Name",
+        EmailAddress = "support@blockchyp.com",
+        SmsNumber = "(123) 123-1231",
+    },
+};
+
+// Run the transaction.
+PaymentLinkResponse response = await blockchyp.SendPaymentLinkAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system
