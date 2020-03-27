@@ -98,5 +98,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "customer")]
         public Customer Customer { get; set; }
+
+        /// <summary>
+        /// Optional callback url to which transaction responses for this link will be
+        /// posted.
+        /// </summary>
+        [JsonProperty(PropertyName = "callbackUrl")]
+        public string CallbackUrl { get; set; }
     }
 }
