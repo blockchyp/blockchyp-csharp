@@ -105,5 +105,24 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "callbackUrl")]
         public string CallbackUrl { get; set; }
+
+        /// <summary>
+        /// An alias for a Terms and Conditions template configured in the BlockChyp
+        /// dashboard.
+        /// </summary>
+        [JsonProperty(PropertyName = "tcAlias")]
+        public string TcAlias { get; set; }
+
+        /// <summary>
+        /// The name of the Terms and Conditions the user is accepting.
+        /// </summary>
+        [JsonProperty(PropertyName = "tcName")]
+        public string TcName { get; set; }
+
+        /// <summary>
+        /// The content of the terms and conditions that will be presented to the user.
+        /// </summary>
+        [JsonProperty(PropertyName = "tcContent")]
+        public string TcContent { get; set; }
     }
 }
