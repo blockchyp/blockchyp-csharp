@@ -127,5 +127,18 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "cashBackAmount")]
         public string CashBackAmount { get; set; }
+
+        /// <summary>
+        /// The amount added to the transaction to cover eligible credit card fees.
+        /// </summary>
+        [JsonProperty(PropertyName = "surcharge")]
+        public string Surcharge { get; set; }
+
+        /// <summary>
+        /// The discount applied to the transaction for payment methods ineligible for
+        /// surcharges.
+        /// </summary>
+        [JsonProperty(PropertyName = "cashDiscount")]
+        public string CashDiscount { get; set; }
     }
 }

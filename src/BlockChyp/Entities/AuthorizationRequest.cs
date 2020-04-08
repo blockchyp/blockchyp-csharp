@@ -172,6 +172,20 @@ namespace BlockChyp.Entities
         public bool TaxExempt { get; set; }
 
         /// <summary>
+        /// A flag to add a surcharge to the transaction to cover credit card fees, if
+        /// permitted.
+        /// </summary>
+        [JsonProperty(PropertyName = "surcharge")]
+        public bool Surcharge { get; set; }
+
+        /// <summary>
+        /// A flag that applies a discount to negate the surcharge for debit transactions or
+        /// other surcharge ineligible payment methods.
+        /// </summary>
+        [JsonProperty(PropertyName = "cashDiscount")]
+        public bool CashDiscount { get; set; }
+
+        /// <summary>
         /// A location on the filesystem which a customer signature should be written to.
         /// </summary>
         [JsonProperty(PropertyName = "sigFile")]

@@ -25,5 +25,17 @@ namespace BlockChyp.Entities
         /// That the request is tax exempt. Only required for tax exempt level 2 processing.
         /// </summary>
         bool TaxExempt { get; set; }
+
+        /// <summary>
+        /// A flag to add a surcharge to the transaction to cover credit card fees, if
+        /// permitted.
+        /// </summary>
+        bool Surcharge { get; set; }
+
+        /// <summary>
+        /// A flag that applies a discount to negate the surcharge for debit transactions or
+        /// other surcharge ineligible payment methods.
+        /// </summary>
+        bool CashDiscount { get; set; }
     }
 }
