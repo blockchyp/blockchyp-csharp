@@ -50,7 +50,14 @@ namespace BlockChyp.Entities
         public bool TaxExempt { get; set; }
 
         /// <summary>
-        /// The cash discount, if necessary.
+        /// The normal surcharge for a transaction. Will only be returned if an offsetting
+        /// cash discount is also returned.
+        /// </summary>
+        [JsonProperty(PropertyName = "surcharge")]
+        public string Surcharge { get; set; }
+
+        /// <summary>
+        /// The cash discount. Will not be returned in surcharge only mode.
         /// </summary>
         [JsonProperty(PropertyName = "cashDiscount")]
         public string CashDiscount { get; set; }
