@@ -111,5 +111,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "publicKey")]
         public string PublicKey { get; set; }
+
+        /// <summary>
+        /// The masked card identifier.
+        /// </summary>
+        [JsonProperty(PropertyName = "maskedPan")]
+        public string MaskedPan { get; set; }
     }
 }
