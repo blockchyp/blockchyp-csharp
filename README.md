@@ -657,6 +657,26 @@ Console.WriteLine(response);
 
 ```
 
+#### Cash Discount
+
+Calculates the discount for actual cash transactions.
+
+
+```c#
+// Populate request parameters.
+CashDiscountRequest request = new CashDiscountRequest
+{
+    Amount = "100.00",
+};
+
+// Run the transaction.
+CashDiscountResponse response = await blockchyp.CashDiscountAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Transaction Status
 
 Retrieves the current status of a transaction.
