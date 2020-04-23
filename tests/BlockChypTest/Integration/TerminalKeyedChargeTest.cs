@@ -49,7 +49,7 @@ namespace BlockChypTest.Integration
             Assert.NotEmpty(response.TransactionId);
             Assert.NotEmpty(response.Timestamp);
             Assert.NotEmpty(response.TickBlock);
-            Assert.Equal("Approved", response.ResponseDescription);
+            Assert.Equal("approved", response.ResponseDescription);
             Assert.NotEmpty(response.PaymentType);
             Assert.NotEmpty(response.MaskedPan);
             Assert.NotEmpty(response.EntryMethod);

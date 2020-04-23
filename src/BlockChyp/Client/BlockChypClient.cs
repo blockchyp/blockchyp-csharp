@@ -959,6 +959,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Calculates the discount for actual cash transactions.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CashDiscountResponse> CashDiscountAsync(CashDiscountRequest request)
+        {
+            return await GatewayRequestAsync<CashDiscountResponse>(HttpMethod.Post, "/api/cash-discount", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="CashDiscountAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CashDiscountResponse CashDiscount(CashDiscountRequest request)
+        {
+            return GatewayRequest<CashDiscountResponse>(HttpMethod.Post, "/api/cash-discount", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Retrieves the current status of a transaction.
         /// </summary>
         /// <param name="request">The request details.</param>
