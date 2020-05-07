@@ -90,6 +90,12 @@ namespace BlockChyp.Entities
         public bool AutoSend { get; set; }
 
         /// <summary>
+        /// Flags the payment link as cashier facing.
+        /// </summary>
+        [JsonProperty(PropertyName = "cashier")]
+        public bool Cashier { get; set; }
+
+        /// <summary>
         /// Description explaining the transaction for display to the user.
         /// </summary>
         [JsonProperty(PropertyName = "description")]
