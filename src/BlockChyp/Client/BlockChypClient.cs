@@ -1016,6 +1016,63 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns the batch history for a merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<BatchHistoryResponse> BatchHistoryAsync(BatchHistoryRequest request)
+        {
+            return await GatewayRequestAsync<BatchHistoryResponse>(HttpMethod.Post, "/api/batch-history", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="BatchHistoryAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public BatchHistoryResponse BatchHistory(BatchHistoryRequest request)
+        {
+            return GatewayRequest<BatchHistoryResponse>(HttpMethod.Post, "/api/batch-history", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Returns the batch details for a single batch.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<BatchDetailsResponse> BatchDetailsAsync(BatchDetailsRequest request)
+        {
+            return await GatewayRequestAsync<BatchDetailsResponse>(HttpMethod.Post, "/api/batch-details", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="BatchDetailsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public BatchDetailsResponse BatchDetails(BatchDetailsRequest request)
+        {
+            return GatewayRequest<BatchDetailsResponse>(HttpMethod.Post, "/api/batch-details", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Returns the transaction history for a merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TransactionHistoryResponse> TransactionHistoryAsync(TransactionHistoryRequest request)
+        {
+            return await GatewayRequestAsync<TransactionHistoryResponse>(HttpMethod.Post, "/api/tx-history", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TransactionHistoryAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TransactionHistoryResponse TransactionHistory(TransactionHistoryRequest request)
+        {
+            return GatewayRequest<TransactionHistoryResponse>(HttpMethod.Post, "/api/tx-history", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Sends a request to a terminal and returns its response
         /// as an asynchronous operation.
         /// </summary>

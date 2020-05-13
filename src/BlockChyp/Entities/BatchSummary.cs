@@ -1,0 +1,47 @@
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
+
+using System;
+using Newtonsoft.Json;
+
+namespace BlockChyp.Entities
+{
+    /// <summary>
+    /// Models high level information about a single batch.
+    /// </summary>
+    public class BatchSummary : BaseEntity
+    {
+        /// <summary>
+        /// Batch identifier.
+        /// </summary>
+        [JsonProperty(PropertyName = "batchId")]
+        public string BatchId { get; set; }
+
+        /// <summary>
+        /// The new captured amount.
+        /// </summary>
+        [JsonProperty(PropertyName = "capturedAmount")]
+        public string CapturedAmount { get; set; }
+
+        /// <summary>
+        /// Flag indicating whether or not the batch is open.
+        /// </summary>
+        [JsonProperty(PropertyName = "open")]
+        public bool Open { get; set; }
+
+        /// <summary>
+        /// Date and time of the first transaction for this batch.
+        /// </summary>
+        [JsonProperty(PropertyName = "openDate")]
+        public DateTime? OpenDate { get; set; }
+
+        /// <summary>
+        /// Date and time the batch was closed.
+        /// </summary>
+        [JsonProperty(PropertyName = "closeDate")]
+        public DateTime? CloseDate { get; set; }
+    }
+}

@@ -1,0 +1,85 @@
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically. Changes to this file will be lost
+// every time the code is regenerated.
+
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace BlockChyp.Entities
+{
+    /// <summary>
+    /// Models response to a batch history request.
+    /// </summary>
+    public class TransactionHistoryResponse : BaseEntity, IAbstractAcknowledgement
+    {
+        /// <summary>
+        /// Whether or not the request succeeded.
+        /// </summary>
+        [JsonProperty(PropertyName = "success")]
+        public bool Success { get; set; }
+
+        /// <summary>
+        /// The error, if an error occurred.
+        /// </summary>
+        [JsonProperty(PropertyName = "error")]
+        public string Error { get; set; }
+
+        /// <summary>
+        /// A narrative description of the transaction result.
+        /// </summary>
+        [JsonProperty(PropertyName = "responseDescription")]
+        public string ResponseDescription { get; set; }
+
+        /// <summary>
+        /// Batch identifier if filtered by batch.
+        /// </summary>
+        [JsonProperty(PropertyName = "batchId")]
+        public string BatchId { get; set; }
+
+        /// <summary>
+        /// Terminal name if filtered by terminal.
+        /// </summary>
+        [JsonProperty(PropertyName = "terminalName")]
+        public string TerminalName { get; set; }
+
+        /// <summary>
+        /// Start date if filtered by start date.
+        /// </summary>
+        [JsonProperty(PropertyName = "startDate")]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// End date if filtered by end date.
+        /// </summary>
+        [JsonProperty(PropertyName = "endDate")]
+        public DateTime? EndDate { get; set; }
+
+        /// <summary>
+        /// Max results from the original request echoed back. Defaults to the system max of
+        /// 250.
+        /// </summary>
+        [JsonProperty(PropertyName = "maxResults")]
+        public int MaxResults { get; set; }
+
+        /// <summary>
+        /// Starting index from the original request echoed back.
+        /// </summary>
+        [JsonProperty(PropertyName = "startIndex")]
+        public int StartIndex { get; set; }
+
+        /// <summary>
+        /// Total number of results accessible through paging.
+        /// </summary>
+        [JsonProperty(PropertyName = "totalResultCount")]
+        public int TotalResultCount { get; set; }
+
+        /// <summary>
+        /// Matching transaction history.
+        /// </summary>
+        [JsonProperty(PropertyName = "transactions")]
+        public List<AuthorizationResponse> Transactions { get; set; }
+    }
+}
