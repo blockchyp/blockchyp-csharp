@@ -34,6 +34,12 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
+        /// That the response came from the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
+        /// <summary>
         /// Start date if filtered by start date.
         /// </summary>
         [JsonProperty(PropertyName = "startDate")]
