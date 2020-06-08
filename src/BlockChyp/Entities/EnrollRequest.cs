@@ -153,6 +153,12 @@ namespace BlockChyp.Entities
         public string TerminalName { get; set; }
 
         /// <summary>
+        /// The method by which the payment card was entered (MSR, CHIP, KEYED, etc.).
+        /// </summary>
+        [JsonProperty(PropertyName = "entryMethod")]
+        public string EntryMethod { get; set; }
+
+        /// <summary>
         /// Customer with which the new token should be associated.
         /// </summary>
         [JsonProperty(PropertyName = "customer")]
