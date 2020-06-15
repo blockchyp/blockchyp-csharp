@@ -77,6 +77,12 @@ namespace BlockChyp.Entities
         public bool Test { get; set; }
 
         /// <summary>
+        /// The settlement account for merchants with split settlements.
+        /// </summary>
+        [JsonProperty(PropertyName = "destinationAccount")]
+        public string DestinationAccount { get; set; }
+
+        /// <summary>
         /// The ECC signature of the response. Can be used to ensure that it was signed by the
         /// terminal and detect man-in-the middle attacks.
         /// </summary>
@@ -84,28 +90,9 @@ namespace BlockChyp.Entities
         public string Sig { get; set; }
 
         /// <summary>
-        /// The currency code of amounts indicated.
+        /// A collection of batches closed during the batch close operation.
         /// </summary>
-        [JsonProperty(PropertyName = "currencyCode")]
-        public string CurrencyCode { get; set; }
-
-        /// <summary>
-        /// The total captured amount for this batch. Should be the expected deposit
-        /// amount.
-        /// </summary>
-        [JsonProperty(PropertyName = "capturedTotal")]
-        public string CapturedTotal { get; set; }
-
-        /// <summary>
-        /// The total amount of preauths opened during the batch that weren't captured.
-        /// </summary>
-        [JsonProperty(PropertyName = "openPreauths")]
-        public string OpenPreauths { get; set; }
-
-        /// <summary>
-        /// The captured totals by card brand.
-        /// </summary>
-        [JsonProperty(PropertyName = "cardBrands")]
-        public Dictionary<string, string> CardBrands { get; set; }
+        [JsonProperty(PropertyName = "batches")]
+        public List<BatchSummary> Batches { get; set; }
     }
 }
