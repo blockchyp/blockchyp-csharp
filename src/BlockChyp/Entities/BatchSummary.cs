@@ -27,6 +27,18 @@ namespace BlockChyp.Entities
         public string CapturedAmount { get; set; }
 
         /// <summary>
+        /// The amount of preauths opend during the batch that have not been captured.
+        /// </summary>
+        [JsonProperty(PropertyName = "openPreauths")]
+        public string OpenPreauths { get; set; }
+
+        /// <summary>
+        /// The currency the batch was settled in.
+        /// </summary>
+        [JsonProperty(PropertyName = "currencyCode")]
+        public string CurrencyCode { get; set; }
+
+        /// <summary>
         /// Flag indicating whether or not the batch is open.
         /// </summary>
         [JsonProperty(PropertyName = "open")]
