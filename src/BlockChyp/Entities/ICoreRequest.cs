@@ -19,6 +19,18 @@ namespace BlockChyp.Entities
         string TransactionRef { get; set; }
 
         /// <summary>
+        /// Defers the response to the transaction and returns immediately. Callers
+        /// should retrive the transaction result using the Transaction Status API.
+        /// </summary>
+        bool Async { get; set; }
+
+        /// <summary>
+        /// Adds the transaction to the queue and returns immediately. Callers should
+        /// retrive the transaction result using the Transaction Status API.
+        /// </summary>
+        bool Queue { get; set; }
+
+        /// <summary>
         /// An identifier from an external point of sale system.
         /// </summary>
         string OrderRef { get; set; }
