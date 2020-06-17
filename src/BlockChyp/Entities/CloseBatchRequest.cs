@@ -58,5 +58,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }
+
+        /// <summary>
+        /// Optional batch id.
+        /// </summary>
+        [JsonProperty(PropertyName = "batchId")]
+        public string BatchId { get; set; }
     }
 }
