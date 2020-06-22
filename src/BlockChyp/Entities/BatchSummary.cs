@@ -21,10 +21,34 @@ namespace BlockChyp.Entities
         public string BatchId { get; set; }
 
         /// <summary>
+        /// Entry method for the batch, if any.
+        /// </summary>
+        [JsonProperty(PropertyName = "entryMethod")]
+        public string EntryMethod { get; set; }
+
+        /// <summary>
+        /// Merchant deposit account into which proceeds should be deposited.
+        /// </summary>
+        [JsonProperty(PropertyName = "destinationAccountId")]
+        public string DestinationAccountId { get; set; }
+
+        /// <summary>
         /// The new captured amount.
         /// </summary>
         [JsonProperty(PropertyName = "capturedAmount")]
         public string CapturedAmount { get; set; }
+
+        /// <summary>
+        /// The amount of preauths opened during the batch that have not been captured.
+        /// </summary>
+        [JsonProperty(PropertyName = "openPreauths")]
+        public string OpenPreauths { get; set; }
+
+        /// <summary>
+        /// The currency the batch was settled in.
+        /// </summary>
+        [JsonProperty(PropertyName = "currencyCode")]
+        public string CurrencyCode { get; set; }
 
         /// <summary>
         /// Flag indicating whether or not the batch is open.

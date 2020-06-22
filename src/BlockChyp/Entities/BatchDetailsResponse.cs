@@ -34,10 +34,28 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
+        /// That the response came from the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
+        /// <summary>
         /// Batch identifier.
         /// </summary>
         [JsonProperty(PropertyName = "batchId")]
         public string BatchId { get; set; }
+
+        /// <summary>
+        /// Entry method for the batch, if any.
+        /// </summary>
+        [JsonProperty(PropertyName = "entryMethod")]
+        public string EntryMethod { get; set; }
+
+        /// <summary>
+        /// Merchant deposit account into which proceeds should be deposited.
+        /// </summary>
+        [JsonProperty(PropertyName = "destinationAccountId")]
+        public string DestinationAccountId { get; set; }
 
         /// <summary>
         /// The new captured amount.

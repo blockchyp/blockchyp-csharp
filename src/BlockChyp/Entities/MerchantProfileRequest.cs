@@ -4,50 +4,59 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
+using Newtonsoft.Json;
+
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Core request fields for a transaction.
+    /// Models a request for information about the merchant profile.
     /// </summary>
-    public interface ICoreRequest
+    public class MerchantProfileRequest : BaseEntity, ICoreRequest
     {
         /// <summary>
         /// The transaction reference string assigned to the transaction request. If no
         /// transaction ref was assiged on the request, then the gateway will randomly
         /// generate one.
         /// </summary>
-        string TransactionRef { get; set; }
+        [JsonProperty(PropertyName = "transactionRef")]
+        public string TransactionRef { get; set; }
 
         /// <summary>
         /// Defers the response to the transaction and returns immediately. Callers
         /// should retrive the transaction result using the Transaction Status API.
         /// </summary>
-        bool Async { get; set; }
+        [JsonProperty(PropertyName = "async")]
+        public bool Async { get; set; }
 
         /// <summary>
         /// Adds the transaction to the queue and returns immediately. Callers should
         /// retrive the transaction result using the Transaction Status API.
         /// </summary>
-        bool Queue { get; set; }
+        [JsonProperty(PropertyName = "queue")]
+        public bool Queue { get; set; }
 
         /// <summary>
         /// An identifier from an external point of sale system.
         /// </summary>
-        string OrderRef { get; set; }
+        [JsonProperty(PropertyName = "orderRef")]
+        public string OrderRef { get; set; }
 
         /// <summary>
         /// The settlement account for merchants with split settlements.
         /// </summary>
-        string DestinationAccount { get; set; }
+        [JsonProperty(PropertyName = "destinationAccount")]
+        public string DestinationAccount { get; set; }
 
         /// <summary>
         /// Whether or not to route transaction to the test gateway.
         /// </summary>
-        bool Test { get; set; }
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
 
         /// <summary>
         /// The request timeout in seconds.
         /// </summary>
-        int Timeout { get; set; }
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
     }
 }

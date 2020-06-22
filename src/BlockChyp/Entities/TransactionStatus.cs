@@ -88,6 +88,12 @@ namespace BlockChyp.Entities
         public bool Test { get; set; }
 
         /// <summary>
+        /// The settlement account for merchants with split settlements.
+        /// </summary>
+        [JsonProperty(PropertyName = "destinationAccount")]
+        public string DestinationAccount { get; set; }
+
+        /// <summary>
         /// The ECC signature of the response. Can be used to ensure that it was signed by the
         /// terminal and detect man-in-the middle attacks.
         /// </summary>

@@ -22,6 +22,20 @@ namespace BlockChyp.Entities
         public string TransactionRef { get; set; }
 
         /// <summary>
+        /// Defers the response to the transaction and returns immediately. Callers
+        /// should retrive the transaction result using the Transaction Status API.
+        /// </summary>
+        [JsonProperty(PropertyName = "async")]
+        public bool Async { get; set; }
+
+        /// <summary>
+        /// Adds the transaction to the queue and returns immediately. Callers should
+        /// retrive the transaction result using the Transaction Status API.
+        /// </summary>
+        [JsonProperty(PropertyName = "queue")]
+        public bool Queue { get; set; }
+
+        /// <summary>
         /// An identifier from an external point of sale system.
         /// </summary>
         [JsonProperty(PropertyName = "orderRef")]
@@ -151,6 +165,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "terminalName")]
         public string TerminalName { get; set; }
+
+        /// <summary>
+        /// The method by which the payment card was entered (MSR, CHIP, KEYED, etc.).
+        /// </summary>
+        [JsonProperty(PropertyName = "entryMethod")]
+        public string EntryMethod { get; set; }
 
         /// <summary>
         /// Customer with which the new token should be associated.

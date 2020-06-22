@@ -1166,7 +1166,7 @@ Console.WriteLine(response);
 Adds or updates a customer record.
 
 If you pass in customer information including `firstName`, `lastName`, `email`,
-`email`, or `sms` without any Customer ID or Customer Ref, a new record will
+or `sms` without any Customer ID or Customer Ref, a new record will
 be created.
 
 If you pass in `customerRef` and `customerId`, the customer record will be updated
@@ -1427,6 +1427,32 @@ TransactionHistoryRequest request = new TransactionHistoryRequest
 
 // Run the transaction.
 TransactionHistoryResponse response = await blockchyp.TransactionHistoryAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Merchant Profile
+
+
+
+Returns detailed metadata about the merchant's configuraton, including
+basic identity information, terminal settings, store and forward settings,
+and bank account information for merchants that support split settlement.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantProfileRequest request = new MerchantProfileRequest
+{
+
+};
+
+// Run the transaction.
+MerchantProfileResponse response = await blockchyp.MerchantProfileAsync(request);
 
 // View the result.
 Console.WriteLine(response);
