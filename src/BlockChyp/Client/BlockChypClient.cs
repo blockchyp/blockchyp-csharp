@@ -1073,6 +1073,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns profile information for a merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantProfileResponse> MerchantProfileAsync(MerchantProfileRequest request)
+        {
+            return await GatewayRequestAsync<MerchantProfileResponse>(HttpMethod.Post, "/api/public-merchant-profile", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantProfileAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantProfileResponse MerchantProfile(MerchantProfileRequest request)
+        {
+            return GatewayRequest<MerchantProfileResponse>(HttpMethod.Post, "/api/public-merchant-profile", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Sends a request to a terminal and returns its response
         /// as an asynchronous operation.
         /// </summary>

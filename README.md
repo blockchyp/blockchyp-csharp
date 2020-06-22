@@ -1433,6 +1433,32 @@ Console.WriteLine(response);
 
 ```
 
+#### Merchant Profile
+
+
+
+Returns detailed metadata about the merchant's configuraton, including
+basic identity information, terminal settings, store and forward settings,
+and bank account information for merchants that support split settlement.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantProfileRequest request = new MerchantProfileRequest
+{
+
+};
+
+// Run the transaction.
+MerchantProfileResponse response = await blockchyp.MerchantProfileAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system

@@ -21,6 +21,18 @@ namespace BlockChyp.Entities
         public string BatchId { get; set; }
 
         /// <summary>
+        /// Entry method for the batch, if any.
+        /// </summary>
+        [JsonProperty(PropertyName = "entryMethod")]
+        public string EntryMethod { get; set; }
+
+        /// <summary>
+        /// Merchant deposit account into which proceeds should be deposited.
+        /// </summary>
+        [JsonProperty(PropertyName = "destinationAccountId")]
+        public string DestinationAccountId { get; set; }
+
+        /// <summary>
         /// The new captured amount.
         /// </summary>
         [JsonProperty(PropertyName = "capturedAmount")]
