@@ -39,40 +39,46 @@ namespace BlockChyp.Entities
         public bool Test { get; set; }
 
         /// <summary>
-        /// Merchant id.
+        /// The merchant id.
         /// </summary>
         [JsonProperty(PropertyName = "merchantId")]
         public string MerchantId { get; set; }
 
         /// <summary>
-        /// Company name.
+        /// The merchant's company name.
         /// </summary>
         [JsonProperty(PropertyName = "companyName")]
         public string CompanyName { get; set; }
 
         /// <summary>
-        /// Location name.
+        /// The location name.
         /// </summary>
         [JsonProperty(PropertyName = "locationName")]
         public string LocationName { get; set; }
 
         /// <summary>
-        /// Store number.
+        /// The store number.
         /// </summary>
         [JsonProperty(PropertyName = "storeNumber")]
         public string StoreNumber { get; set; }
 
         /// <summary>
-        /// Merchant's local time zone.
+        /// The merchant's local time zone.
         /// </summary>
         [JsonProperty(PropertyName = "timeZone")]
         public string TimeZone { get; set; }
 
         /// <summary>
-        /// Batch close time in the merchant's time zone.
+        /// The batch close time in the merchant's time zone.
         /// </summary>
         [JsonProperty(PropertyName = "batchCloseTime")]
         public string BatchCloseTime { get; set; }
+
+        /// <summary>
+        /// The terminal firmware update time.
+        /// </summary>
+        [JsonProperty(PropertyName = "terminalUpdateTime")]
+        public string TerminalUpdateTime { get; set; }
 
         /// <summary>
         /// Flag indicating whether or not the batch automatically closes.
@@ -99,10 +105,35 @@ namespace BlockChyp.Entities
         public bool StoreAndForwardEnabled { get; set; }
 
         /// <summary>
+        /// Flag indicating whether or not partial authorizations are supported for this
+        /// merchant.
+        /// </summary>
+        [JsonProperty(PropertyName = "partialAuthEnabled")]
+        public bool PartialAuthEnabled { get; set; }
+
+        /// <summary>
+        /// Flag indicating whether or not this merchant support split settlement.
+        /// </summary>
+        [JsonProperty(PropertyName = "splitBankAccountsEnabled")]
+        public bool SplitBankAccountsEnabled { get; set; }
+
+        /// <summary>
         /// Floor limit for store and forward transactions.
         /// </summary>
         [JsonProperty(PropertyName = "storeAndForwardFloorLimit")]
         public string StoreAndForwardFloorLimit { get; set; }
+
+        /// <summary>
+        /// The blockchyp public key for this merchant.
+        /// </summary>
+        [JsonProperty(PropertyName = "publicKey")]
+        public string PublicKey { get; set; }
+
+        /// <summary>
+        /// The undwriting/processing status for the the merchant.
+        /// </summary>
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
 
         /// <summary>
         /// Bank accounts for split bank account merchants.
