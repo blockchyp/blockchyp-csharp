@@ -30,7 +30,7 @@ namespace BlockChypTest.Integration
 
             MerchantProfileRequest request = new MerchantProfileRequest
             {
-
+                Test = true,
             };
 
             output.WriteLine("Request: {0}", request);
