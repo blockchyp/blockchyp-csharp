@@ -104,6 +104,13 @@ namespace BlockChyp.Entities
         public bool AutoSend { get; set; }
 
         /// <summary>
+        /// That the payment method should be added to the token vault alongside the
+        /// authorization.
+        /// </summary>
+        [JsonProperty(PropertyName = "enroll")]
+        public bool Enroll { get; set; }
+
+        /// <summary>
         /// Flags the payment link as cashier facing.
         /// </summary>
         [JsonProperty(PropertyName = "cashier")]
