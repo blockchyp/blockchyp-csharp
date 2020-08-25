@@ -12,9 +12,7 @@ namespace BlockChyp.Entities
     public interface ICoreRequest
     {
         /// <summary>
-        /// The transaction reference string assigned to the transaction request. If no
-        /// transaction ref was assiged on the request, then the gateway will randomly
-        /// generate one.
+        /// A user-assigned reference that can be used to recall or reverse transactions.
         /// </summary>
         string TransactionRef { get; set; }
 
