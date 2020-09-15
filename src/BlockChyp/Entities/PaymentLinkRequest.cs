@@ -109,6 +109,13 @@ namespace BlockChyp.Entities
         public bool Enroll { get; set; }
 
         /// <summary>
+        /// That the link should be used to enroll a token only. Can only be used in cashier
+        /// mode.
+        /// </summary>
+        [JsonProperty(PropertyName = "enrollOnly")]
+        public bool EnrollOnly { get; set; }
+
+        /// <summary>
         /// Flags the payment link as cashier facing.
         /// </summary>
         [JsonProperty(PropertyName = "cashier")]
