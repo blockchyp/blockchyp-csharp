@@ -117,6 +117,12 @@ namespace BlockChyp.Entities
         public string TcContent { get; set; }
 
         /// <summary>
+        /// A hash of the terms and conditions content that can be used for caching.
+        /// </summary>
+        [JsonProperty(PropertyName = "contentHash")]
+        public string ContentHash { get; set; }
+
+        /// <summary>
         /// That a signature should be requested.
         /// </summary>
         [JsonProperty(PropertyName = "sigRequired")]
