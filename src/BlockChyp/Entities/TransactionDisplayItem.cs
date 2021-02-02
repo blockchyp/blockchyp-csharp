@@ -51,6 +51,24 @@ namespace BlockChyp.Entities
         public string Extended { get; set; }
 
         /// <summary>
+        /// An alphanumeric code for units of measurement as used in international trade.
+        /// </summary>
+        [JsonProperty(PropertyName = "unitCode")]
+        public string UnitCode { get; set; }
+
+        /// <summary>
+        /// An international description code of the item.
+        /// </summary>
+        [JsonProperty(PropertyName = "commodityCode")]
+        public string CommodityCode { get; set; }
+
+        /// <summary>
+        /// A merchant-defined description code of the item.
+        /// </summary>
+        [JsonProperty(PropertyName = "productCode")]
+        public string ProductCode { get; set; }
+
+        /// <summary>
         /// Are displayed under their corresponding item.
         /// </summary>
         [JsonProperty(PropertyName = "discounts")]
