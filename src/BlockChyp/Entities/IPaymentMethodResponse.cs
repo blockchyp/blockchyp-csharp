@@ -47,6 +47,16 @@ namespace BlockChyp.Entities
         string CardHolder { get; set; }
 
         /// <summary>
+        /// The card expiration month in MM format.
+        /// </summary>
+        string ExpMonth { get; set; }
+
+        /// <summary>
+        /// The card expiration year in YY format.
+        /// </summary>
+        string ExpYear { get; set; }
+
+        /// <summary>
         /// Address verification results if address information was submitted.
         /// </summary>
         AvsResponse AvsResponse { get; set; }

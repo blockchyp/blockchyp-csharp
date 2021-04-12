@@ -131,6 +131,18 @@ namespace BlockChyp.Entities
         public string CardHolder { get; set; }
 
         /// <summary>
+        /// The card expiration month in MM format.
+        /// </summary>
+        [JsonProperty(PropertyName = "expMonth")]
+        public string ExpMonth { get; set; }
+
+        /// <summary>
+        /// The card expiration year in YY format.
+        /// </summary>
+        [JsonProperty(PropertyName = "expYear")]
+        public string ExpYear { get; set; }
+
+        /// <summary>
         /// Address verification results if address information was submitted.
         /// </summary>
         [JsonProperty(PropertyName = "avsResponse")]
