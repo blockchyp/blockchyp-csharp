@@ -31,6 +31,8 @@ namespace BlockChypTest.Integration
             AuthorizationRequest setupRequest = new AuthorizationRequest
             {
                 Pan = "4111111111111111",
+                ExpMonth = "12",
+                ExpYear = "2025",
                 Amount = "25.55",
                 Test = true,
                 TransactionRef = Guid.NewGuid().ToString("N"),

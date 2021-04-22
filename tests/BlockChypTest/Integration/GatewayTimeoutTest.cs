@@ -32,6 +32,8 @@ namespace BlockChypTest.Integration
             {
                 Timeout = 1,
                 Pan = "5555555555554444",
+                ExpMonth = "12",
+                ExpYear = "2025",
                 Amount = "25.55",
                 Test = true,
                 TransactionRef = Guid.NewGuid().ToString("N"),
