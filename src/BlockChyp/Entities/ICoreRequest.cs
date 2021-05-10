@@ -29,6 +29,12 @@ namespace BlockChyp.Entities
         bool Queue { get; set; }
 
         /// <summary>
+        /// Whether or not the request should block until all cards have been removed from
+        /// the card reader.
+        /// </summary>
+        bool WaitForRemovedCard { get; set; }
+
+        /// <summary>
         /// An identifier from an external point of sale system.
         /// </summary>
         string OrderRef { get; set; }

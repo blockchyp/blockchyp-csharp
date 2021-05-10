@@ -35,6 +35,13 @@ namespace BlockChyp.Entities
         public bool Queue { get; set; }
 
         /// <summary>
+        /// Whether or not the request should block until all cards have been removed from
+        /// the card reader.
+        /// </summary>
+        [JsonProperty(PropertyName = "waitForRemovedCard")]
+        public bool WaitForRemovedCard { get; set; }
+
+        /// <summary>
         /// An identifier from an external point of sale system.
         /// </summary>
         [JsonProperty(PropertyName = "orderRef")]
