@@ -837,7 +837,7 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Discards a previous preauth transaction.
+        /// Discards a previous transaction.
         /// </summary>
         /// <param name="request">The request details.</param>
         public async Task<VoidResponse> VoidAsync(VoidRequest request)
