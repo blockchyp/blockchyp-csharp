@@ -20,5 +20,11 @@ namespace BlockChyp.Entities
         /// The auth code from the payment network.
         /// </summary>
         string AuthCode { get; set; }
+
+        /// <summary>
+        /// The code returned by the terminal or the card issuer to indicate the disposition
+        /// of the message.
+        /// </summary>
+        string AuthResponseCode { get; set; }
     }
 }

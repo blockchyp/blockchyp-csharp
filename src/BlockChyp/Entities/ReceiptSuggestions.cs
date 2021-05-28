@@ -123,6 +123,24 @@ namespace BlockChyp.Entities
         public bool PinVerified { get; set; }
 
         /// <summary>
+        /// The customer verification method used for the transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "cvmUsed")]
+        public CvmType CvmUsed { get; set; }
+
+        /// <summary>
+        /// That a chip read failure caused the transaction to fall back to the magstripe.
+        /// </summary>
+        [JsonProperty(PropertyName = "fallback")]
+        public bool Fallback { get; set; }
+
+        /// <summary>
+        /// The sequence of the transaction in the batch.
+        /// </summary>
+        [JsonProperty(PropertyName = "batchSequence")]
+        public int BatchSequence { get; set; }
+
+        /// <summary>
         /// The amount of cash back that was approved.
         /// </summary>
         [JsonProperty(PropertyName = "cashBackAmount")]

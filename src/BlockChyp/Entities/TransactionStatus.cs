@@ -44,6 +44,13 @@ namespace BlockChyp.Entities
         public string AuthCode { get; set; }
 
         /// <summary>
+        /// The code returned by the terminal or the card issuer to indicate the disposition
+        /// of the message.
+        /// </summary>
+        [JsonProperty(PropertyName = "authResponseCode")]
+        public string AuthResponseCode { get; set; }
+
+        /// <summary>
         /// The ID assigned to the transaction.
         /// </summary>
         [JsonProperty(PropertyName = "transactionId")]
