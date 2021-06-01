@@ -42,6 +42,12 @@ namespace BlockChyp.Entities
         public bool WaitForRemovedCard { get; set; }
 
         /// <summary>
+        /// Override any in-progress transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "force")]
+        public bool Force { get; set; }
+
+        /// <summary>
         /// An identifier from an external point of sale system.
         /// </summary>
         [JsonProperty(PropertyName = "orderRef")]

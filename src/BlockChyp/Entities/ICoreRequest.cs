@@ -35,6 +35,11 @@ namespace BlockChyp.Entities
         bool WaitForRemovedCard { get; set; }
 
         /// <summary>
+        /// Override any in-progress transactions.
+        /// </summary>
+        bool Force { get; set; }
+
+        /// <summary>
         /// An identifier from an external point of sale system.
         /// </summary>
         string OrderRef { get; set; }
