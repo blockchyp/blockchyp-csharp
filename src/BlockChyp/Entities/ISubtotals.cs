@@ -22,11 +22,6 @@ namespace BlockChyp.Entities
         string TaxAmount { get; set; }
 
         /// <summary>
-        /// The amount of cash back requested.
-        /// </summary>
-        string CashBackAmount { get; set; }
-
-        /// <summary>
         /// The amount of the transaction that should be charged to an FSA card. This amount
         /// may be less than the transaction total, in which case only this amount will be
         /// charged if an FSA card is presented. If the FSA amount is paid on an FSA card, then
