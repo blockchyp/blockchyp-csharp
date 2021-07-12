@@ -10,6 +10,7 @@
     <PackageId>BlockChyp</PackageId>
     <PackageTags>blockchyp;payment;credit;cards;money;gateway;terminal</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/blockchyp/blockchyp-csharp/master/docs/logo.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/blockchyp/blockchyp-csharp</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -19,6 +20,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Assets/BlockChyp.crt" />
+    <None Include="Assets/icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
