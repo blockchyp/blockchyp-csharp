@@ -1258,10 +1258,11 @@ namespace BlockChyp.Client
                         statusCode,
                         body);
                 }
-                catch (JsonException)
+                catch (JsonException e)
                 {
                         throw new BlockChypException(
                             $"HTTP {statusCode}: \"{body}\"",
+                            e,
                             statusCode,
                             body);
                 }
@@ -1271,10 +1272,11 @@ namespace BlockChyp.Client
             {
                 return JsonConvert.DeserializeObject<T>(body);
             }
-            catch (JsonException)
+            catch (JsonException e)
             {
                 throw new BlockChypException(
                     $"Invalid response: \"{body}\"",
+                    e,
                     statusCode,
                     body);
             }
