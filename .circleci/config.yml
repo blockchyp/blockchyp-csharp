@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # This image doesn't have GNU make, so we just call commands directly
-      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
 
     steps:
       - checkout
@@ -38,7 +38,7 @@ jobs:
 
   publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
 
     steps:
       - attach_workspace:
