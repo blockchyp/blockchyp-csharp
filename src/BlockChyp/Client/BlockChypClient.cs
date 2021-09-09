@@ -818,6 +818,92 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns a list of queued transactions on a terminal.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<ListQueuedTransactionsResponse> ListQueuedTransactionsAsync(ListQueuedTransactionsRequest request)
+        {
+            ISignatureRequest signatureRequest = request as ISignatureRequest;
+            if (signatureRequest != null)
+            {
+                PopulateSignatureOptions(signatureRequest);
+            }
+
+            ListQueuedTransactionsResponse response;
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                response = await TerminalRequestAsync<ListQueuedTransactionsResponse>(HttpMethod.Get, "/api/queue/list", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response = await GatewayRequestAsync<ListQueuedTransactionsResponse>(HttpMethod.Get, "/api/queue/list", request, null, request.Test, relay: true)
+                    .ConfigureAwait(false);
+            }
+
+            ISignatureResponse signatureResponse = response as ISignatureResponse;
+            if (signatureRequest != null && signatureResponse != null)
+            {
+                DumpSignatureFile(signatureRequest, signatureResponse);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="ListQueuedTransactionsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public ListQueuedTransactionsResponse ListQueuedTransactions(ListQueuedTransactionsRequest request)
+        {
+            return ListQueuedTransactionsAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Deletes a queued transaction from the terminal.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<DeleteQueuedTransactionResponse> DeleteQueuedTransactionAsync(DeleteQueuedTransactionRequest request)
+        {
+            ISignatureRequest signatureRequest = request as ISignatureRequest;
+            if (signatureRequest != null)
+            {
+                PopulateSignatureOptions(signatureRequest);
+            }
+
+            DeleteQueuedTransactionResponse response;
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                response = await TerminalRequestAsync<DeleteQueuedTransactionResponse>(HttpMethod.Post, "/api/queue/delete", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response = await GatewayRequestAsync<DeleteQueuedTransactionResponse>(HttpMethod.Post, "/api/queue/delete", request, null, request.Test, relay: true)
+                    .ConfigureAwait(false);
+            }
+
+            ISignatureResponse signatureResponse = response as ISignatureResponse;
+            if (signatureRequest != null && signatureResponse != null)
+            {
+                DumpSignatureFile(signatureRequest, signatureResponse);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteQueuedTransactionAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public DeleteQueuedTransactionResponse DeleteQueuedTransaction(DeleteQueuedTransactionRequest request)
+        {
+            return DeleteQueuedTransactionAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
         /// Captures a preauthorization.
         /// </summary>
         /// <param name="request">The request details.</param>

@@ -1464,6 +1464,59 @@ Console.WriteLine(response);
 
 ```
 
+#### List Queued Transactions
+
+
+
+Returns a list of transaction refs of transactions queued on a terminal.
+Details about the transactions can be retrieved using the Transaction Status
+API.
+
+
+
+
+```c#
+// Populate request parameters.
+ListQueuedTransactionsRequest request = new ListQueuedTransactionsRequest
+{
+    TerminalName = "Test Terminal",
+};
+
+// Run the transaction.
+ListQueuedTransactionsResponse response = await blockchyp.ListQueuedTransactionsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Queued Transaction
+
+
+
+Deletes one or all queued transactions from a terminal. If `*` is passed as
+a transaction ref, then the entire terminal queue will be cleared. An error is
+returned if the passed transaction ref is not queued on the terminal.
+
+
+
+
+```c#
+// Populate request parameters.
+DeleteQueuedTransactionRequest request = new DeleteQueuedTransactionRequest
+{
+    TerminalName = "Test Terminal",
+    TransactionRef = "*",
+};
+
+// Run the transaction.
+DeleteQueuedTransactionResponse response = await blockchyp.DeleteQueuedTransactionAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system
