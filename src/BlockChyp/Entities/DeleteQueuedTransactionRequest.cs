@@ -11,13 +11,46 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Deletes one or all transactions from a terminal queue.
     /// </summary>
-    public class DeleteQueuedTransactionRequest : BaseEntity, ITerminalReference
+    public class DeleteQueuedTransactionRequest : BaseEntity, ICoreRequest, ITerminalReference
     {
         /// <summary>
-        /// The name of the target payment terminal.
+        /// Defers the response to the transaction and returns immediately. Callers
+        /// should retrive the transaction result using the Transaction Status API.
         /// </summary>
-        [JsonProperty(PropertyName = "terminalName")]
-        public string TerminalName { get; set; }
+        [JsonProperty(PropertyName = "async")]
+        public bool Async { get; set; }
+
+        /// <summary>
+        /// Adds the transaction to the queue and returns immediately. Callers should
+        /// retrive the transaction result using the Transaction Status API.
+        /// </summary>
+        [JsonProperty(PropertyName = "queue")]
+        public bool Queue { get; set; }
+
+        /// <summary>
+        /// Whether or not the request should block until all cards have been removed from
+        /// the card reader.
+        /// </summary>
+        [JsonProperty(PropertyName = "waitForRemovedCard")]
+        public bool WaitForRemovedCard { get; set; }
+
+        /// <summary>
+        /// Override any in-progress transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "force")]
+        public bool Force { get; set; }
+
+        /// <summary>
+        /// An identifier from an external point of sale system.
+        /// </summary>
+        [JsonProperty(PropertyName = "orderRef")]
+        public string OrderRef { get; set; }
+
+        /// <summary>
+        /// The settlement account for merchants with split settlements.
+        /// </summary>
+        [JsonProperty(PropertyName = "destinationAccount")]
+        public string DestinationAccount { get; set; }
 
         /// <summary>
         /// Whether or not to route transaction to the test gateway.
@@ -30,6 +63,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }
+
+        /// <summary>
+        /// The name of the target payment terminal.
+        /// </summary>
+        [JsonProperty(PropertyName = "terminalName")]
+        public string TerminalName { get; set; }
 
         /// <summary>
         /// A transaction reference string of the transaction to delete. Passing `*` will
