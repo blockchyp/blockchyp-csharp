@@ -30,7 +30,7 @@ namespace BlockChypTest.Integration
 
             AuthorizationRequest request = new AuthorizationRequest
             {
-                TerminalName = "Test Terminal",
+                TerminalName = "$testTerminal",
                 Amount = "25.15",
                 Test = true,
             };

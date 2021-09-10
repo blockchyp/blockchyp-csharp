@@ -1517,6 +1517,54 @@ Console.WriteLine(response);
 
 ```
 
+#### Delete Customer
+
+
+
+Deletes a customer record.
+
+
+
+
+```c#
+// Populate request parameters.
+DeleteCustomerRequest request = new DeleteCustomerRequest
+{
+    CustomerId = "ID of the customer to delete",
+};
+
+// Run the transaction.
+DeleteCustomerResponse response = await blockchyp.DeleteCustomerAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Token
+
+
+
+Deletes a payment token from the gateway.
+
+
+
+
+```c#
+// Populate request parameters.
+DeleteTokenRequest request = new DeleteTokenRequest
+{
+    Token = "Token to delete",
+};
+
+// Run the transaction.
+DeleteTokenResponse response = await blockchyp.DeleteTokenAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system

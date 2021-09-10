@@ -30,7 +30,7 @@ namespace BlockChypTest.Integration
 
             AuthorizationRequest request = new AuthorizationRequest
             {
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Amount = "25.00",
                 Test = true,
                 CardType = CardType.EBT,

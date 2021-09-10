@@ -832,12 +832,12 @@ namespace BlockChyp.Client
             ListQueuedTransactionsResponse response;
             if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
             {
-                response = await TerminalRequestAsync<ListQueuedTransactionsResponse>(HttpMethod.Get, "/api/queue/list", request.TerminalName, request)
+                response = await TerminalRequestAsync<ListQueuedTransactionsResponse>(HttpMethod.Post, "/api/queue/list", request.TerminalName, request)
                     .ConfigureAwait(false);
             }
             else
             {
-                response = await GatewayRequestAsync<ListQueuedTransactionsResponse>(HttpMethod.Get, "/api/queue/list", request, null, request.Test, relay: true)
+                response = await GatewayRequestAsync<ListQueuedTransactionsResponse>(HttpMethod.Post, "/api/queue/list", request, null, request.Test, relay: true)
                     .ConfigureAwait(false);
             }
 
@@ -1175,6 +1175,44 @@ namespace BlockChyp.Client
         public MerchantProfileResponse MerchantProfile(MerchantProfileRequest request)
         {
             return GatewayRequest<MerchantProfileResponse>(HttpMethod.Post, "/api/public-merchant-profile", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Deletes a customer record.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<DeleteCustomerResponse> DeleteCustomerAsync(DeleteCustomerRequest request)
+        {
+            return await GatewayRequestAsync<DeleteCustomerResponse>(HttpMethod.Delete, "/api/customer/" + request.CustomerId, request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteCustomerAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public DeleteCustomerResponse DeleteCustomer(DeleteCustomerRequest request)
+        {
+            return GatewayRequest<DeleteCustomerResponse>(HttpMethod.Delete, "/api/customer/" + request.CustomerId, request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Deletes a payment token.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<DeleteTokenResponse> DeleteTokenAsync(DeleteTokenRequest request)
+        {
+            return await GatewayRequestAsync<DeleteTokenResponse>(HttpMethod.Delete, "/api/token/" + request.Token, request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteTokenAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public DeleteTokenResponse DeleteToken(DeleteTokenRequest request)
+        {
+            return GatewayRequest<DeleteTokenResponse>(HttpMethod.Delete, "/api/token/" + request.Token, request, null, request.Test);
         }
 
         /// <summary>

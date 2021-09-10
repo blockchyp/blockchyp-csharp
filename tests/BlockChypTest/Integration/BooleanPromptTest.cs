@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             BooleanPromptRequest request = new BooleanPromptRequest
             {
                 Test = true,
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Prompt = "Would you like to become a member?",
                 YesCaption = "Yes",
                 NoCaption = "No",

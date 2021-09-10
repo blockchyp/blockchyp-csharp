@@ -30,7 +30,7 @@ namespace BlockChypTest.Integration
 
             EnrollRequest request = new EnrollRequest
             {
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Test = true,
             };
 

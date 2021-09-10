@@ -30,7 +30,7 @@ namespace BlockChypTest.Integration
 
             CaptureSignatureRequest request = new CaptureSignatureRequest
             {
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 SigFormat = SignatureFormat.PNG,
                 SigWidth = 200,
             };

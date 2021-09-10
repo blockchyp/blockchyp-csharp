@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             TransactionDisplayRequest request = new TransactionDisplayRequest
             {
                 Test = true,
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Transaction = new TransactionDisplayTransaction
                 {
                     Subtotal = "35.00",

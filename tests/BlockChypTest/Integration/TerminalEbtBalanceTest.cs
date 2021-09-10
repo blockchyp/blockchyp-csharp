@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             BalanceRequest request = new BalanceRequest
             {
                 Test = true,
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 CardType = CardType.EBT,
             };
 

@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             ClearTerminalRequest request = new ClearTerminalRequest
             {
                 Test = true,
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
             output.WriteLine("Request: {0}", request);

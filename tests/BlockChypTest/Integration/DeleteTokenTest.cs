@@ -13,34 +13,45 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class TerminalStatusTest : IntegrationTest
+    public class DeleteTokenTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
-        public TerminalStatusTest(ITestOutputHelper output)
+        public DeleteTokenTest(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void Run_TerminalStatusTest()
+        public async void Run_DeleteTokenTest()
         {
-            ShowTestOnTerminal("TerminalStatus");
+            ShowTestOnTerminal("DeleteToken");
 
-            TerminalStatusRequest request = new TerminalStatusRequest
+            EnrollRequest setupRequest = new EnrollRequest
             {
-                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                Pan = "4111111111111111",
+                Test = true,
+            };
+
+            output.WriteLine("Setup request: {0}", setupRequest);
+
+            EnrollResponse setupResponse = await blockchyp.EnrollAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", setupResponse);
+
+            DeleteTokenRequest request = new DeleteTokenRequest
+            {
+                Token = setupResponse.Token,
             };
 
             output.WriteLine("Request: {0}", request);
 
-            TerminalStatusResponse response = await blockchyp.TerminalStatusAsync(request);
+            DeleteTokenResponse response = await blockchyp.DeleteTokenAsync(request);
 
             output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Success, "response.Success");
-            Assert.True(response.Idle, "response.Idle");
         }
     }
 }

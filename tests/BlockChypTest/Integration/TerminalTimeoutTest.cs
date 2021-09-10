@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             AuthorizationRequest request = new AuthorizationRequest
             {
                 Timeout = 1,
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Amount = "25.15",
                 Test = true,
             };

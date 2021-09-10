@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             PingRequest request = new PingRequest
             {
                 Test = true,
-                TerminalName = "Test Terminal",
+                TerminalName = "$testTerminal",
             };
 
             output.WriteLine("Request: {0}", request);

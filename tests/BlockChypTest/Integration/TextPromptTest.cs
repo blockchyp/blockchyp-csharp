@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             TextPromptRequest request = new TextPromptRequest
             {
                 Test = true,
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 PromptType = PromptType.Email,
             };
 

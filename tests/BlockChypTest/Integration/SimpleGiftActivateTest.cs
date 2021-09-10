@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             GiftActivateRequest request = new GiftActivateRequest
             {
                 Test = true,
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Amount = "50.00",
             };
 

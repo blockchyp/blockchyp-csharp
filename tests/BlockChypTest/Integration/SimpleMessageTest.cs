@@ -31,7 +31,7 @@ namespace BlockChypTest.Integration
             MessageRequest request = new MessageRequest
             {
                 Test = true,
-                TerminalName = "Test Terminal",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
                 Message = "Thank You For Your Business",
             };
 
