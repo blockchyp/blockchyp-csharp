@@ -1007,6 +1007,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Cancels a payment link.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CancelPaymentLinkResponse> CancelPaymentLinkAsync(CancelPaymentLinkRequest request)
+        {
+            return await GatewayRequestAsync<CancelPaymentLinkResponse>(HttpMethod.Post, "/api/cancel-payment-link", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="CancelPaymentLinkAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CancelPaymentLinkResponse CancelPaymentLink(CancelPaymentLinkRequest request)
+        {
+            return GatewayRequest<CancelPaymentLinkResponse>(HttpMethod.Post, "/api/cancel-payment-link", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Retrieves the current status of a transaction.
         /// </summary>
         /// <param name="request">The request details.</param>

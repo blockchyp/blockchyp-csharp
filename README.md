@@ -710,6 +710,30 @@ Console.WriteLine(response);
 
 ```
 
+#### Cancel Payment Link
+
+
+
+Cancels a payment link.
+
+
+
+
+```c#
+// Populate request parameters.
+CancelPaymentLinkRequest request = new CancelPaymentLinkRequest
+{
+    LinkCode = "Payment link code to cancel",
+};
+
+// Run the transaction.
+CancelPaymentLinkResponse response = await blockchyp.CancelPaymentLinkAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Transaction Status
 
 
