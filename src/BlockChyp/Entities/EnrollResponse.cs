@@ -4,6 +4,7 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -174,10 +175,16 @@ namespace BlockChyp.Entities
         public ReceiptSuggestions ReceiptSuggestions { get; set; }
 
         /// <summary>
-        /// Customer data, if any.
+        /// Customer data, if any. Preserved for reverse compatibility.
         /// </summary>
         [JsonProperty(PropertyName = "customer")]
         public Customer Customer { get; set; }
+
+        /// <summary>
+        /// Customer data, if any.
+        /// </summary>
+        [JsonProperty(PropertyName = "customers")]
+        public List<Customer> Customers { get; set; }
 
         /// <summary>
         /// The hex encoded signature data.

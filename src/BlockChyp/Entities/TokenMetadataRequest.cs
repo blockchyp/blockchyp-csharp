@@ -4,15 +4,14 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
-using System;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models a batch history request.
+    /// Retrieves token metadata.
     /// </summary>
-    public class TransactionHistoryRequest : BaseEntity, ICoreRequest
+    public class TokenMetadataRequest : BaseEntity, ICoreRequest
     {
         /// <summary>
         /// A user-assigned reference that can be used to recall or reverse transactions.
@@ -72,46 +71,9 @@ namespace BlockChyp.Entities
         public int Timeout { get; set; }
 
         /// <summary>
-        /// Optional search query. Will match amount, last 4 and customer name. batchId and
-        /// terminalName are not supported with this option.
+        /// The token to retrieve.
         /// </summary>
-        [JsonProperty(PropertyName = "query")]
-        public string Query { get; set; }
-
-        /// <summary>
-        /// Optional batch id.
-        /// </summary>
-        [JsonProperty(PropertyName = "batchId")]
-        public string BatchId { get; set; }
-
-        /// <summary>
-        /// Optional terminal name.
-        /// </summary>
-        [JsonProperty(PropertyName = "terminalName")]
-        public string TerminalName { get; set; }
-
-        /// <summary>
-        /// Optional start date filter for batch history.
-        /// </summary>
-        [JsonProperty(PropertyName = "startDate")]
-        public DateTime? StartDate { get; set; }
-
-        /// <summary>
-        /// Optional end date filter for batch history.
-        /// </summary>
-        [JsonProperty(PropertyName = "endDate")]
-        public DateTime? EndDate { get; set; }
-
-        /// <summary>
-        /// Max results to be returned by this request.
-        /// </summary>
-        [JsonProperty(PropertyName = "maxResults")]
-        public int MaxResults { get; set; }
-
-        /// <summary>
-        /// Starting index for results to be returned.
-        /// </summary>
-        [JsonProperty(PropertyName = "startIndex")]
-        public int StartIndex { get; set; }
+        [JsonProperty(PropertyName = "token")]
+        public string Token { get; set; }
     }
 }

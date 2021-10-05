@@ -1444,6 +1444,15 @@ None of the above filters are mutually exclusive.  You can combine any of the
 above properties in a single request to restrict transaction results to a
 narrower set of results.
 
+**Searching Transaction History**
+
+You can search transaction history by passing in search criteria with the 
+`query` option.  The search system will match on amount (requested and authorized),
+last four of the card number, cardholder name, and the auth code.
+
+Note that when search queries are used, terminalName or 
+batch id filters are not supported.
+
 
 
 
@@ -1583,6 +1592,90 @@ DeleteTokenRequest request = new DeleteTokenRequest
 
 // Run the transaction.
 DeleteTokenResponse response = await blockchyp.DeleteTokenAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Token Metadata
+
+
+
+Retrieves status and metadata information about a token, 
+including any links to customer records.  
+
+This will also return any customer records related to the card
+behind the token.  If the underlying card has been tokenized
+multiple times, all customers related to the card will be returned,
+even if those customer associations are related to other tokens.
+
+
+
+
+```c#
+// Populate request parameters.
+TokenMetadataRequest request = new TokenMetadataRequest
+{
+    Token = "Token to retrieve",
+};
+
+// Run the transaction.
+TokenMetadataResponse response = await blockchyp.TokenMetadataAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Link Token
+
+
+
+Links a payment token with a customer record.  Usually this would only be used
+to reverse a previous unlink operation.
+
+
+
+
+```c#
+// Populate request parameters.
+LinkTokenRequest request = new LinkTokenRequest
+{
+    Token = "Token to link",
+    CustomerId = "Customer to link",
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.LinkTokenAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Unlink Token
+
+
+
+Removes a payment token link from a customer record.
+
+This will remove links between the customer record and all tokens
+for the same underlying card.
+
+
+
+
+```c#
+// Populate request parameters.
+UnlinkTokenRequest request = new UnlinkTokenRequest
+{
+    Token = "Token to unlink",
+    CustomerId = "Customer to unlink",
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.UnlinkTokenAsync(request);
 
 // View the result.
 Console.WriteLine(response);

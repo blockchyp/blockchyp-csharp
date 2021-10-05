@@ -1235,6 +1235,63 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Retrieves payment token metadata.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TokenMetadataResponse> TokenMetadataAsync(TokenMetadataRequest request)
+        {
+            return await GatewayRequestAsync<TokenMetadataResponse>(HttpMethod.Get, "/api/token/" + request.Token, request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TokenMetadataAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TokenMetadataResponse TokenMetadata(TokenMetadataRequest request)
+        {
+            return GatewayRequest<TokenMetadataResponse>(HttpMethod.Get, "/api/token/" + request.Token, request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Links a token to a customer record.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> LinkTokenAsync(LinkTokenRequest request)
+        {
+            return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/link-token", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="LinkTokenAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement LinkToken(LinkTokenRequest request)
+        {
+            return GatewayRequest<Acknowledgement>(HttpMethod.Post, "/api/link-token", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Removes a link between a customer and a token.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> UnlinkTokenAsync(UnlinkTokenRequest request)
+        {
+            return await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/unlink-token", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UnlinkTokenAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement UnlinkToken(UnlinkTokenRequest request)
+        {
+            return GatewayRequest<Acknowledgement>(HttpMethod.Post, "/api/unlink-token", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Sends a request to a terminal and returns its response
         /// as an asynchronous operation.
         /// </summary>

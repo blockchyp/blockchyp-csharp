@@ -4,6 +4,7 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -42,5 +43,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "paymentType")]
         public string PaymentType { get; set; }
+
+        /// <summary>
+        /// Models customer records associated with a payment token.
+        /// </summary>
+        [JsonProperty(PropertyName = "customers")]
+        public List<Customer> Customers { get; set; }
     }
 }

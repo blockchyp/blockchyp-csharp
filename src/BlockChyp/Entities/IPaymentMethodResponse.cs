@@ -4,6 +4,8 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
+using System.Collections.Generic;
+
 namespace BlockChyp.Entities
 {
     /// <summary>
@@ -67,8 +69,13 @@ namespace BlockChyp.Entities
         ReceiptSuggestions ReceiptSuggestions { get; set; }
 
         /// <summary>
-        /// Customer data, if any.
+        /// Customer data, if any. Preserved for reverse compatibility.
         /// </summary>
         Customer Customer { get; set; }
+
+        /// <summary>
+        /// Customer data, if any.
+        /// </summary>
+        List<Customer> Customers { get; set; }
     }
 }
