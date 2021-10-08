@@ -32,6 +32,12 @@ namespace BlockChypTest.Integration
             {
                 Pan = "4111111111111111",
                 Test = true,
+                Customer = new Customer
+                {
+                    CustomerRef = "TESTCUSTOMER",
+                    FirstName = "Test",
+                    LastName = "Customer",
+                },
             };
 
             output.WriteLine("Setup request: {0}", setupRequest);
