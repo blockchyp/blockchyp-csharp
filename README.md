@@ -104,6 +104,34 @@ Console.WriteLine(response);
 
 ```
 
+#### Terminal Locate
+
+
+This endpoint returns routing and location information for a terminal.
+
+The result will indicate whether or not the terminal is in cloud relay mode and will
+return the local IP address if the terminal is in local mode.
+
+The terminal will also return the public key for the terminal.
+
+
+
+
+```c#
+// Populate request parameters.
+LocateRequest request = new LocateRequest
+{
+    TerminalName = "Test Terminal",
+};
+
+// Run the transaction.
+LocateResponse response = await blockchyp.LocateAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Charge
 
 

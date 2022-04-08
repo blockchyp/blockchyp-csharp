@@ -904,6 +904,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns routing and location data for a payment terminal.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<LocateResponse> LocateAsync(LocateRequest request)
+        {
+            return await GatewayRequestAsync<LocateResponse>(HttpMethod.Post, "/api/terminal-locate", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="LocateAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public LocateResponse Locate(LocateRequest request)
+        {
+            return GatewayRequest<LocateResponse>(HttpMethod.Post, "/api/terminal-locate", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Captures a preauthorization.
         /// </summary>
         /// <param name="request">The request details.</param>
