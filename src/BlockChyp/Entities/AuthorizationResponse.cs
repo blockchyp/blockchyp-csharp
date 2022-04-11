@@ -12,7 +12,7 @@ namespace BlockChyp.Entities
     /// <summary>
     /// The response to an authorization request.
     /// </summary>
-    public class AuthorizationResponse : BaseEntity, IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentAmounts, IPaymentMethodResponse, ISignatureResponse
+    public class AuthorizationResponse : BaseEntity, IAbstractAcknowledgement, IApprovalResponse, ICoreResponse, IPaymentAmounts, ICryptocurrencyResponse, IPaymentMethodResponse, ISignatureResponse
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -175,6 +175,72 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "authorizedCashBackAmount")]
         public string AuthorizedCashBackAmount { get; set; }
+
+        /// <summary>
+        /// That the transaction has met the standard criteria for confirmation on the
+        /// network. (For example, 6 confirmations for level one bitcoin.)
+        /// </summary>
+        [JsonProperty(PropertyName = "confirmed")]
+        public bool Confirmed { get; set; }
+
+        /// <summary>
+        /// The amount submitted to the blockchain.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoAuthorizedAmount")]
+        public string CryptoAuthorizedAmount { get; set; }
+
+        /// <summary>
+        /// The network level fee assessed for the transaction denominated in
+        /// cryptocurrency. This fee goes to channel operators and crypto miners, not
+        /// BlockChyp.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoNetworkFee")]
+        public string CryptoNetworkFee { get; set; }
+
+        /// <summary>
+        /// The three letter cryptocurrency code used for the transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptocurrency")]
+        public string Cryptocurrency { get; set; }
+
+        /// <summary>
+        /// Whether or not the transaction was processed on the level one or level two
+        /// network.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoNetwork")]
+        public string CryptoNetwork { get; set; }
+
+        /// <summary>
+        /// The address on the crypto network the transaction was sent to.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoReceiveAddress")]
+        public string CryptoReceiveAddress { get; set; }
+
+        /// <summary>
+        /// Hash or other identifier that identifies the block on the cryptocurrency
+        /// network, if available or relevant.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoBlock")]
+        public string CryptoBlock { get; set; }
+
+        /// <summary>
+        /// Hash or other transaction identifier that identifies the transaction on the
+        /// cryptocurrency network, if available or relevant.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoTransactionId")]
+        public string CryptoTransactionId { get; set; }
+
+        /// <summary>
+        /// The payment request URI used for the transaction, if available.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoPaymentRequest")]
+        public string CryptoPaymentRequest { get; set; }
+
+        /// <summary>
+        /// Used for additional status information related to crypto transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoStatus")]
+        public string CryptoStatus { get; set; }
 
         /// <summary>
         /// The payment token, if the payment was enrolled in the vault.
