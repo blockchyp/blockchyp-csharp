@@ -183,5 +183,42 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "tcContent")]
         public string TcContent { get; set; }
+
+        /// <summary>
+        /// That the transaction should be a cryptocurrency transaction. Value should be a
+        /// crypto currency code (ETH, BTC) or ANY to prompt the user to choose from
+        /// supported cryptocurrencies.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptocurrency")]
+        public string Cryptocurrency { get; set; }
+
+        /// <summary>
+        /// An optional parameter that can be used to force a crypto transaction onto a level
+        /// one or level two network. Valid values are L1 and L2. Defaults to L1.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoNetwork")]
+        public string CryptoNetwork { get; set; }
+
+        /// <summary>
+        /// Can be used to specify a specific receive address for a crypto transaction.
+        /// Disabled by default. This should only be used by sophisticated users with
+        /// access to properly configured hot wallets.
+        /// </summary>
+        [JsonProperty(PropertyName = "cryptoReceiveAddress")]
+        public string CryptoReceiveAddress { get; set; }
+
+        /// <summary>
+        /// Can optionally add a label to the payment request if the target cryptocurrency
+        /// supports labels. Defaults to the merchant's DBA Name.
+        /// </summary>
+        [JsonProperty(PropertyName = "paymentRequestLabel")]
+        public string PaymentRequestLabel { get; set; }
+
+        /// <summary>
+        /// Can optionally add a message to the payment request if the target
+        /// cryptocurrency supports labels. Defaults to empty.
+        /// </summary>
+        [JsonProperty(PropertyName = "paymentRequestMessage")]
+        public string PaymentRequestMessage { get; set; }
     }
 }
