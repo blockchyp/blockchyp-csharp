@@ -69,5 +69,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }
+
+        /// <summary>
+        /// The merchant id. Optional for merchant scoped requests.
+        /// </summary>
+        [JsonProperty(PropertyName = "merchantId")]
+        public string MerchantId { get; set; }
     }
 }

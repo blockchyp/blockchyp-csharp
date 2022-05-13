@@ -7,7 +7,7 @@
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Response details for a cryptocurrency transaction.
     /// </summary>
     public interface ICryptocurrencyResponse
     {

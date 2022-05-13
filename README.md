@@ -1710,6 +1710,108 @@ Console.WriteLine(response);
 
 ```
 
+#### Add Test Merchant
+
+
+
+This is a partner level API that can be used to create test merchant accounts.
+
+
+
+
+```c#
+// Populate request parameters.
+AddTestMerchantRequest request = new AddTestMerchantRequest
+{
+    DbaName = "DBA name.",
+    CompanyName = "test merchant customer name.",
+};
+
+// Run the transaction.
+MerchantProfileResponse response = await blockchyp.AddTestMerchantAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Get Merchants
+
+
+
+This is a partner or organization level API that can be used to return the merchant portfolio.
+
+
+
+
+```c#
+// Populate request parameters.
+GetMerchantsRequest request = new GetMerchantsRequest
+{
+    Test = true,
+};
+
+// Run the transaction.
+GetMerchantsResponse response = await blockchyp.GetMerchantsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Update Or Create Merchant
+
+
+
+This API can be used to update or create merchant accounts.
+
+Merchant scoped API credentials can be used to update merchant account settings.
+
+Partner scoped API credentials can be used to update merchants, create new test 
+merchants or board new gateway merchants. 
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantProfile request = new MerchantProfile
+{
+    Test = true,
+};
+
+// Run the transaction.
+MerchantProfileResponse response = await blockchyp.UpdateMerchantAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Test Merchant
+
+
+
+This partner API can be used to deleted unused test merchant accounts.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantProfileRequest request = new MerchantProfileRequest
+{
+    MerchantId = "ID for the test merchant being deleted.",
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.DeleteTestMerchantAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system
