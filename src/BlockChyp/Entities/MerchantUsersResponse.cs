@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// The results for a merchant list request.
+    /// The results for a merchant users list.
     /// </summary>
-    public class GetMerchantsResponse : BaseEntity, IAbstractAcknowledgement
+    public class MerchantUsersResponse : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -39,27 +39,9 @@ namespace BlockChyp.Entities
         public bool Test { get; set; }
 
         /// <summary>
-        /// Max to be returned in a single page. Defaults to the system max of 250.
+        /// Users and pending invites associated with the merchant.
         /// </summary>
-        [JsonProperty(PropertyName = "maxResults")]
-        public int MaxResults { get; set; }
-
-        /// <summary>
-        /// Starting index for paged results. Defaults to zero.
-        /// </summary>
-        [JsonProperty(PropertyName = "startIndex")]
-        public int StartIndex { get; set; }
-
-        /// <summary>
-        /// Total number of results accessible through paging.
-        /// </summary>
-        [JsonProperty(PropertyName = "resultCount")]
-        public int ResultCount { get; set; }
-
-        /// <summary>
-        /// Merchants in the current page of results.
-        /// </summary>
-        [JsonProperty(PropertyName = "merchants")]
-        public List<MerchantProfileResponse> Merchants { get; set; }
+        [JsonProperty(PropertyName = "results")]
+        public List<MerchantUser> Results { get; set; }
     }
 }

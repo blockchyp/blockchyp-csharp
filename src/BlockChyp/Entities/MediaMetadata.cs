@@ -4,15 +4,14 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// The results for a merchant list request.
+    /// Models a request to retrieve survey results.
     /// </summary>
-    public class GetMerchantsResponse : BaseEntity, IAbstractAcknowledgement
+    public class MediaMetadata : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -33,33 +32,33 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
-        /// Whether or not these results are for test or live merchants.
+        /// Id used to identify the media asset.
         /// </summary>
-        [JsonProperty(PropertyName = "test")]
-        public bool Test { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
         /// <summary>
-        /// Max to be returned in a single page. Defaults to the system max of 250.
+        /// The original filename assigned to the media asset.
         /// </summary>
-        [JsonProperty(PropertyName = "maxResults")]
-        public int MaxResults { get; set; }
+        [JsonProperty(PropertyName = "originalFile")]
+        public string OriginalFile { get; set; }
 
         /// <summary>
-        /// Starting index for paged results. Defaults to zero.
+        /// The url for the full resolution versio of the media file.
         /// </summary>
-        [JsonProperty(PropertyName = "startIndex")]
-        public int StartIndex { get; set; }
+        [JsonProperty(PropertyName = "fileUrl")]
+        public string FileUrl { get; set; }
 
         /// <summary>
-        /// Total number of results accessible through paging.
+        /// The url for to the thumbnail of an image.
         /// </summary>
-        [JsonProperty(PropertyName = "resultCount")]
-        public int ResultCount { get; set; }
+        [JsonProperty(PropertyName = "thumbnailUrl")]
+        public string ThumbnailUrl { get; set; }
 
         /// <summary>
-        /// Merchants in the current page of results.
+        /// An identifier used to flag video files
         /// </summary>
-        [JsonProperty(PropertyName = "merchants")]
-        public List<MerchantProfileResponse> Merchants { get; set; }
+        [JsonProperty(PropertyName = "video")]
+        public bool Video { get; set; }
     }
 }

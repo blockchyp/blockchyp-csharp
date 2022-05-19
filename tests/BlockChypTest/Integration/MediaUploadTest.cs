@@ -13,30 +13,29 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class CreateTestMerchantTest : IntegrationTest
+    public class MediaUploadTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
-        public CreateTestMerchantTest(ITestOutputHelper output)
+        public MediaUploadTest(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void Run_CreateTestMerchantTest()
+        public async void Run_MediaUploadTest()
         {
-            ShowTestOnTerminal("CreateTestMerchant");
+            ShowTestOnTerminal("MediaUpload");
 
-            CreateTestMerchantRequest request = new CreateTestMerchantRequest
+            UploadMetadata request = new UploadMetadata
             {
-                DbaName = "Test Merchant",
-                CompanyName = "Test Merchant",
+
             };
 
             output.WriteLine("Request: {0}", request);
 
-            MerchantProfileResponse response = await blockchyp.CreateTestMerchantAsync(request);
+            MediaMetadata response = await blockchyp.UploadMediaAsync(request);
 
             output.WriteLine("Response: {0}", response);
 

@@ -9,24 +9,24 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models basic information needed to create a test merchant.
+    /// 
     /// </summary>
-    public class CreateTestMerchantRequest : BaseEntity
+    public class TerminalDeactivationRequest : BaseEntity
     {
         /// <summary>
-        /// The DBA name for the test merchant.
+        /// The terminal name assigned to the terminal.
         /// </summary>
-        [JsonProperty(PropertyName = "dbaName")]
-        public string DbaName { get; set; }
+        [JsonProperty(PropertyName = "terminalName")]
+        public string TerminalName { get; set; }
 
         /// <summary>
-        /// The corporate name for the test merchant.
+        /// The id assigned by BlockChyp to the terminal.
         /// </summary>
-        [JsonProperty(PropertyName = "companyName")]
-        public string CompanyName { get; set; }
+        [JsonProperty(PropertyName = "terminalId")]
+        public string TerminalId { get; set; }
 
         /// <summary>
-        /// The request timeout in seconds.
+        /// The optional timeout override for a terminal profile request.
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }

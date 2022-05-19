@@ -1812,6 +1812,491 @@ Console.WriteLine(response);
 
 ```
 
+#### Invite Merchant User
+
+
+
+Invites a new user to join a merchant account.
+
+
+
+
+```c#
+// Populate request parameters.
+InviteMerchantUserRequest request = new InviteMerchantUserRequest
+{
+    Email = "Email address for the invite",
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.InviteMerchantUserAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Merchant Users
+
+
+
+This API returns all users and pending invites associated with a merchant account.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantProfileRequest request = new MerchantProfileRequest
+{
+    MerchantId = "XXXXXXXXXXXXX",
+};
+
+// Run the transaction.
+MerchantUsersResponse response = await blockchyp.MerchantUsersAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Merchant Platforms
+
+
+
+This API is available to Gateway Partners only and can be used to pull down current boarding platform configurations for a given merchant.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantProfileRequest request = new MerchantProfileRequest
+{
+    MerchantId = "XXXXXXXXXXXXX",
+};
+
+// Run the transaction.
+MerchantPlatformsResponse response = await blockchyp.MerchantPlatformsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Update Merchant Platform
+
+
+
+This API allows Gateway Partners to board merchants.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantPlatform request = new MerchantPlatform
+{
+    MerchantId = "XXXXXXXXXXXXX",
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.UpdateMerchantPlatformsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Merchant Platform
+
+
+
+This is a partner level API that can be used to delete merchant platforms.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantPlatformRequest request = new MerchantPlatformRequest
+{
+    PlatformId = "XXXXXXXXXXXXX",
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.DeleteMerchantPlatformsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### List Terminals
+
+
+
+This API returns details about terminals associated with a merchant account.
+
+
+
+
+```c#
+// Populate request parameters.
+TerminalProfileRequest request = new TerminalProfileRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+TerminalProfileResponse response = await blockchyp.TerminalsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Deactivate Terminal
+
+
+
+This API deactivates a payment terminal.
+
+
+
+
+```c#
+// Populate request parameters.
+TerminalDeactivationRequest request = new TerminalDeactivationRequest
+{
+    TerminalId = "XXXXXXX",
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.DeactivateTerminalAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Activate Terminal
+
+
+
+This API activates payment terminals.
+
+
+
+
+```c#
+// Populate request parameters.
+TerminalActivationRequest request = new TerminalActivationRequest
+{
+    TerminalName = "Test Terminal",
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.ActivateTerminalAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Update Terms and Conditions Template
+
+
+
+This API updates or creates terms and conditions templates.
+
+
+
+
+```c#
+// Populate request parameters.
+TermsAndConditionsTemplate request = new TermsAndConditionsTemplate
+{
+    Alias = "HIPPA",
+    Name = "HIPPA Disclosure",
+    Content = "Lorem ipsum dolor sit amet.",
+    Timeout = 120,
+};
+
+// Run the transaction.
+TermsAndConditionsTemplate response = await blockchyp.TcUpdateTemplateAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### List Terms and Conditions Templates
+
+
+
+This API returns all terms and conditions templates associated with a merchant account.
+
+
+
+
+```c#
+// Populate request parameters.
+TermsAndConditionsTemplateRequest request = new TermsAndConditionsTemplateRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+TermsAndConditionsTemplateResponse response = await blockchyp.TcTemplatesAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Get Terms and Conditions Template
+
+
+
+This API returns as single terms and conditions template.
+
+
+
+
+```c#
+// Populate request parameters.
+TermsAndConditionsTemplateRequest request = new TermsAndConditionsTemplateRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+TermsAndConditionsTemplate response = await blockchyp.TcTemplateAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Terms and Conditions Template
+
+
+
+This API deletes a terms and conditions template.
+
+
+
+
+```c#
+// Populate request parameters.
+TermsAndConditionsTemplateRequest request = new TermsAndConditionsTemplateRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.TcDeleteTemplateAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Terms and Conditions Log
+
+
+
+This API pulls down Terms and Conditions log entries.
+
+
+
+
+```c#
+// Populate request parameters.
+TermsAndConditionsLogRequest request = new TermsAndConditionsLogRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+TermsAndConditionsLogResponse response = await blockchyp.TcLogAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Terms and Conditions Details
+
+
+
+This API returns details for a terms and conditions log entry.
+
+
+
+
+```c#
+// Populate request parameters.
+TermsAndConditionsLogRequest request = new TermsAndConditionsLogRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+TermsAndConditionsLogEntry response = await blockchyp.TcEntryAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Survey Questions
+
+
+
+This API returns all survey questions.
+
+
+
+
+```c#
+// Populate request parameters.
+SurveyQuestionRequest request = new SurveyQuestionRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+SurveyQuestionResponse response = await blockchyp.SurveyQuestionsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Survey Question
+
+
+
+This API returns a single survey question with response data.
+
+
+
+
+```c#
+// Populate request parameters.
+SurveyQuestionRequest request = new SurveyQuestionRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+SurveyQuestion response = await blockchyp.SurveyQuestionAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Survey Results
+
+
+
+This API returns survey results for a single question.
+
+
+
+
+```c#
+// Populate request parameters.
+SurveyResultsRequest request = new SurveyResultsRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+SurveyQuestion response = await blockchyp.SurveyResultsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Update Survey Question
+
+
+
+This API updates survey questions.
+
+
+
+
+```c#
+// Populate request parameters.
+SurveyQuestion request = new SurveyQuestion
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.UpdateSurveyQuestionAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Survey Question
+
+
+
+This API deletes survey questions.
+
+
+
+
+```c#
+// Populate request parameters.
+SurveyQuestionRequest request = new SurveyQuestionRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.DeleteSurveyQuestionAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Upload Media
+
+
+
+This API supports media library uploads.
+
+
+
+
+```c#
+// Populate request parameters.
+UploadMetadata request = new UploadMetadata
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+MediaMetadata response = await blockchyp.UploadMediaAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system

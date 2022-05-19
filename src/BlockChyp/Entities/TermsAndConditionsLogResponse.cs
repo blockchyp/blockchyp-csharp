@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// The results for a merchant list request.
+    /// Models a Terms and Conditions history request.
     /// </summary>
-    public class GetMerchantsResponse : BaseEntity, IAbstractAcknowledgement
+    public class TermsAndConditionsLogResponse : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -33,10 +33,11 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
-        /// Whether or not these results are for test or live merchants.
+        /// Optional transaction id if only log entries related to a transaction should be
+        /// returned.
         /// </summary>
-        [JsonProperty(PropertyName = "test")]
-        public bool Test { get; set; }
+        [JsonProperty(PropertyName = "transactionId")]
+        public string TransactionId { get; set; }
 
         /// <summary>
         /// Max to be returned in a single page. Defaults to the system max of 250.
@@ -57,9 +58,10 @@ namespace BlockChyp.Entities
         public int ResultCount { get; set; }
 
         /// <summary>
-        /// Merchants in the current page of results.
+        /// The full result set responsive to the original request, subject to pagination
+        /// limits.
         /// </summary>
-        [JsonProperty(PropertyName = "merchants")]
-        public List<MerchantProfileResponse> Merchants { get; set; }
+        [JsonProperty(PropertyName = "results")]
+        public List<TermsAndConditionsLogEntry> Results { get; set; }
     }
 }

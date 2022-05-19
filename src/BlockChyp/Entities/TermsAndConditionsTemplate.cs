@@ -4,15 +4,14 @@
 // This file was generated automatically. Changes to this file will be lost
 // every time the code is regenerated.
 
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// The results for a merchant list request.
+    /// Models a full terms and conditions template.
     /// </summary>
-    public class GetMerchantsResponse : BaseEntity, IAbstractAcknowledgement
+    public class TermsAndConditionsTemplate : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -33,33 +32,33 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
-        /// Whether or not these results are for test or live merchants.
+        /// Primary identifier for a given template.
         /// </summary>
-        [JsonProperty(PropertyName = "test")]
-        public bool Test { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
         /// <summary>
-        /// Max to be returned in a single page. Defaults to the system max of 250.
+        /// An alias or code used to refer to a template.
         /// </summary>
-        [JsonProperty(PropertyName = "maxResults")]
-        public int MaxResults { get; set; }
+        [JsonProperty(PropertyName = "alias")]
+        public string Alias { get; set; }
 
         /// <summary>
-        /// Starting index for paged results. Defaults to zero.
+        /// The name of the template. Displayed as the agreement title on the terminal.
         /// </summary>
-        [JsonProperty(PropertyName = "startIndex")]
-        public int StartIndex { get; set; }
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
 
         /// <summary>
-        /// Total number of results accessible through paging.
+        /// The full text of the agreement template.
         /// </summary>
-        [JsonProperty(PropertyName = "resultCount")]
-        public int ResultCount { get; set; }
+        [JsonProperty(PropertyName = "content")]
+        public string Content { get; set; }
 
         /// <summary>
-        /// Merchants in the current page of results.
+        /// An optional timeout override for endpoints where this type is used as a request.
         /// </summary>
-        [JsonProperty(PropertyName = "merchants")]
-        public List<MerchantProfileResponse> Merchants { get; set; }
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
     }
 }
