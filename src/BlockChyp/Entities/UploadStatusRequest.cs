@@ -9,30 +9,18 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models information needed to process a file upload.
+    /// Used to request the status of a file upload.
     /// </summary>
-    public class UploadMetadata : BaseEntity
+    public class UploadStatusRequest : BaseEntity
     {
         /// <summary>
-        /// Optional id used to track status and progress of an upload while in progress.
+        /// Id used to track status and progress of an upload while in progress.
         /// </summary>
         [JsonProperty(PropertyName = "uploadId")]
         public string UploadId { get; set; }
 
         /// <summary>
-        /// The size of the file to be uploaded in bytes.
-        /// </summary>
-        [JsonProperty(PropertyName = "fileSize")]
-        public int64 FileSize { get; set; }
-
-        /// <summary>
-        /// The name of file to be uploaded.
-        /// </summary>
-        [JsonProperty(PropertyName = "fileName")]
-        public string FileName { get; set; }
-
-        /// <summary>
-        /// An optional upload timeout override.
+        /// An optional timeout override.
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }

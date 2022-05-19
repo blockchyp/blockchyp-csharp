@@ -2297,6 +2297,270 @@ Console.WriteLine(response);
 
 ```
 
+#### Upload Status
+
+
+
+This API returns the status of a file upload.
+
+
+
+
+```c#
+// Populate request parameters.
+UploadStatusRequest request = new UploadStatusRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+UploadStatus response = await blockchyp.UploadStatusAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Media Library
+
+
+
+This API returns the media library associated with the API credentials.
+
+
+
+
+```c#
+// Populate request parameters.
+MediaRequest request = new MediaRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+MediaLibraryResponse response = await blockchyp.MediaAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Get Media Asset
+
+
+
+This API returns a detailed media asset.
+
+
+
+
+```c#
+// Populate request parameters.
+MediaRequest request = new MediaRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+MediaMetadata response = await blockchyp.MediaAssetAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Media Asset
+
+
+
+This API deletes a media asset.
+
+
+
+
+```c#
+// Populate request parameters.
+MediaRequest request = new MediaRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.DeleteMediaAssetAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Update Slide Show
+
+
+
+This API updates or creates a slide show.
+
+
+
+
+```c#
+// Populate request parameters.
+SlideShow request = new SlideShow
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+SlideShow response = await blockchyp.UpdateSlideShowAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Slide Shows
+
+
+
+This API returns all slide shows.
+
+
+
+
+```c#
+// Populate request parameters.
+SlideShowRequest request = new SlideShowRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+SlideShowResponse response = await blockchyp.SlideShowsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Slide Show
+
+
+
+This API returns a single slide show.
+
+
+
+
+```c#
+// Populate request parameters.
+SlideShowRequest request = new SlideShowRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+SlideShow response = await blockchyp.SlideShowAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Slide Show
+
+
+
+This API deletes a single slide show.
+
+
+
+
+```c#
+// Populate request parameters.
+SlideShowRequest request = new SlideShowRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.DeleteSlideShowAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Terminal Branding
+
+
+
+This API returns the terminal branding stack for a given API scope.
+
+
+
+
+```c#
+// Populate request parameters.
+BrandingAssetRequest request = new BrandingAssetRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+BrandingAssetResponse response = await blockchyp.TerminalBrandingAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Update Branding Asset
+
+
+
+This API updates a single branding asset.
+
+
+
+
+```c#
+// Populate request parameters.
+BrandingAsset request = new BrandingAsset
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.UpdateBrandingAssetAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Delete Branding Asset
+
+
+
+This API deletes a branding asset.
+
+
+
+
+```c#
+// Populate request parameters.
+BrandingAssetRequest request = new BrandingAssetRequest
+{
+    Timeout = 120,
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.DeleteBrandingAssetAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ## Running Integration Tests
 
 If you'd like to run the integration tests, create a new file on your system
