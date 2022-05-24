@@ -13,42 +13,40 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class UpdateMerchantTest : IntegrationTest
+    public class TerminalQueuedTransactionTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
-        public UpdateMerchantTest(ITestOutputHelper output)
+        public TerminalQueuedTransactionTest(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void Run_UpdateMerchantTest()
+        public async void Run_TerminalQueuedTransactionTest()
         {
-            ShowTestOnTerminal("UpdateMerchant");
+            ShowTestOnTerminal("TerminalQueuedTransaction");
 
-            MerchantProfile request = new MerchantProfile
+            AuthorizationRequest request = new AuthorizationRequest
             {
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                TransactionRef = Guid.NewGuid().ToString("N"),
+                Description = "1060 West Addison",
+                Amount = "25.15",
                 Test = true,
-                DbaName = "Test Merchant",
-                CompanyName = "Test Merchant",
-                BillingAddress = new Address
-                {
-                    Address1 = "1060 West Addison",
-                    City = "Chicago",
-                    StateOrProvince = "IL",
-                    PostalCode = "60613",
-                },
+                Queue = true,
             };
 
             output.WriteLine("Request: {0}", request);
 
-            MerchantProfileResponse response = await blockchyp.UpdateMerchantAsync(request);
+            AuthorizationResponse response = await blockchyp.ChargeAsync(request);
 
             output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Success, "response.Success");
+            Assert.False(response.Approved, "response.Approved");
+            Assert.Equal("Queued", response.ResponseDescription);
         }
     }
 }

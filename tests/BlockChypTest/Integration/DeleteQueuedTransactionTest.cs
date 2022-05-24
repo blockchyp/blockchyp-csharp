@@ -13,47 +13,46 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class DeleteTokenTest : IntegrationTest
+    public class DeleteQueuedTransactionTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
-        public DeleteTokenTest(ITestOutputHelper output)
+        public DeleteQueuedTransactionTest(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void Run_DeleteTokenTest()
+        public async void Run_DeleteQueuedTransactionTest()
         {
-            ShowTestOnTerminal("DeleteToken");
+            ShowTestOnTerminal("DeleteQueuedTransaction");
 
-            EnrollRequest setupRequest = new EnrollRequest
+            AuthorizationRequest setupRequest = new AuthorizationRequest
             {
-                Pan = "4111111111111111",
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                TransactionRef = Guid.NewGuid().ToString("N"),
+                Description = "1060 West Addison",
+                Amount = "25.15",
                 Test = true,
-                Customer = new Customer
-                {
-                    CustomerRef = "TESTCUSTOMER",
-                    FirstName = "Test",
-                    LastName = "Customer",
-                },
+                Queue = true,
             };
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-            EnrollResponse setupResponse = await blockchyp.EnrollAsync(setupRequest);
+            AuthorizationResponse setupResponse = await blockchyp.ChargeAsync(setupRequest);
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
-            DeleteTokenRequest request = new DeleteTokenRequest
+            DeleteQueuedTransactionRequest request = new DeleteQueuedTransactionRequest
             {
-                Token = setupResponse.Token,
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                TransactionRef = "*",
             };
 
             output.WriteLine("Request: {0}", request);
 
-            DeleteTokenResponse response = await blockchyp.DeleteTokenAsync(request);
+            DeleteQueuedTransactionResponse response = await blockchyp.DeleteQueuedTransactionAsync(request);
 
             output.WriteLine("Response: {0}", response);
 

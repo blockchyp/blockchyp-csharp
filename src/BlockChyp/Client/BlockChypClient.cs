@@ -1,8 +1,8 @@
-// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2022 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
-// This file was generated automatically. Changes to this file will be lost
-// every time the code is regenerated.
+// This file was generated automatically by the BlockChyp SDK Generator. Changes
+// to this file will be lost every time the code is regenerated.
 
 using System;
 using System.Collections.Generic;
@@ -1235,25 +1235,6 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
-        /// Deletes a payment token.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<DeleteTokenResponse> DeleteTokenAsync(DeleteTokenRequest request)
-        {
-            return await GatewayRequestAsync<DeleteTokenResponse>(HttpMethod.Delete, "/api/token/" + request.Token, request, null, request.Test)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="DeleteTokenAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public DeleteTokenResponse DeleteToken(DeleteTokenRequest request)
-        {
-            return GatewayRequest<DeleteTokenResponse>(HttpMethod.Delete, "/api/token/" + request.Token, request, null, request.Test);
-        }
-
-        /// <summary>
         /// Retrieves payment token metadata.
         /// </summary>
         /// <param name="request">The request details.</param>
@@ -1308,6 +1289,25 @@ namespace BlockChyp.Client
         public Acknowledgement UnlinkToken(UnlinkTokenRequest request)
         {
             return GatewayRequest<Acknowledgement>(HttpMethod.Post, "/api/unlink-token", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Deletes a payment token.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<DeleteTokenResponse> DeleteTokenAsync(DeleteTokenRequest request)
+        {
+            return await GatewayRequestAsync<DeleteTokenResponse>(HttpMethod.Delete, "/api/token/" + request.Token, request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteTokenAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public DeleteTokenResponse DeleteToken(DeleteTokenRequest request)
+        {
+            return GatewayRequest<DeleteTokenResponse>(HttpMethod.Delete, "/api/token/" + request.Token, request, null, request.Test);
         }
 
         /// <summary>

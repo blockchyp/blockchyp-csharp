@@ -13,47 +13,45 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class DeleteCustomerTest : IntegrationTest
+    public class ListQueuedTransactionsTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
-        public DeleteCustomerTest(ITestOutputHelper output)
+        public ListQueuedTransactionsTest(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void Run_DeleteCustomerTest()
+        public async void Run_ListQueuedTransactionsTest()
         {
-            ShowTestOnTerminal("DeleteCustomer");
+            ShowTestOnTerminal("ListQueuedTransactions");
 
-            UpdateCustomerRequest setupRequest = new UpdateCustomerRequest
+            AuthorizationRequest setupRequest = new AuthorizationRequest
             {
-                Customer = new Customer
-                {
-                    FirstName = "Test",
-                    LastName = "Customer",
-                    CompanyName = "Test Company",
-                    EmailAddress = "support@blockchyp.com",
-                    SmsNumber = "(123) 123-1234",
-                },
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
+                TransactionRef = Guid.NewGuid().ToString("N"),
+                Description = "1060 West Addison",
+                Amount = "25.15",
+                Test = true,
+                Queue = true,
             };
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-            CustomerResponse setupResponse = await blockchyp.UpdateCustomerAsync(setupRequest);
+            AuthorizationResponse setupResponse = await blockchyp.ChargeAsync(setupRequest);
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
-            DeleteCustomerRequest request = new DeleteCustomerRequest
+            ListQueuedTransactionsRequest request = new ListQueuedTransactionsRequest
             {
-                CustomerId = setupResponse.Customer.Id,
+                TerminalName = IntegrationTestConfiguration.Instance.Settings.DefaultTerminalName,
             };
 
             output.WriteLine("Request: {0}", request);
 
-            DeleteCustomerResponse response = await blockchyp.DeleteCustomerAsync(request);
+            ListQueuedTransactionsResponse response = await blockchyp.ListQueuedTransactionsAsync(request);
 
             output.WriteLine("Response: {0}", response);
 
