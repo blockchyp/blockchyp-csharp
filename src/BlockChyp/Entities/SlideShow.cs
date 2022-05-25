@@ -51,13 +51,6 @@ namespace BlockChyp.Entities
         public int Delay { get; set; }
 
         /// <summary>
-        /// Whether or not the slide show is enabled and can be included in the terminal
-        /// branding stack.
-        /// </summary>
-        [JsonProperty(PropertyName = "enabled")]
-        public bool Enabled { get; set; }
-
-        /// <summary>
         /// Enumerates all slides in the display sequence.
         /// </summary>
         [JsonProperty(PropertyName = "slides")]

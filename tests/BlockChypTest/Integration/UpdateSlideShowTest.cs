@@ -28,9 +28,30 @@ namespace BlockChypTest.Integration
         {
             ShowTestOnTerminal("UpdateSlideShow");
 
+            UploadMetadata setupRequest = new UploadMetadata
+            {
+                FileName = "aviato.png",
+                FileSize = 18843,
+                UploadId = Guid.NewGuid().ToString("N"),
+            };
+
+            output.WriteLine("Setup request: {0}", setupRequest);
+
+            MediaMetadata setupResponse = await blockchyp.UploadMediaAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", setupResponse);
+
             SlideShow request = new SlideShow
             {
-
+                Name = "Test Slide Show",
+                Delay = 5,
+                Slides = new List<Slide>
+                {
+                    new Slide
+                    {
+                        MediaId = ,
+                    }
+                },
             };
 
             output.WriteLine("Request: {0}", request);

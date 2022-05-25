@@ -28,6 +28,19 @@ namespace BlockChypTest.Integration
         {
             ShowTestOnTerminal("SurveyQuestions");
 
+            SurveyQuestion setupRequest = new SurveyQuestion
+            {
+                Ordinal = 1,
+                QuestionText = "Would you shop here again?",
+                QuestionType = "yes_no",
+            };
+
+            output.WriteLine("Setup request: {0}", setupRequest);
+
+            SurveyQuestion setupResponse = await blockchyp.UpdateSurveyQuestionAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", setupResponse);
+
             SurveyQuestionRequest request = new SurveyQuestionRequest
             {
 

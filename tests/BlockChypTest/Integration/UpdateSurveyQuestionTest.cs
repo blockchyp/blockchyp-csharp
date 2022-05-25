@@ -30,16 +30,20 @@ namespace BlockChypTest.Integration
 
             SurveyQuestion request = new SurveyQuestion
             {
-
+                Ordinal = 1,
+                QuestionText = "Would you shop here again?",
+                QuestionType = "yes_no",
             };
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.UpdateSurveyQuestionAsync(request);
+            SurveyQuestion response = await blockchyp.UpdateSurveyQuestionAsync(request);
 
             output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Success, "response.Success");
+            Assert.Equal("Would you shop here again?", response.QuestionText);
+            Assert.Equal("yes_no", response.QuestionType);
         }
     }
 }

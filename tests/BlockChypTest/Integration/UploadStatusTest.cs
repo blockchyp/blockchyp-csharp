@@ -28,9 +28,22 @@ namespace BlockChypTest.Integration
         {
             ShowTestOnTerminal("UploadStatus");
 
+            UploadMetadata setupRequest = new UploadMetadata
+            {
+                FileName = "aviato.png",
+                FileSize = 18843,
+                UploadId = Guid.NewGuid().ToString("N"),
+            };
+
+            output.WriteLine("Setup request: {0}", setupRequest);
+
+            MediaMetadata setupResponse = await blockchyp.UploadMediaAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", setupResponse);
+
             UploadStatusRequest request = new UploadStatusRequest
             {
-
+                UploadId = ,
             };
 
             output.WriteLine("Request: {0}", request);

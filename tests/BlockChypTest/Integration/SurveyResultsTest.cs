@@ -28,6 +28,17 @@ namespace BlockChypTest.Integration
         {
             ShowTestOnTerminal("SurveyResults");
 
+            SurveyQuestionRequest setupRequest = new SurveyQuestionRequest
+            {
+
+            };
+
+            output.WriteLine("Setup request: {0}", setupRequest);
+
+            SurveyQuestionResponse setupResponse = await blockchyp.SurveyQuestionsAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", setupResponse);
+
             SurveyResultsRequest request = new SurveyResultsRequest
             {
 

@@ -30,7 +30,9 @@ namespace BlockChypTest.Integration
 
             UploadMetadata request = new UploadMetadata
             {
-
+                FileName = "aviato.png",
+                FileSize = 18843,
+                UploadId = Guid.NewGuid().ToString("N"),
             };
 
             output.WriteLine("Request: {0}", request);
@@ -40,6 +42,10 @@ namespace BlockChypTest.Integration
             output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Success, "response.Success");
+            Assert.NotEmpty(response.Id);
+            Assert.Equal("aviato.png", response.OriginalFile);
+            Assert.NotEmpty(response.FileUrl);
+            Assert.NotEmpty(response.ThumbnailUrl);
         }
     }
 }
