@@ -13,41 +13,30 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class SlideShowsTest : IntegrationTest
+    public class EmptySlideShowTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
-        public SlideShowsTest(ITestOutputHelper output)
+        public EmptySlideShowTest(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void Run_SlideShowsTest()
+        public async void Run_EmptySlideShowTest()
         {
-            ShowTestOnTerminal("SlideShows");
+            ShowTestOnTerminal("EmptySlideShow");
 
-            SlideShow setupRequest = new SlideShow
+            SlideShow request = new SlideShow
             {
                 Name = "Test Slide Show",
                 Delay = 5,
             };
 
-            output.WriteLine("Setup request: {0}", setupRequest);
-
-            SlideShow setupResponse = await blockchyp.UpdateSlideShowAsync(setupRequest);
-
-            output.WriteLine("Setup Response: {0}", setupResponse);
-
-            SlideShowRequest request = new SlideShowRequest
-            {
-
-            };
-
             output.WriteLine("Request: {0}", request);
 
-            SlideShowResponse response = await blockchyp.SlideShowsAsync(request);
+            SlideShow response = await blockchyp.UpdateSlideShowAsync(request);
 
             output.WriteLine("Response: {0}", response);
 
