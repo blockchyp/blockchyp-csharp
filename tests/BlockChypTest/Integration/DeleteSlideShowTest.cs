@@ -28,9 +28,21 @@ namespace BlockChypTest.Integration
         {
             ShowTestOnTerminal("DeleteSlideShow");
 
+            SlideShow setupRequest = new SlideShow
+            {
+                Name = "Test Slide Show",
+                Delay = 5,
+            };
+
+            output.WriteLine("Setup request: {0}", setupRequest);
+
+            SlideShow setupResponse = await blockchyp.UpdateSlideShowAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", setupResponse);
+
             SlideShowRequest request = new SlideShowRequest
             {
-
+                SlideShowId = ,
             };
 
             output.WriteLine("Request: {0}", request);

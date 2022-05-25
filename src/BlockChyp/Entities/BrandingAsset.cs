@@ -97,7 +97,7 @@ namespace BlockChyp.Entities
         /// Saturday (6).
         /// </summary>
         [JsonProperty(PropertyName = "daysOfWeek")]
-        public List<int> DaysOfWeek { get; set; }
+        public List<Weekday> DaysOfWeek { get; set; }
 
         /// <summary>
         /// The start date if this asset should be displayed based on a schedule. Format:

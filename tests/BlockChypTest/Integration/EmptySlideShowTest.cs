@@ -41,6 +41,7 @@ namespace BlockChypTest.Integration
             output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Success, "response.Success");
+            Assert.Equal("Test Slide Show", response.Name);
         }
     }
 }
