@@ -12,8 +12,26 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models the priority and display settings for terminal media.
     /// </summary>
-    public class BrandingAsset : BaseEntity
+    public class BrandingAsset : BaseEntity, IAbstractAcknowledgement
     {
+        /// <summary>
+        /// Whether or not the request succeeded.
+        /// </summary>
+        [JsonProperty(PropertyName = "success")]
+        public bool Success { get; set; }
+
+        /// <summary>
+        /// The error, if an error occurred.
+        /// </summary>
+        [JsonProperty(PropertyName = "error")]
+        public string Error { get; set; }
+
+        /// <summary>
+        /// A narrative description of the transaction result.
+        /// </summary>
+        [JsonProperty(PropertyName = "responseDescription")]
+        public string ResponseDescription { get; set; }
+
         /// <summary>
         /// Id used to track a branding asset.
         /// </summary>

@@ -13,41 +13,30 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class DeleteBrandingAssetTest : IntegrationTest
+    public class EmptyBrandingAssetTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
-        public DeleteBrandingAssetTest(ITestOutputHelper output)
+        public EmptyBrandingAssetTest(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void Run_DeleteBrandingAssetTest()
+        public async void Run_EmptyBrandingAssetTest()
         {
-            ShowTestOnTerminal("DeleteBrandingAsset");
+            ShowTestOnTerminal("EmptyBrandingAsset");
 
-            BrandingAsset setupRequest = new BrandingAsset
+            BrandingAsset request = new BrandingAsset
             {
                 Notes = "Empty Asset",
                 Enabled = false,
             };
 
-            output.WriteLine("Setup request: {0}", setupRequest);
-
-            Acknowledgement setupResponse = await blockchyp.UpdateBrandingAssetAsync(setupRequest);
-
-            output.WriteLine("Setup Response: {0}", setupResponse);
-
-            BrandingAssetRequest request = new BrandingAssetRequest
-            {
-                AssetId = ,
-            };
-
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.DeleteBrandingAssetAsync(request);
+            Acknowledgement response = await blockchyp.UpdateBrandingAssetAsync(request);
 
             output.WriteLine("Response: {0}", response);
 
