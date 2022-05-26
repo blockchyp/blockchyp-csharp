@@ -36,7 +36,7 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-            Acknowledgement setupResponse = await blockchyp.UpdateBrandingAssetAsync(setupRequest);
+            BrandingAsset setupResponse = await blockchyp.UpdateBrandingAssetAsync(setupRequest);
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 

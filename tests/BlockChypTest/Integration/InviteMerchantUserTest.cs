@@ -30,7 +30,9 @@ namespace BlockChypTest.Integration
 
             InviteMerchantUserRequest request = new InviteMerchantUserRequest
             {
-
+                Email = "doublea@blockchypteam.m8r.co",
+                FirstName = "Aaron",
+                LastName = "Anderson",
             };
 
             output.WriteLine("Request: {0}", request);

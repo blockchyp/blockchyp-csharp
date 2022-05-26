@@ -41,6 +41,9 @@ namespace BlockChypTest.Integration
             output.WriteLine("Response: {0}", response);
 
             Assert.True(response.Success, "response.Success");
+            Assert.Equal("Test Merchant", response.DbaName);
+            Assert.Equal("Test Merchant", response.CompanyName);
+            Assert.True(response.Visa, "response.Visa");
         }
     }
 }

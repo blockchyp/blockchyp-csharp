@@ -57,7 +57,7 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.UpdateBrandingAssetAsync(request);
+            BrandingAsset response = await blockchyp.UpdateBrandingAssetAsync(request);
 
             output.WriteLine("Response: {0}", response);
 
