@@ -28,9 +28,23 @@ namespace BlockChypTest.Integration
         {
             ShowTestOnTerminal("UpdateMerchantPlatforms");
 
+            AddTestMerchantRequest setupRequest = new AddTestMerchantRequest
+            {
+                DbaName = "Test Merchant",
+                CompanyName = "Test Merchant",
+            };
+
+            output.WriteLine("Setup request: {0}", setupRequest);
+
+            MerchantProfileResponse setupResponse = await blockchyp.AddTestMerchantAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", setupResponse);
+
             MerchantPlatform request = new MerchantPlatform
             {
-
+                MerchantId = ,
+                PlatformCode = "SIM",
+                Notes = "platform simulator",
             };
 
             output.WriteLine("Request: {0}", request);
