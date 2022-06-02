@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+        [Trait("Category", "partner")]
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_GetMerchantsTest()
         {
-            ShowTestOnTerminal("GetMerchants");
+
+
+
+            UseProfile("partner");
+
 
             GetMerchantsRequest request = new GetMerchantsRequest
             {
@@ -35,11 +41,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            GetMerchantsResponse response = await blockchyp.GetMerchantsAsync(request);
+            Exception err = null;
+            try
+            {
+                GetMerchantsResponse response = await blockchyp.GetMerchantsAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

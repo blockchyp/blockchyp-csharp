@@ -11,8 +11,14 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models basic information needed to create a test merchant.
     /// </summary>
-    public class AddTestMerchantRequest : BaseEntity
+    public class AddTestMerchantRequest : BaseEntity, ITimeoutRequest
     {
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// The DBA name for the test merchant.
         /// </summary>

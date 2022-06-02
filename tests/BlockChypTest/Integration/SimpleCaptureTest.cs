@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_SimpleCaptureTest()
         {
-            ShowTestOnTerminal("SimpleCapture");
+
+
+
+            UseProfile("");
 
             AuthorizationRequest setupRequest = new AuthorizationRequest
             {
@@ -39,9 +44,12 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
+
             AuthorizationResponse setupResponse = await blockchyp.PreauthAsync(setupRequest);
 
+
             output.WriteLine("Setup Response: {0}", setupResponse);
+
 
             CaptureRequest request = new CaptureRequest
             {
@@ -51,12 +59,21 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            CaptureResponse response = await blockchyp.CaptureAsync(request);
+            Exception err = null;
+            try
+            {
+                CaptureResponse response = await blockchyp.CaptureAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                            Assert.True(response.Approved, "response.Approved");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.True(response.Approved, "response.Approved");
+            Assert.Null(err);
+
+
         }
     }
 }

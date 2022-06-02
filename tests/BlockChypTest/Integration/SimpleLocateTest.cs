@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_SimpleLocateTest()
         {
-            ShowTestOnTerminal("SimpleLocate");
+
+
+
+            UseProfile("");
+
 
             LocateRequest request = new LocateRequest
             {
@@ -36,11 +42,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            LocateResponse response = await blockchyp.LocateAsync(request);
+            Exception err = null;
+            try
+            {
+                LocateResponse response = await blockchyp.LocateAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

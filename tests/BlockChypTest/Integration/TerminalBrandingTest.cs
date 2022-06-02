@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TerminalBrandingTest()
         {
-            ShowTestOnTerminal("TerminalBranding");
+
+
+
+            UseProfile("");
+
 
             BrandingAssetRequest request = new BrandingAssetRequest
             {
@@ -35,11 +41,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            BrandingAssetResponse response = await blockchyp.TerminalBrandingAsync(request);
+            Exception err = null;
+            try
+            {
+                BrandingAssetResponse response = await blockchyp.TerminalBrandingAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

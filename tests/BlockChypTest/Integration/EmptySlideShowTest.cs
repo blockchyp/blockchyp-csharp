@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_EmptySlideShowTest()
         {
-            ShowTestOnTerminal("EmptySlideShow");
+
+
+
+            UseProfile("");
+
 
             SlideShow request = new SlideShow
             {
@@ -36,12 +42,21 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            SlideShow response = await blockchyp.UpdateSlideShowAsync(request);
+            Exception err = null;
+            try
+            {
+                SlideShow response = await blockchyp.UpdateSlideShowAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                                            Assert.Equal("Test Slide Show", response.Name);
+                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.Equal("Test Slide Show", response.Name);
+            Assert.Null(err);
+
+
         }
     }
 }

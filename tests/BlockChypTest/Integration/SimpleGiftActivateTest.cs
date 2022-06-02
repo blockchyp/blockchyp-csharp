@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_SimpleGiftActivateTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("SimpleGiftActivate");
+
+
+            UseProfile("");
+
 
             GiftActivateRequest request = new GiftActivateRequest
             {
@@ -37,13 +46,22 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            GiftActivateResponse response = await blockchyp.GiftActivateAsync(request);
+            Exception err = null;
+            try
+            {
+                GiftActivateResponse response = await blockchyp.GiftActivateAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                            Assert.True(response.Approved, "response.Approved");
+                                                                                                                                                                                                                            Assert.NotEmpty(response.PublicKey);
+                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.True(response.Approved, "response.Approved");
-            Assert.NotEmpty(response.PublicKey);
+            Assert.Null(err);
+
+
         }
     }
 }

@@ -11,8 +11,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a full terms and conditions template.
     /// </summary>
-    public class TermsAndConditionsTemplate : BaseEntity, IAbstractAcknowledgement
+    public class TermsAndConditionsTemplate : BaseEntity, ITimeoutRequest, IAbstractAcknowledgement
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Whether or not the request succeeded.
         /// </summary>
@@ -54,11 +66,5 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "content")]
         public string Content { get; set; }
-
-        /// <summary>
-        /// An optional timeout override for endpoints where this type is used as a request.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

@@ -12,10 +12,22 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Details about a merchant board platform configuration.
     /// </summary>
-    public class MerchantPlatform : BaseEntity
+    public class MerchantPlatform : BaseEntity, ITimeoutRequest
     {
         /// <summary>
-        /// Primary identifier for a given platform configuration
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
+        /// <summary>
+        /// Primary identifier for a given platform configuration.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -81,12 +93,6 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "lastChange")]
         public string LastChange { get; set; }
-
-        /// <summary>
-        /// An optional timeout override in seconds.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
 
         /// <summary>
         /// A map of configuration values specific to the boarding platform. These are not

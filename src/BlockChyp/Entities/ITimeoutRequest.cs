@@ -4,31 +4,21 @@
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
 // to this file will be lost every time the code is regenerated.
 
-using Newtonsoft.Json;
-
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Used to request the status of a file upload.
+    /// Models a low level request with a timeout and test flag.
     /// </summary>
-    public class UploadStatusRequest : BaseEntity, ITimeoutRequest
+    public interface ITimeoutRequest
     {
         /// <summary>
         /// The request timeout in seconds.
         /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
+        int Timeout { get; set; }
 
         /// <summary>
         /// Whether or not to route transaction to the test gateway.
         /// </summary>
-        [JsonProperty(PropertyName = "test")]
-        public bool Test { get; set; }
-
-        /// <summary>
-        /// Id used to track status and progress of an upload while in progress.
-        /// </summary>
-        [JsonProperty(PropertyName = "uploadId")]
-        public string UploadId { get; set; }
+        bool Test { get; set; }
     }
 }

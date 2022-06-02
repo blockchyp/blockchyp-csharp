@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TerminalStatusTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("TerminalStatus");
+
+
+            UseProfile("");
+
 
             TerminalStatusRequest request = new TerminalStatusRequest
             {
@@ -35,12 +44,21 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            TerminalStatusResponse response = await blockchyp.TerminalStatusAsync(request);
+            Exception err = null;
+            try
+            {
+                TerminalStatusResponse response = await blockchyp.TerminalStatusAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                            Assert.True(response.Idle, "response.Idle");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.True(response.Idle, "response.Idle");
+            Assert.Null(err);
+
+
         }
     }
 }

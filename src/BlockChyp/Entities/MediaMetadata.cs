@@ -56,7 +56,7 @@ namespace BlockChyp.Entities
         public string ThumbnailUrl { get; set; }
 
         /// <summary>
-        /// An identifier used to flag video files
+        /// An identifier used to flag video files.
         /// </summary>
         [JsonProperty(PropertyName = "video")]
         public bool Video { get; set; }

@@ -20,6 +20,7 @@ namespace BlockChypTest.Integration
             string data = File.ReadAllText(configFilePath);
 
             Settings = JsonConvert.DeserializeObject<IntegrationTestSettings>(data);
+
         }
 
         public IntegrationTestSettings Settings { get; }
@@ -29,7 +30,29 @@ namespace BlockChypTest.Integration
             return new BlockChypClient(
                 Settings.GatewayUrl,
                 Settings.GatewayTestUrl,
+                Settings.DashboardUrl,
                 new ApiCredentials(Settings.ApiKey, Settings.BearerToken, Settings.SigningKey));
+        }
+
+        public BlockChypClient GetTestClient(string profile)
+        {
+
+            if (!Settings.profiles.ContainsKey(profile))
+            {
+                return new BlockChypClient(
+                    Settings.GatewayUrl,
+                    Settings.GatewayTestUrl,
+                    Settings.DashboardUrl,
+                    new ApiCredentials(Settings.ApiKey, Settings.BearerToken, Settings.SigningKey));
+            }
+
+            ApiCredentials creds = Settings.profiles[profile];
+
+            return new BlockChypClient(
+                Settings.GatewayUrl,
+                Settings.GatewayTestUrl,
+                Settings.DashboardUrl,
+                creds);
         }
 
         public static string ConfigFilePath()
@@ -47,14 +70,6 @@ namespace BlockChypTest.Integration
 
         public static IntegrationTestConfiguration Instance = new IntegrationTestConfiguration();
 
-        private class Singleton
-        {
-            static Singleton()
-            {
-            }
-
-            internal static readonly IntegrationTestConfiguration instance = new IntegrationTestConfiguration();
-        }
 
         public const string ConfigFile = "sdk-itest-config.json";
         public const string ConfigDir = "blockchyp";

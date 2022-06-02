@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models a terminal profile response.
     /// </summary>
     public class TerminalProfileResponse : BaseEntity, IAbstractAcknowledgement
     {

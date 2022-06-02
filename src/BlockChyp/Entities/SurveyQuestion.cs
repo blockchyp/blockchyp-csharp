@@ -12,8 +12,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a survey question.
     /// </summary>
-    public class SurveyQuestion : BaseEntity, IAbstractAcknowledgement
+    public class SurveyQuestion : BaseEntity, ITimeoutRequest, IAbstractAcknowledgement
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Whether or not the request succeeded.
         /// </summary>
@@ -87,12 +99,5 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "responses")]
         public List<SurveyDataPoint> Responses { get; set; }
-
-        /// <summary>
-        /// An optional timeout override for situations where this entity is used as a
-        /// request body.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TerminalQueuedTransactionTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("TerminalQueuedTransaction");
+
+
+            UseProfile("");
+
 
             AuthorizationRequest request = new AuthorizationRequest
             {
@@ -40,13 +49,22 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            AuthorizationResponse response = await blockchyp.ChargeAsync(request);
+            Exception err = null;
+            try
+            {
+                AuthorizationResponse response = await blockchyp.ChargeAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                            Assert.False(response.Approved, "response.Approved");
+                                                                                                                                                                                                                            Assert.Equal("Queued", response.ResponseDescription);
+                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.False(response.Approved, "response.Approved");
-            Assert.Equal("Queued", response.ResponseDescription);
+            Assert.Null(err);
+
+
         }
     }
 }

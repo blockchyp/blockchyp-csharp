@@ -12,8 +12,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// An authorization request for a charge, preauth, or reverse transaction.
     /// </summary>
-    public class AuthorizationRequest : BaseEntity, ICoreRequest, IPaymentMethod, IPreviousTransaction, IRequestAmount, ISignatureRequest, ISubtotals, ITerminalReference
+    public class AuthorizationRequest : BaseEntity, ITimeoutRequest, ICoreRequest, IPaymentMethod, IPreviousTransaction, IRequestAmount, ISignatureRequest, ISubtotals, ITerminalReference
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// A user-assigned reference that can be used to recall or reverse transactions.
         /// </summary>
@@ -58,18 +70,6 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "destinationAccount")]
         public string DestinationAccount { get; set; }
-
-        /// <summary>
-        /// Whether or not to route transaction to the test gateway.
-        /// </summary>
-        [JsonProperty(PropertyName = "test")]
-        public bool Test { get; set; }
-
-        /// <summary>
-        /// The request timeout in seconds.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
 
         /// <summary>
         /// The payment token to be used for this transaction. This should be used for

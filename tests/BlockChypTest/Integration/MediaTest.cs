@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_MediaTest()
         {
-            ShowTestOnTerminal("Media");
+
+
+
+            UseProfile("");
+
 
             MediaRequest request = new MediaRequest
             {
@@ -35,11 +41,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            MediaLibraryResponse response = await blockchyp.MediaAsync(request);
+            Exception err = null;
+            try
+            {
+                MediaLibraryResponse response = await blockchyp.MediaAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

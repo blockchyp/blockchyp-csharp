@@ -27,6 +27,11 @@ namespace BlockChypTest.Integration
         {
         }
 
+        protected void UseProfile(string profile) {
+
+            blockchyp = IntegrationTestConfiguration.Instance.GetTestClient(profile);
+        }
+
         protected void ShowTestOnTerminal(string test)
         {
             if (delay <= TimeSpan.Zero)

@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_ActivateTerminalTest()
         {
-            ShowTestOnTerminal("ActivateTerminal");
+
+
+
+            UseProfile("");
+
 
             TerminalActivationRequest request = new TerminalActivationRequest
             {
@@ -36,12 +42,21 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.ActivateTerminalAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.ActivateTerminalAsync(request);
+                output.WriteLine("Response: {0}", response);                                                                            Assert.False(response.Success, "response.Success");
+                                                                                                                                                                                                                            Assert.Equal("Invalid Activation Code", response.Error);
+                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.False(response.Success, "response.Success");
-            Assert.Equal("Invalid Activation Code", response.Error);
+            Assert.Null(err);
+
+
         }
     }
 }

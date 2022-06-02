@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TerminalGiftCardBalanceTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("TerminalGiftCardBalance");
+
+
+            UseProfile("");
+
 
             BalanceRequest request = new BalanceRequest
             {
@@ -36,12 +45,21 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            BalanceResponse response = await blockchyp.BalanceAsync(request);
+            Exception err = null;
+            try
+            {
+                BalanceResponse response = await blockchyp.BalanceAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                            Assert.NotEmpty(response.RemainingBalance);
+                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.NotEmpty(response.RemainingBalance);
+            Assert.Null(err);
+
+
         }
     }
 }

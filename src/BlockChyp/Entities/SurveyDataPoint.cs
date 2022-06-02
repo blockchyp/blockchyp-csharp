@@ -32,7 +32,7 @@ namespace BlockChyp.Entities
         public int ResponseCount { get; set; }
 
         /// <summary>
-        /// Response rate as a percentage of total transactions
+        /// Response rate as a percentage of total transactions.
         /// </summary>
         [JsonProperty(PropertyName = "responsePercentage")]
         public float ResponsePercentage { get; set; }

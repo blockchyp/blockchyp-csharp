@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_SimplePingTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("SimplePing");
+
+
+            UseProfile("");
+
 
             PingRequest request = new PingRequest
             {
@@ -36,11 +45,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            PingResponse response = await blockchyp.PingAsync(request);
+            Exception err = null;
+            try
+            {
+                PingResponse response = await blockchyp.PingAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

@@ -47,13 +47,13 @@ namespace BlockChyp.Entities
         /// The size of the file to be uploaded in bytes.
         /// </summary>
         [JsonProperty(PropertyName = "fileSize")]
-        public int64 FileSize { get; set; }
+        public long FileSize { get; set; }
 
         /// <summary>
         /// The amount of the file already uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "uploadedAmount")]
-        public int64 UploadedAmount { get; set; }
+        public long UploadedAmount { get; set; }
 
         /// <summary>
         /// The current status of a file upload.

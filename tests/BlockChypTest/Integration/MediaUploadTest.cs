@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+        [Trait("Category", "Upload")]
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_MediaUploadTest()
         {
-            ShowTestOnTerminal("MediaUpload");
+
+
+
+            UseProfile("");
+
 
             UploadMetadata request = new UploadMetadata
             {
@@ -37,15 +43,26 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            MediaMetadata response = await blockchyp.UploadMediaAsync(request);
+            Exception err = null;
+            try
+            {
 
-            output.WriteLine("Response: {0}", response);
+                FileStream inStream = new FileStream("../../../Integration/testdata/aviato.png", FileMode.Open, FileAccess.Read);
+                MediaMetadata response = await blockchyp.UploadMediaAsync(request, inStream);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                            Assert.NotEmpty(response.Id);
+                                                                                                                                                                                            Assert.Equal("aviato.png", response.OriginalFile);
+                                                                                                                                                            Assert.NotEmpty(response.FileUrl);
+                                                                                                                                                                            Assert.NotEmpty(response.ThumbnailUrl);
+                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            Assert.True(response.Success, "response.Success");
-            Assert.NotEmpty(response.Id);
-            Assert.Equal("aviato.png", response.OriginalFile);
-            Assert.NotEmpty(response.FileUrl);
-            Assert.NotEmpty(response.ThumbnailUrl);
+
+            Assert.Null(err);
+
+
         }
     }
 }

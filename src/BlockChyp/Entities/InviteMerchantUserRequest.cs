@@ -12,8 +12,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a request for adding a new user to a merchant account.
     /// </summary>
-    public class InviteMerchantUserRequest : BaseEntity, ICoreRequest
+    public class InviteMerchantUserRequest : BaseEntity, ITimeoutRequest, ICoreRequest
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// A user-assigned reference that can be used to recall or reverse transactions.
         /// </summary>
@@ -60,18 +72,6 @@ namespace BlockChyp.Entities
         public string DestinationAccount { get; set; }
 
         /// <summary>
-        /// Whether or not to route transaction to the test gateway.
-        /// </summary>
-        [JsonProperty(PropertyName = "test")]
-        public bool Test { get; set; }
-
-        /// <summary>
-        /// The request timeout in seconds.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
-
-        /// <summary>
         /// The merchant id. Optional for merchant scoped requests.
         /// </summary>
         [JsonProperty(PropertyName = "merchantId")]
@@ -84,13 +84,13 @@ namespace BlockChyp.Entities
         public string Email { get; set; }
 
         /// <summary>
-        /// The first name of the new user
+        /// The first name of the new user.
         /// </summary>
         [JsonProperty(PropertyName = "firstName")]
         public string FirstName { get; set; }
 
         /// <summary>
-        /// The last name of the new user
+        /// The last name of the new user.
         /// </summary>
         [JsonProperty(PropertyName = "lastName")]
         public string LastName { get; set; }

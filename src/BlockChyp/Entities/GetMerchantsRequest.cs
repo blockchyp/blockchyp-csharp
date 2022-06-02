@@ -11,10 +11,10 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a request for merchant information.
     /// </summary>
-    public class GetMerchantsRequest : BaseEntity
+    public class GetMerchantsRequest : BaseEntity, ITimeoutRequest
     {
         /// <summary>
-        /// Allows developers to override the default timeout.
+        /// The request timeout in seconds.
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }

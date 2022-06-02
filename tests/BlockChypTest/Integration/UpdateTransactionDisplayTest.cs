@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_UpdateTransactionDisplayTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("UpdateTransactionDisplay");
+
+
+            UseProfile("");
+
 
             TransactionDisplayRequest request = new TransactionDisplayRequest
             {
@@ -60,11 +69,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.UpdateTransactionDisplayAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.UpdateTransactionDisplayAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TcLogTest()
         {
-            ShowTestOnTerminal("TcLog");
+
+
+
+            UseProfile("");
+
 
             TermsAndConditionsLogRequest request = new TermsAndConditionsLogRequest
             {
@@ -35,11 +41,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            TermsAndConditionsLogResponse response = await blockchyp.TcLogAsync(request);
+            Exception err = null;
+            try
+            {
+                TermsAndConditionsLogResponse response = await blockchyp.TcLogAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

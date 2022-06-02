@@ -50,7 +50,7 @@ namespace BlockChyp.Entities
         public string TerminalName { get; set; }
 
         /// <summary>
-        /// A flag indicating whether or not the terminal was a test terminal
+        /// A flag indicating whether or not the terminal was a test terminal.
         /// </summary>
         [JsonProperty(PropertyName = "test")]
         public bool Test { get; set; }

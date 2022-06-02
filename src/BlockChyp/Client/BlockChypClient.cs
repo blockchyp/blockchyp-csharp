@@ -30,6 +30,9 @@ namespace BlockChyp.Client
         /// <summary>The default URL for the BlockChyp test gateway.</summary>
         public const string DefaultGatewayTestEndpoint = "https://test.blockchyp.com";
 
+        /// <summary>The default URL for the BlockChyp dashboard.</summary>
+        public const string DefaultDashboardEndpoint = "https://dashboard.blockchyp.com";
+
         /// <summary>The default HTTP port used by BlockChyp terminals.</summary>
         public const int TerminalHttpPort = 8080;
 
@@ -44,7 +47,7 @@ namespace BlockChyp.Client
         /// Initializes a new instance of the <see cref="BlockChypClient"/> class.
         /// </summary>
         public BlockChypClient()
-            : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, null)
+            : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, DefaultDashboardEndpoint, null)
         {
         }
 
@@ -53,7 +56,7 @@ namespace BlockChyp.Client
         /// </summary>
         /// <param name="credentials">API credentials used to make requests.</param>
         public BlockChypClient(ApiCredentials credentials)
-            : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, credentials)
+            : this(DefaultGatewayEndpoint, DefaultGatewayTestEndpoint, DefaultDashboardEndpoint, credentials)
         {
         }
 
@@ -62,7 +65,7 @@ namespace BlockChyp.Client
         /// </summary>
         /// <param name="gateway">A URL for the BlockChyp gateway.</param>
         public BlockChypClient(string gateway)
-            : this(gateway, DefaultGatewayTestEndpoint, null)
+            : this(gateway, DefaultGatewayTestEndpoint, DefaultDashboardEndpoint, null)
         {
         }
 
@@ -72,7 +75,7 @@ namespace BlockChyp.Client
         /// <param name="gateway">A URL for the BlockChyp gateway.</param>
         /// <param name="credentials">API credentials used to make requests.</param>
         public BlockChypClient(string gateway, ApiCredentials credentials)
-            : this(gateway, DefaultGatewayTestEndpoint, credentials)
+            : this(gateway, DefaultGatewayTestEndpoint, DefaultDashboardEndpoint, credentials)
         {
         }
 
@@ -81,11 +84,13 @@ namespace BlockChyp.Client
         /// </summary>
         /// <param name="gateway">A URL for the BlockChyp gateway.</param>
         /// <param name="testGateway">A URL for the BlockChyp test gateway.</param>
+        /// <param name="dashboardGateway">A URL for the BlockChyp dashboard gateway.</param>
         /// <param name="credentials">API credentials used to make requests.</param>
-        public BlockChypClient(string gateway, string testGateway, ApiCredentials credentials)
+        public BlockChypClient(string gateway, string testGateway, string dashboardGateway, ApiCredentials credentials)
         {
             GatewayEndpoint = gateway;
             GatewayTestEndpoint = testGateway;
+            DashboardEndpoint = dashboardGateway;
             Credentials = credentials;
 
 #if NET45
@@ -98,6 +103,10 @@ namespace BlockChyp.Client
         /// <summary>Gets or sets the gateway base URL.</summary>
         /// <value>The base URL for the BlockChyp gateway.</value>
         public string GatewayEndpoint { get; set; }
+
+        /// <summary>Gets or sets the dashboard base URL.</summary>
+        /// <value>The base URL for the BlockChyp dashboard.</value>
+        public string DashboardEndpoint { get; set; }
 
         /// <summary>Gets or sets the test gateway base URL.</summary>
         /// <value>The base URL for the BlockChyp test gateway.</value>
@@ -904,6 +913,676 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Adds a test merchant account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<GetMerchantsResponse> GetMerchantsAsync(GetMerchantsRequest request)
+        {
+            return await DashboardRequestAsync<GetMerchantsResponse>(HttpMethod.Post, "/api/get-merchants", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="GetMerchantsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public GetMerchantsResponse GetMerchants(GetMerchantsRequest request)
+        {
+            return DashboardRequest<GetMerchantsResponse>(HttpMethod.Post, "/api/get-merchants", request, null);
+        }
+
+        /// <summary>
+        /// Adds or updates a merchant account. Can be used to create or update test
+        /// merchants. Only gateway only partners may create new live merchants.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantProfileResponse> UpdateMerchantAsync(MerchantProfile request)
+        {
+            return await DashboardRequestAsync<MerchantProfileResponse>(HttpMethod.Post, "/api/update-merchant", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UpdateMerchantAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantProfileResponse UpdateMerchant(MerchantProfile request)
+        {
+            return DashboardRequest<MerchantProfileResponse>(HttpMethod.Post, "/api/update-merchant", request, null);
+        }
+
+        /// <summary>
+        /// List all active users and pending invites for a merchant account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantUsersResponse> MerchantUsersAsync(MerchantProfileRequest request)
+        {
+            return await DashboardRequestAsync<MerchantUsersResponse>(HttpMethod.Post, "/api/merchant-users", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantUsersAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantUsersResponse MerchantUsers(MerchantProfileRequest request)
+        {
+            return DashboardRequest<MerchantUsersResponse>(HttpMethod.Post, "/api/merchant-users", request, null);
+        }
+
+        /// <summary>
+        /// Invites a user to join a merchant account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> InviteMerchantUserAsync(InviteMerchantUserRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/invite-merchant-user", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="InviteMerchantUserAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement InviteMerchantUser(InviteMerchantUserRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Post, "/api/invite-merchant-user", request, null);
+        }
+
+        /// <summary>
+        /// Adds a test merchant account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantProfileResponse> AddTestMerchantAsync(AddTestMerchantRequest request)
+        {
+            return await DashboardRequestAsync<MerchantProfileResponse>(HttpMethod.Post, "/api/add-test-merchant", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="AddTestMerchantAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantProfileResponse AddTestMerchant(AddTestMerchantRequest request)
+        {
+            return DashboardRequest<MerchantProfileResponse>(HttpMethod.Post, "/api/add-test-merchant", request, null);
+        }
+
+        /// <summary>
+        /// Deletes a test merchant account. Supports partner scoped API credentials
+        /// only. Live merchant accounts cannot be deleted.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> DeleteTestMerchantAsync(MerchantProfileRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Delete, "/api/test-merchant/" + request.MerchantId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteTestMerchantAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement DeleteTestMerchant(MerchantProfileRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Delete, "/api/test-merchant/" + request.MerchantId, request, null);
+        }
+
+        /// <summary>
+        /// List all merchant platforms configured for a gateway merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantPlatformsResponse> MerchantPlatformsAsync(MerchantProfileRequest request)
+        {
+            return await DashboardRequestAsync<MerchantPlatformsResponse>(HttpMethod.Get, "/api/plugin-configs/" + request.MerchantId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantPlatformsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantPlatformsResponse MerchantPlatforms(MerchantProfileRequest request)
+        {
+            return DashboardRequest<MerchantPlatformsResponse>(HttpMethod.Get, "/api/plugin-configs/" + request.MerchantId, request, null);
+        }
+
+        /// <summary>
+        /// List all merchant platforms configured for a gateway merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> UpdateMerchantPlatformsAsync(MerchantPlatform request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/plugin-configs", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UpdateMerchantPlatformsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement UpdateMerchantPlatforms(MerchantPlatform request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Post, "/api/plugin-configs", request, null);
+        }
+
+        /// <summary>
+        /// Deletes a boarding platform configuration.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> DeleteMerchantPlatformsAsync(MerchantPlatformRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Delete, "/api/plugin-config/" + request.PlatformId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteMerchantPlatformsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement DeleteMerchantPlatforms(MerchantPlatformRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Delete, "/api/plugin-config/" + request.PlatformId, request, null);
+        }
+
+        /// <summary>
+        /// Returns all terminals associated with the merchant account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TerminalProfileResponse> TerminalsAsync(TerminalProfileRequest request)
+        {
+            return await DashboardRequestAsync<TerminalProfileResponse>(HttpMethod.Get, "/api/terminals", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TerminalsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TerminalProfileResponse Terminals(TerminalProfileRequest request)
+        {
+            return DashboardRequest<TerminalProfileResponse>(HttpMethod.Get, "/api/terminals", request, null);
+        }
+
+        /// <summary>
+        /// Deactivates a terminal.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> DeactivateTerminalAsync(TerminalDeactivationRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Delete, "/api/terminal/" + request.TerminalId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeactivateTerminalAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement DeactivateTerminal(TerminalDeactivationRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Delete, "/api/terminal/" + request.TerminalId, request, null);
+        }
+
+        /// <summary>
+        /// Activates a terminal.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> ActivateTerminalAsync(TerminalActivationRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-activate", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="ActivateTerminalAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement ActivateTerminal(TerminalActivationRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Post, "/api/terminal-activate", request, null);
+        }
+
+        /// <summary>
+        /// Returns a list of terms and conditions templates associated with a merchant
+        /// account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TermsAndConditionsTemplateResponse> TcTemplatesAsync(TermsAndConditionsTemplateRequest request)
+        {
+            return await DashboardRequestAsync<TermsAndConditionsTemplateResponse>(HttpMethod.Get, "/api/tc-templates", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TcTemplatesAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TermsAndConditionsTemplateResponse TcTemplates(TermsAndConditionsTemplateRequest request)
+        {
+            return DashboardRequest<TermsAndConditionsTemplateResponse>(HttpMethod.Get, "/api/tc-templates", request, null);
+        }
+
+        /// <summary>
+        /// Returns a single terms and conditions template.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TermsAndConditionsTemplate> TcTemplateAsync(TermsAndConditionsTemplateRequest request)
+        {
+            return await DashboardRequestAsync<TermsAndConditionsTemplate>(HttpMethod.Get, "/api/tc-templates/" + request.TemplateId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TcTemplateAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TermsAndConditionsTemplate TcTemplate(TermsAndConditionsTemplateRequest request)
+        {
+            return DashboardRequest<TermsAndConditionsTemplate>(HttpMethod.Get, "/api/tc-templates/" + request.TemplateId, request, null);
+        }
+
+        /// <summary>
+        /// Updates or creates a terms and conditions template.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TermsAndConditionsTemplate> TcUpdateTemplateAsync(TermsAndConditionsTemplate request)
+        {
+            return await DashboardRequestAsync<TermsAndConditionsTemplate>(HttpMethod.Post, "/api/tc-templates", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TcUpdateTemplateAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TermsAndConditionsTemplate TcUpdateTemplate(TermsAndConditionsTemplate request)
+        {
+            return DashboardRequest<TermsAndConditionsTemplate>(HttpMethod.Post, "/api/tc-templates", request, null);
+        }
+
+        /// <summary>
+        /// Deletes a single terms and conditions template.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> TcDeleteTemplateAsync(TermsAndConditionsTemplateRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Delete, "/api/tc-templates/" + request.TemplateId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TcDeleteTemplateAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement TcDeleteTemplate(TermsAndConditionsTemplateRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Delete, "/api/tc-templates/" + request.TemplateId, request, null);
+        }
+
+        /// <summary>
+        /// Returns up to 250 entries from the Terms and Conditions log.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TermsAndConditionsLogResponse> TcLogAsync(TermsAndConditionsLogRequest request)
+        {
+            return await DashboardRequestAsync<TermsAndConditionsLogResponse>(HttpMethod.Post, "/api/tc-log", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TcLogAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TermsAndConditionsLogResponse TcLog(TermsAndConditionsLogRequest request)
+        {
+            return DashboardRequest<TermsAndConditionsLogResponse>(HttpMethod.Post, "/api/tc-log", request, null);
+        }
+
+        /// <summary>
+        /// Returns a single detailed Terms and Conditions entry.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TermsAndConditionsLogEntry> TcEntryAsync(TermsAndConditionsLogRequest request)
+        {
+            return await DashboardRequestAsync<TermsAndConditionsLogEntry>(HttpMethod.Get, "/api/tc-entry/" + request.LogEntryId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TcEntryAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TermsAndConditionsLogEntry TcEntry(TermsAndConditionsLogRequest request)
+        {
+            return DashboardRequest<TermsAndConditionsLogEntry>(HttpMethod.Get, "/api/tc-entry/" + request.LogEntryId, request, null);
+        }
+
+        /// <summary>
+        /// Returns all survey questions for a given merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<SurveyQuestionResponse> SurveyQuestionsAsync(SurveyQuestionRequest request)
+        {
+            return await DashboardRequestAsync<SurveyQuestionResponse>(HttpMethod.Get, "/api/survey-questions", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SurveyQuestionsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public SurveyQuestionResponse SurveyQuestions(SurveyQuestionRequest request)
+        {
+            return DashboardRequest<SurveyQuestionResponse>(HttpMethod.Get, "/api/survey-questions", request, null);
+        }
+
+        /// <summary>
+        /// Returns a single survey question with response data.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<SurveyQuestion> SurveyQuestionAsync(SurveyQuestionRequest request)
+        {
+            return await DashboardRequestAsync<SurveyQuestion>(HttpMethod.Get, "/api/survey-questions/" + request.QuestionId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SurveyQuestionAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public SurveyQuestion SurveyQuestion(SurveyQuestionRequest request)
+        {
+            return DashboardRequest<SurveyQuestion>(HttpMethod.Get, "/api/survey-questions/" + request.QuestionId, request, null);
+        }
+
+        /// <summary>
+        /// Updates or creates a survey question.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<SurveyQuestion> UpdateSurveyQuestionAsync(SurveyQuestion request)
+        {
+            return await DashboardRequestAsync<SurveyQuestion>(HttpMethod.Post, "/api/survey-questions", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UpdateSurveyQuestionAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public SurveyQuestion UpdateSurveyQuestion(SurveyQuestion request)
+        {
+            return DashboardRequest<SurveyQuestion>(HttpMethod.Post, "/api/survey-questions", request, null);
+        }
+
+        /// <summary>
+        /// Deletes a survey question.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> DeleteSurveyQuestionAsync(SurveyQuestionRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Delete, "/api/survey-questions/" + request.QuestionId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteSurveyQuestionAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement DeleteSurveyQuestion(SurveyQuestionRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Delete, "/api/survey-questions/" + request.QuestionId, request, null);
+        }
+
+        /// <summary>
+        /// Returns results for a single survey question.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<SurveyQuestion> SurveyResultsAsync(SurveyResultsRequest request)
+        {
+            return await DashboardRequestAsync<SurveyQuestion>(HttpMethod.Post, "/api/survey-results", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SurveyResultsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public SurveyQuestion SurveyResults(SurveyResultsRequest request)
+        {
+            return DashboardRequest<SurveyQuestion>(HttpMethod.Post, "/api/survey-results", request, null);
+        }
+
+        /// <summary>
+        /// Returns the media library for a given partner, merchant, or organization.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MediaLibraryResponse> MediaAsync(MediaRequest request)
+        {
+            return await DashboardRequestAsync<MediaLibraryResponse>(HttpMethod.Get, "/api/media", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MediaAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MediaLibraryResponse Media(MediaRequest request)
+        {
+            return DashboardRequest<MediaLibraryResponse>(HttpMethod.Get, "/api/media", request, null);
+        }
+
+        /// <summary>
+        /// Uploads a media asset to the media library.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        /// <param name="inStream">The raw stream providing access to the upload file binary.</param>
+        public async Task<MediaMetadata> UploadMediaAsync(UploadMetadata request, Stream inStream)
+        {
+            return await UploadRequestAsync<MediaMetadata>("/api/upload-media", request, inStream)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UploadMediaAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        /// <param name="inStream">The raw stream providing access to the upload file binary.</param>
+        public MediaMetadata UploadMedia(UploadMetadata request, Stream inStream)
+        {
+            return UploadRequest<MediaMetadata>("/api/upload-media", request, inStream);
+        }
+
+        /// <summary>
+        /// Retrieves the current status of a file upload.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<UploadStatus> UploadStatusAsync(UploadStatusRequest request)
+        {
+            return await DashboardRequestAsync<UploadStatus>(HttpMethod.Get, "/api/media-upload/" + request.UploadId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UploadStatusAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public UploadStatus UploadStatus(UploadStatusRequest request)
+        {
+            return DashboardRequest<UploadStatus>(HttpMethod.Get, "/api/media-upload/" + request.UploadId, request, null);
+        }
+
+        /// <summary>
+        /// Returns the media details for a single media asset.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MediaMetadata> MediaAssetAsync(MediaRequest request)
+        {
+            return await DashboardRequestAsync<MediaMetadata>(HttpMethod.Get, "/api/media/" + request.MediaId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MediaAssetAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MediaMetadata MediaAsset(MediaRequest request)
+        {
+            return DashboardRequest<MediaMetadata>(HttpMethod.Get, "/api/media/" + request.MediaId, request, null);
+        }
+
+        /// <summary>
+        /// Deletes a media asset.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> DeleteMediaAssetAsync(MediaRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Delete, "/api/media/" + request.MediaId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteMediaAssetAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement DeleteMediaAsset(MediaRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Delete, "/api/media/" + request.MediaId, request, null);
+        }
+
+        /// <summary>
+        /// Returns a collection of slide shows.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<SlideShowResponse> SlideShowsAsync(SlideShowRequest request)
+        {
+            return await DashboardRequestAsync<SlideShowResponse>(HttpMethod.Get, "/api/slide-shows", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SlideShowsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public SlideShowResponse SlideShows(SlideShowRequest request)
+        {
+            return DashboardRequest<SlideShowResponse>(HttpMethod.Get, "/api/slide-shows", request, null);
+        }
+
+        /// <summary>
+        /// Returns a single slide show with slides.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<SlideShow> SlideShowAsync(SlideShowRequest request)
+        {
+            return await DashboardRequestAsync<SlideShow>(HttpMethod.Get, "/api/slide-shows/" + request.SlideShowId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SlideShowAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public SlideShow SlideShow(SlideShowRequest request)
+        {
+            return DashboardRequest<SlideShow>(HttpMethod.Get, "/api/slide-shows/" + request.SlideShowId, request, null);
+        }
+
+        /// <summary>
+        /// Updates or creates a slide show.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<SlideShow> UpdateSlideShowAsync(SlideShow request)
+        {
+            return await DashboardRequestAsync<SlideShow>(HttpMethod.Post, "/api/slide-shows", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UpdateSlideShowAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public SlideShow UpdateSlideShow(SlideShow request)
+        {
+            return DashboardRequest<SlideShow>(HttpMethod.Post, "/api/slide-shows", request, null);
+        }
+
+        /// <summary>
+        /// Deletes a single slide show.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> DeleteSlideShowAsync(SlideShowRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Delete, "/api/slide-shows/" + request.SlideShowId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteSlideShowAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement DeleteSlideShow(SlideShowRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Delete, "/api/slide-shows/" + request.SlideShowId, request, null);
+        }
+
+        /// <summary>
+        /// Returns the terminal branding stack for a given set of API credentials.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<BrandingAssetResponse> TerminalBrandingAsync(BrandingAssetRequest request)
+        {
+            return await DashboardRequestAsync<BrandingAssetResponse>(HttpMethod.Get, "/api/terminal-branding", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TerminalBrandingAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public BrandingAssetResponse TerminalBranding(BrandingAssetRequest request)
+        {
+            return DashboardRequest<BrandingAssetResponse>(HttpMethod.Get, "/api/terminal-branding", request, null);
+        }
+
+        /// <summary>
+        /// Updates a branding asset.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<BrandingAsset> UpdateBrandingAssetAsync(BrandingAsset request)
+        {
+            return await DashboardRequestAsync<BrandingAsset>(HttpMethod.Post, "/api/terminal-branding", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UpdateBrandingAssetAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public BrandingAsset UpdateBrandingAsset(BrandingAsset request)
+        {
+            return DashboardRequest<BrandingAsset>(HttpMethod.Post, "/api/terminal-branding", request, null);
+        }
+
+        /// <summary>
+        /// Deletes a branding asset.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> DeleteBrandingAssetAsync(BrandingAssetRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Delete, "/api/terminal-branding/" + request.AssetId, request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="DeleteBrandingAssetAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement DeleteBrandingAsset(BrandingAssetRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Delete, "/api/terminal-branding/" + request.AssetId, request, null);
+        }
+
+        /// <summary>
         /// Returns routing and location data for a payment terminal.
         /// </summary>
         /// <param name="request">The request details.</param>
@@ -1435,6 +2114,123 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Sends a request to the dashboard and returns its response
+        /// as an asynchronous operation.
+        /// </summary>
+        /// <param name="method">The HTTP method of the request.</param>
+        /// <param name="path">The relative path of the request.</param>
+        /// <param name="body">The request body.</param>
+        /// <param name="query">A URL query string to send with the request.</param>
+        /// <typeparam name="T">The expected response entity.</typeparam>
+        /// <exception cref="TimeoutException">if HTTP request time exceeds <c>GatewayRequestTimeout</c>.</exception>
+        public async Task<T> DashboardRequestAsync<T>(HttpMethod method, string path, object body, string query)
+        {
+            var requestUrl = ToFullyQualifiedDashboardPath(path, query);
+            var request = new HttpRequestMessage(method, requestUrl);
+
+            if (body != null)
+            {
+                request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            }
+
+            if (Credentials != null)
+            {
+                var headers = Crypto.GenerateAuthHeaders(Credentials);
+                foreach (KeyValuePair<string, string> header in headers)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
+
+            var timeout = GetTimeout(body, GatewayRequestTimeout);
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(timeout);
+
+            try
+            {
+                using (var response = await GatewayClient.SendAsync(request, cts.Token).ConfigureAwait(false))
+                {
+                        string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        return ProcessResponse<T>(response.StatusCode, responseBody);
+                }
+            }
+            catch (OperationCanceledException e)
+            {
+                throw new TimeoutException("Dashboard request timed out", e);
+            }
+        }
+
+        /// <summary>
+        /// Sends an upload request to the dashboard and blocks until it responds.
+        /// </summary>
+        /// <param name="path">The relative path of the request.</param>
+        /// <param name="upload">Metadata about the file upload.</param>
+        /// <param name="inStream">The raw input stream providing access to the file contents.</param>
+        /// <typeparam name="T">The expected response entity.</typeparam>
+        public T UploadRequest<T>(string path, UploadMetadata upload, Stream inStream)
+        {
+            return UploadRequestAsync<T>(path, upload, inStream)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Sends a request to the dashboard and returns its response
+        /// as an asynchronous operation.
+        /// </summary>
+        /// <param name="path">The relative path of the request.</param>
+        /// <param name="upload">Metadata about the file upload.</param>
+        /// <param name="inStream">The raw input stream providing access to the file contents.</param>
+        /// <typeparam name="T">The expected response entity.</typeparam>
+        /// <exception cref="TimeoutException">if HTTP request time exceeds <c>GatewayRequestTimeout</c>.</exception>
+        public async Task<T> UploadRequestAsync<T>(string path, UploadMetadata upload, Stream inStream)
+        {
+            var requestUrl = ToFullyQualifiedDashboardPath(path, string.Empty);
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+            request.Content = new StreamContent(inStream);
+
+            if (Credentials != null)
+            {
+                var headers = Crypto.GenerateAuthHeaders(Credentials);
+                foreach (KeyValuePair<string, string> header in headers)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
+
+            if (upload.FileSize > 0)
+            {
+                request.Headers.Add("X-File-Size", upload.FileSize.ToString());
+            }
+
+            if (upload.FileName != string.Empty)
+            {
+                request.Headers.Add("X-Upload-File-Name", upload.FileName);
+            }
+
+            if (upload.UploadId != string.Empty)
+            {
+                request.Headers.Add("X-Upload-ID", upload.UploadId);
+            }
+
+            var timeout = GetTimeout(upload, GatewayRequestTimeout);
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(timeout);
+
+            try
+            {
+                using (var response = await GatewayClient.SendAsync(request, cts.Token).ConfigureAwait(false))
+                {
+                        string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        return ProcessResponse<T>(response.StatusCode, responseBody);
+                }
+            }
+            catch (OperationCanceledException e)
+            {
+                throw new TimeoutException("Upload request timed out", e);
+            }
+        }
+
+        /// <summary>
         /// Sends a request to the gateway and blocks until it response.
         /// </summary>
         /// <param name="method">The HTTP method of the request.</param>
@@ -1450,13 +2246,27 @@ namespace BlockChyp.Client
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
+        /// <summary>
+        /// Sends a request to the dashboard and blocks until it response.
+        /// </summary>
+        /// <param name="method">The HTTP method of the request.</param>
+        /// <param name="path">The relative path of the request.</param>
+        /// <param name="body">The request body.</param>
+        /// <param name="query">A URL query string to send with the request.</param>
+        /// <typeparam name="T">The expected response entity.</typeparam>
+        public T DashboardRequest<T>(HttpMethod method, string path, object body, string query)
+        {
+            return DashboardRequestAsync<T>(method, path, body, query)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
         private static T ProcessResponse<T>(HttpStatusCode statusCode, string body)
         {
             if (statusCode != HttpStatusCode.OK)
             {
                 try
                 {
-                    var core = JsonConvert.DeserializeObject<IAbstractAcknowledgement>(body);
+                    var core = JsonConvert.DeserializeObject<Acknowledgement>(body);
 
                     string msg;
                     if (!string.IsNullOrEmpty(core.ResponseDescription))
@@ -1570,7 +2380,7 @@ namespace BlockChyp.Client
 
         private static TimeSpan GetTimeout(object body, TimeSpan defaultTimeout)
         {
-            var coreRequest = body as ICoreRequest;
+            var coreRequest = body as ITimeoutRequest;
             if (coreRequest != null && coreRequest.Timeout > 0)
             {
                 return TimeSpan.FromSeconds(coreRequest.Timeout);
@@ -1699,6 +2509,17 @@ namespace BlockChyp.Client
         private Uri ToFullyQualifiedGatewayPath(string path, string query, bool test)
         {
             var prefix = test ? GatewayTestEndpoint : GatewayEndpoint;
+
+            var builder = new UriBuilder(prefix);
+            builder.Path = path;
+            builder.Query = query;
+
+            return builder.Uri;
+        }
+
+        private Uri ToFullyQualifiedDashboardPath(string path, string query)
+        {
+            var prefix = DashboardEndpoint;
 
             var builder = new UriBuilder(prefix);
             builder.Path = path;

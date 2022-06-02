@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+        [Trait("Category", "partner")]
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_AddTestMerchantTest()
         {
-            ShowTestOnTerminal("AddTestMerchant");
+
+
+
+            UseProfile("partner");
+
 
             AddTestMerchantRequest request = new AddTestMerchantRequest
             {
@@ -36,14 +42,23 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            MerchantProfileResponse response = await blockchyp.AddTestMerchantAsync(request);
+            Exception err = null;
+            try
+            {
+                MerchantProfileResponse response = await blockchyp.AddTestMerchantAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                                            Assert.Equal("Test Merchant", response.DbaName);
+                                                                                                                                                                            Assert.Equal("Test Merchant", response.CompanyName);
+                                                                                                            Assert.True(response.Visa, "response.Visa");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.Equal("Test Merchant", response.DbaName);
-            Assert.Equal("Test Merchant", response.CompanyName);
-            Assert.True(response.Visa, "response.Visa");
+            Assert.Null(err);
+
+
         }
     }
 }

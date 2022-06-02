@@ -9,10 +9,22 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models a terminal deactivation request.
     /// </summary>
-    public class TerminalDeactivationRequest : BaseEntity
+    public class TerminalDeactivationRequest : BaseEntity, ITimeoutRequest
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// The terminal name assigned to the terminal.
         /// </summary>
@@ -24,11 +36,5 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "terminalId")]
         public string TerminalId { get; set; }
-
-        /// <summary>
-        /// The optional timeout override for a terminal profile request.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

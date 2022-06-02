@@ -12,8 +12,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models the priority and display settings for terminal media.
     /// </summary>
-    public class BrandingAsset : BaseEntity, IAbstractAcknowledgement
+    public class BrandingAsset : BaseEntity, ITimeoutRequest, IAbstractAcknowledgement
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Whether or not the request succeeded.
         /// </summary>
@@ -97,14 +109,14 @@ namespace BlockChyp.Entities
 
         /// <summary>
         /// The start date if this asset should be displayed based on a schedule. Format:
-        /// MM/DD/YYYY
+        /// MM/DD/YYYY.
         /// </summary>
         [JsonProperty(PropertyName = "startDate")]
         public string StartDate { get; set; }
 
         /// <summary>
         /// The end date if this asset should be displayed based on a schedule. Format:
-        /// MM/DD/YYYY
+        /// MM/DD/YYYY.
         /// </summary>
         [JsonProperty(PropertyName = "endDate")]
         public string EndDate { get; set; }
@@ -115,18 +127,18 @@ namespace BlockChyp.Entities
         /// Saturday (6).
         /// </summary>
         [JsonProperty(PropertyName = "daysOfWeek")]
-        public List<Weekday> DaysOfWeek { get; set; }
+        public List<int> DaysOfWeek { get; set; }
 
         /// <summary>
         /// The start date if this asset should be displayed based on a schedule. Format:
-        /// MM/DD/YYYY
+        /// MM/DD/YYYY.
         /// </summary>
         [JsonProperty(PropertyName = "startTime")]
         public string StartTime { get; set; }
 
         /// <summary>
         /// The end date if this asset should be displayed based on a schedule. Format:
-        /// MM/DD/YYYY
+        /// MM/DD/YYYY.
         /// </summary>
         [JsonProperty(PropertyName = "endTime")]
         public string EndTime { get; set; }
@@ -232,11 +244,5 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "narrativeDisplayPeriod")]
         public string NarrativeDisplayPeriod { get; set; }
-
-        /// <summary>
-        /// An optional timeout override.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

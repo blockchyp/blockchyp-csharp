@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_SimpleMessageTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("SimpleMessage");
+
+
+            UseProfile("");
+
 
             MessageRequest request = new MessageRequest
             {
@@ -37,11 +46,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.MessageAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.MessageAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

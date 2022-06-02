@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_PanPreauthTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("PanPreauth");
+
+
+            UseProfile("");
+
 
             AuthorizationRequest request = new AuthorizationRequest
             {
@@ -39,23 +48,32 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            AuthorizationResponse response = await blockchyp.PreauthAsync(request);
+            Exception err = null;
+            try
+            {
+                AuthorizationResponse response = await blockchyp.PreauthAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                            Assert.True(response.Approved, "response.Approved");
+                                                                                                                                                                            Assert.True(response.Test, "response.Test");
+                                                                                                                                                                                                                                                            Assert.Equal(6, response.AuthCode.Length);
+                                                                                                                                            Assert.NotEmpty(response.TransactionId);
+                                                                                                                                                                            Assert.NotEmpty(response.Timestamp);
+                                                                                                                                                                            Assert.NotEmpty(response.TickBlock);
+                                                                                                                                                                                            Assert.Equal("approved", response.ResponseDescription);
+                                                                                                                                                            Assert.NotEmpty(response.PaymentType);
+                                                                                                                                                                            Assert.NotEmpty(response.MaskedPan);
+                                                                                                                                                                            Assert.NotEmpty(response.EntryMethod);
+                                                                                                                                                                                            Assert.Equal("25.55", response.AuthorizedAmount);
+                                                                                                                                                                            Assert.Equal("KEYED", response.EntryMethod);
+                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.True(response.Approved, "response.Approved");
-            Assert.True(response.Test, "response.Test");
-            Assert.Equal(6, response.AuthCode.Length);
-            Assert.NotEmpty(response.TransactionId);
-            Assert.NotEmpty(response.Timestamp);
-            Assert.NotEmpty(response.TickBlock);
-            Assert.Equal("approved", response.ResponseDescription);
-            Assert.NotEmpty(response.PaymentType);
-            Assert.NotEmpty(response.MaskedPan);
-            Assert.NotEmpty(response.EntryMethod);
-            Assert.Equal("25.55", response.AuthorizedAmount);
-            Assert.Equal("KEYED", response.EntryMethod);
+            Assert.Null(err);
+
+
         }
     }
 }

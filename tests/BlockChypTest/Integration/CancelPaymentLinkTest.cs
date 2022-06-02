@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_CancelPaymentLinkTest()
         {
-            ShowTestOnTerminal("CancelPaymentLink");
+
+
+
+            UseProfile("");
 
             PaymentLinkRequest setupRequest = new PaymentLinkRequest
             {
@@ -62,9 +67,12 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
+
             PaymentLinkResponse setupResponse = await blockchyp.SendPaymentLinkAsync(setupRequest);
 
+
             output.WriteLine("Setup Response: {0}", setupResponse);
+
 
             CancelPaymentLinkRequest request = new CancelPaymentLinkRequest
             {
@@ -73,11 +81,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            CancelPaymentLinkResponse response = await blockchyp.CancelPaymentLinkAsync(request);
+            Exception err = null;
+            try
+            {
+                CancelPaymentLinkResponse response = await blockchyp.CancelPaymentLinkAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

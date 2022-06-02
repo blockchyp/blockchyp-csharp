@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_SendPaymentLinkTest()
         {
-            ShowTestOnTerminal("SendPaymentLink");
+
+
+
+            UseProfile("");
+
 
             PaymentLinkRequest request = new PaymentLinkRequest
             {
@@ -62,12 +68,21 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            PaymentLinkResponse response = await blockchyp.SendPaymentLinkAsync(request);
+            Exception err = null;
+            try
+            {
+                PaymentLinkResponse response = await blockchyp.SendPaymentLinkAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                            Assert.NotEmpty(response.Url);
+                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.NotEmpty(response.Url);
+            Assert.Null(err);
+
+
         }
     }
 }

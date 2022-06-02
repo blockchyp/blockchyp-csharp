@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+        [Trait("Category", "partner")]
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_DeleteTestMerchantTest()
         {
-            ShowTestOnTerminal("DeleteTestMerchant");
+
+
+
+            UseProfile("partner");
 
             AddTestMerchantRequest setupRequest = new AddTestMerchantRequest
             {
@@ -36,22 +41,34 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
+
             MerchantProfileResponse setupResponse = await blockchyp.AddTestMerchantAsync(setupRequest);
+
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
+
             MerchantProfileRequest request = new MerchantProfileRequest
             {
-                MerchantId = ,
+                MerchantId = setupResponse.MerchantId,
             };
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.DeleteTestMerchantAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.DeleteTestMerchantAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

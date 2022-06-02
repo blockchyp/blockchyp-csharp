@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TcDeleteTemplateTest()
         {
-            ShowTestOnTerminal("TcDeleteTemplate");
+
+
+
+            UseProfile("");
 
             TermsAndConditionsTemplate setupRequest = new TermsAndConditionsTemplate
             {
@@ -37,22 +42,34 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
+
             TermsAndConditionsTemplate setupResponse = await blockchyp.TcUpdateTemplateAsync(setupRequest);
+
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
+
             TermsAndConditionsTemplateRequest request = new TermsAndConditionsTemplateRequest
             {
-                TemplateId = ,
+                TemplateId = setupResponse.Id,
             };
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.TcDeleteTemplateAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.TcDeleteTemplateAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

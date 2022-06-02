@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_UpdateSlideShowTest()
         {
-            ShowTestOnTerminal("UpdateSlideShow");
+
+
+
+            UseProfile("");
 
             UploadMetadata setupRequest = new UploadMetadata
             {
@@ -37,9 +42,13 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-            MediaMetadata setupResponse = await blockchyp.UploadMediaAsync(setupRequest);
+
+            FileStream inStream = new FileStream("../../../Integration/testdata/aviato.png", FileMode.Open, FileAccess.Read);
+            MediaMetadata setupResponse = await blockchyp.UploadMediaAsync(setupRequest, inStream);
+
 
             output.WriteLine("Setup Response: {0}", setupResponse);
+
 
             SlideShow request = new SlideShow
             {
@@ -49,19 +58,28 @@ namespace BlockChypTest.Integration
                 {
                     new Slide
                     {
-                        MediaId = ,
+                        MediaId = setupResponse.Id,
                     }
                 },
             };
 
             output.WriteLine("Request: {0}", request);
 
-            SlideShow response = await blockchyp.UpdateSlideShowAsync(request);
+            Exception err = null;
+            try
+            {
+                SlideShow response = await blockchyp.UpdateSlideShowAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                                            Assert.Equal("Test Slide Show", response.Name);
+                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.Equal("Test Slide Show", response.Name);
+            Assert.Null(err);
+
+
         }
     }
 }

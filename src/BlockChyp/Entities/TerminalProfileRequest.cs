@@ -9,14 +9,20 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models a terminal profile request.
     /// </summary>
-    public class TerminalProfileRequest : BaseEntity
+    public class TerminalProfileRequest : BaseEntity, ITimeoutRequest
     {
         /// <summary>
-        /// The optional timeout override for a terminal profile request.
+        /// The request timeout in seconds.
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
     }
 }

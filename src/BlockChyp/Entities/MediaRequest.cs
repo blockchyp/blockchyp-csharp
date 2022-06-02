@@ -11,18 +11,24 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a request to retrieve or manipulate media assets.
     /// </summary>
-    public class MediaRequest : BaseEntity
+    public class MediaRequest : BaseEntity, ITimeoutRequest
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Id used to track a media asset.
         /// </summary>
         [JsonProperty(PropertyName = "mediaId")]
         public string MediaId { get; set; }
-
-        /// <summary>
-        /// An optional timeout override.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

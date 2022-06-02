@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_InviteMerchantUserTest()
         {
-            ShowTestOnTerminal("InviteMerchantUser");
+
+
+
+            UseProfile("");
+
 
             InviteMerchantUserRequest request = new InviteMerchantUserRequest
             {
@@ -37,11 +43,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.InviteMerchantUserAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.InviteMerchantUserAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_BooleanPromptTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("BooleanPrompt");
+
+
+            UseProfile("");
+
 
             BooleanPromptRequest request = new BooleanPromptRequest
             {
@@ -39,12 +48,21 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            BooleanPromptResponse response = await blockchyp.BooleanPromptAsync(request);
+            Exception err = null;
+            try
+            {
+                BooleanPromptResponse response = await blockchyp.BooleanPromptAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                            Assert.True(response.Response, "response.Response");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.True(response.Response, "response.Response");
+            Assert.Null(err);
+
+
         }
     }
 }

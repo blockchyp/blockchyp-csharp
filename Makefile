@@ -45,6 +45,44 @@ build:
 test:
 	$(DOTNET) test tests/BlockChypTest/BlockChypTest.csproj --filter "Category!=Integration" -v n
 
+# Runs file upload tests
+.PHONY: upload
+upload:
+	$(if $(LOCALBUILD),,\
+		$(foreach path,$(CACHEPATHS),mkdir -p $(CACHE)/$(path) ; ) \
+		sed 's/localhost/$(HOSTIP)/' $(CONFIGFILE) >$(CACHE)/$(CONFIGFILE) ; \
+		$(DOCKER) run \
+		-u $(shell id -u):$(shell id -g) \
+		-v $(SCMROOT):$(SCMROOT):Z \
+		-v /etc/passwd:/etc/passwd:ro \
+		$(foreach path,$(CACHEPATHS),-v $(CACHE)/$(path):$(path):Z) \
+		-e BC_TEST_DELAY=$(BC_TEST_DELAY) \
+		-e HOME=$(HOME) \
+		-w $(PWD) \
+		--rm $(IMAGE)) \
+	$(DOTNET) test tests/BlockChypTest/BlockChypTest.csproj \
+	$(if $(TEST), --filter FullyQualifiedName~$(TEST),--filter Category=Upload) \
+	-v n
+
+# Runs file upload tests
+.PHONY: partner
+partner:
+	$(if $(LOCALBUILD),,\
+		$(foreach path,$(CACHEPATHS),mkdir -p $(CACHE)/$(path) ; ) \
+		sed 's/localhost/$(HOSTIP)/' $(CONFIGFILE) >$(CACHE)/$(CONFIGFILE) ; \
+		$(DOCKER) run \
+		-u $(shell id -u):$(shell id -g) \
+		-v $(SCMROOT):$(SCMROOT):Z \
+		-v /etc/passwd:/etc/passwd:ro \
+		$(foreach path,$(CACHEPATHS),-v $(CACHE)/$(path):$(path):Z) \
+		-e BC_TEST_DELAY=$(BC_TEST_DELAY) \
+		-e HOME=$(HOME) \
+		-w $(PWD) \
+		--rm $(IMAGE)) \
+	$(DOTNET) test tests/BlockChypTest/BlockChypTest.csproj \
+	$(if $(TEST), --filter FullyQualifiedName~$(TEST),--filter Category=partner) \
+	-v n
+
 # Runs integration tests. Set LOCALBUILD=1 to run locally, or run in docker by default.
 .PHONY: integration
 integration:

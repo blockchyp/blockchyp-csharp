@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TcTemplateUpdateTest()
         {
-            ShowTestOnTerminal("TcTemplateUpdate");
+
+
+
+            UseProfile("");
+
 
             TermsAndConditionsTemplate request = new TermsAndConditionsTemplate
             {
@@ -37,14 +43,23 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            TermsAndConditionsTemplate response = await blockchyp.TcUpdateTemplateAsync(request);
+            Exception err = null;
+            try
+            {
+                TermsAndConditionsTemplate response = await blockchyp.TcUpdateTemplateAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                            Assert.NotEmpty(response.Alias);
+                                                                                                                                                                                            Assert.Equal("HIPPA Disclosure", response.Name);
+                                                                                                                                                                            Assert.Equal("Lorem ipsum dolor sit amet.", response.Content);
+                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.NotEmpty(response.Alias);
-            Assert.Equal("HIPPA Disclosure", response.Name);
-            Assert.Equal("Lorem ipsum dolor sit amet.", response.Content);
+            Assert.Null(err);
+
+
         }
     }
 }

@@ -12,8 +12,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a media library response.
     /// </summary>
-    public class SlideShow : BaseEntity, IAbstractAcknowledgement
+    public class SlideShow : BaseEntity, ITimeoutRequest, IAbstractAcknowledgement
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Whether or not the request succeeded.
         /// </summary>
@@ -55,11 +67,5 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "slides")]
         public List<Slide> Slides { get; set; }
-
-        /// <summary>
-        /// An optional timeout override.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

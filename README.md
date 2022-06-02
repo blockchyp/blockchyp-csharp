@@ -1423,8 +1423,7 @@ terminal inventory and the terminal will be remotely cleared and factory reset.
 // Populate request parameters.
 TerminalDeactivationRequest request = new TerminalDeactivationRequest
 {
-    TerminalId = Guid.NewGuid().ToString("N"),
-    Timeout = 120,
+    TerminalId = "<TERMINAL ID>",
 };
 
 // Run the transaction.
@@ -2479,7 +2478,7 @@ SlideShow request = new SlideShow
     {
         new Slide
         {
-            MediaId = ,
+            MediaId = "<MEDIA ID>",
         }
     },
 };

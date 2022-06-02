@@ -11,18 +11,24 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a request to retrieve or manipulate terminal slide shows.
     /// </summary>
-    public class SlideShowRequest : BaseEntity
+    public class SlideShowRequest : BaseEntity, ITimeoutRequest
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Id used to track a slide show.
         /// </summary>
         [JsonProperty(PropertyName = "slideShowId")]
         public string SlideShowId { get; set; }
-
-        /// <summary>
-        /// An optional timeout override.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

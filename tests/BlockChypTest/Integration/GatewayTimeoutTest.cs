@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_GatewayTimeoutTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("GatewayTimeout");
+
+
+            UseProfile("");
+
 
             AuthorizationRequest request = new AuthorizationRequest
             {

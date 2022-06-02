@@ -11,18 +11,24 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a request to retrieve or manipulate terms and conditions data.
     /// </summary>
-    public class TermsAndConditionsTemplateRequest : BaseEntity
+    public class TermsAndConditionsTemplateRequest : BaseEntity, ITimeoutRequest
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Id of a single template.
         /// </summary>
         [JsonProperty(PropertyName = "templateId")]
         public string TemplateId { get; set; }
-
-        /// <summary>
-        /// An optional timeout override.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

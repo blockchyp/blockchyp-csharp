@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using BlockChyp.Entities;
+using System.Collections.Generic;
 
 namespace BlockChypTest.Integration
 {
@@ -9,6 +11,9 @@ namespace BlockChypTest.Integration
 
         [JsonProperty("testGatewayHost")]
         public string GatewayTestUrl { get; set; }
+
+        [JsonProperty("dashboardHost")]
+        public string DashboardUrl { get; set; }
 
         [JsonProperty("defaultTerminalName")]
         public string DefaultTerminalName { get; set; }
@@ -24,5 +29,8 @@ namespace BlockChypTest.Integration
 
         [JsonProperty("signingKey")]
         public string SigningKey { get; set; }
+
+        [JsonProperty("profiles")]
+        public Dictionary<string, ApiCredentials> profiles { get; set;}
     }
 }

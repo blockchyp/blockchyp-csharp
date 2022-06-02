@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_SurveyQuestionTest()
         {
-            ShowTestOnTerminal("SurveyQuestion");
+
+
+
+            UseProfile("");
 
             SurveyQuestionRequest setupRequest = new SurveyQuestionRequest
             {
@@ -35,22 +40,34 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
+
             SurveyQuestionResponse setupResponse = await blockchyp.SurveyQuestionsAsync(setupRequest);
+
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
+
             SurveyQuestionRequest request = new SurveyQuestionRequest
             {
-                QuestionId = ,
+                QuestionId = setupResponse.Results[0].Id,
             };
 
             output.WriteLine("Request: {0}", request);
 
-            SurveyQuestion response = await blockchyp.SurveyQuestionAsync(request);
+            Exception err = null;
+            try
+            {
+                SurveyQuestion response = await blockchyp.SurveyQuestionAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

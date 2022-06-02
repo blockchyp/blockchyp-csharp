@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_LinkTokenTest()
         {
-            ShowTestOnTerminal("LinkToken");
+
+
+
+            UseProfile("");
 
             EnrollRequest setupRequest = new EnrollRequest
             {
@@ -42,9 +47,12 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
+
             EnrollResponse setupResponse = await blockchyp.EnrollAsync(setupRequest);
 
+
             output.WriteLine("Setup Response: {0}", setupResponse);
+
 
             LinkTokenRequest request = new LinkTokenRequest
             {
@@ -54,11 +62,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.LinkTokenAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.LinkTokenAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

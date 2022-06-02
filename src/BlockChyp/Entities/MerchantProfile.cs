@@ -12,10 +12,10 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a merchant profile.
     /// </summary>
-    public class MerchantProfile : BaseEntity
+    public class MerchantProfile : BaseEntity, ITimeoutRequest
     {
         /// <summary>
-        /// Overrides the default timeout for merchant profile updates.
+        /// The request timeout in seconds.
         /// </summary>
         [JsonProperty(PropertyName = "timeout")]
         public int Timeout { get; set; }

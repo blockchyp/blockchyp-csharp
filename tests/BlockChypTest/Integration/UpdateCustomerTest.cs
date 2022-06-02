@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_UpdateCustomerTest()
         {
-            ShowTestOnTerminal("UpdateCustomer");
+
+
+
+            UseProfile("");
+
 
             UpdateCustomerRequest request = new UpdateCustomerRequest
             {
@@ -42,11 +48,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            CustomerResponse response = await blockchyp.UpdateCustomerAsync(request);
+            Exception err = null;
+            try
+            {
+                CustomerResponse response = await blockchyp.UpdateCustomerAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TextPromptTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("TextPrompt");
+
+
+            UseProfile("");
+
 
             TextPromptRequest request = new TextPromptRequest
             {
@@ -37,12 +46,21 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            TextPromptResponse response = await blockchyp.TextPromptAsync(request);
+            Exception err = null;
+            try
+            {
+                TextPromptResponse response = await blockchyp.TextPromptAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                            Assert.NotEmpty(response.Response);
+                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
-            Assert.NotEmpty(response.Response);
+            Assert.Null(err);
+
+
         }
     }
 }

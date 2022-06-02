@@ -11,8 +11,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a Terms and Conditions history request.
     /// </summary>
-    public class TermsAndConditionsLogRequest : BaseEntity
+    public class TermsAndConditionsLogRequest : BaseEntity, ITimeoutRequest
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// The identifier of the log entry to be returned for single result requests.
         /// </summary>
@@ -49,11 +61,5 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "endDate")]
         public string EndDate { get; set; }
-
-        /// <summary>
-        /// An optional timeout override.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

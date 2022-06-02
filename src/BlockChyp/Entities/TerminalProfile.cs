@@ -68,7 +68,7 @@ namespace BlockChyp.Entities
         public string SerialNumber { get; set; }
 
         /// <summary>
-        /// Whether or not the terminal is currently online
+        /// Whether or not the terminal is currently online.
         /// </summary>
         [JsonProperty(PropertyName = "online")]
         public bool Online { get; set; }

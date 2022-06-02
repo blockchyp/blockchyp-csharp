@@ -33,12 +33,6 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
-        /// Overrides the default timeout for merchant profile updates.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
-
-        /// <summary>
         /// That the response came from the test gateway.
         /// </summary>
         [JsonProperty(PropertyName = "test")]

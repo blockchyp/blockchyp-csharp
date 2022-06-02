@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TcTemplatesTest()
         {
-            ShowTestOnTerminal("TcTemplates");
+
+
+
+            UseProfile("");
+
 
             TermsAndConditionsTemplateRequest request = new TermsAndConditionsTemplateRequest
             {
@@ -35,11 +41,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            TermsAndConditionsTemplateResponse response = await blockchyp.TcTemplatesAsync(request);
+            Exception err = null;
+            try
+            {
+                TermsAndConditionsTemplateResponse response = await blockchyp.TcTemplatesAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

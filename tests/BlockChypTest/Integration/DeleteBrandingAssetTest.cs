@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_DeleteBrandingAssetTest()
         {
-            ShowTestOnTerminal("DeleteBrandingAsset");
+
+
+
+            UseProfile("");
 
             BrandingAsset setupRequest = new BrandingAsset
             {
@@ -36,22 +41,34 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
+
             BrandingAsset setupResponse = await blockchyp.UpdateBrandingAssetAsync(setupRequest);
+
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
+
             BrandingAssetRequest request = new BrandingAssetRequest
             {
-                AssetId = ,
+                AssetId = setupResponse.Id,
             };
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.DeleteBrandingAssetAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.DeleteBrandingAssetAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

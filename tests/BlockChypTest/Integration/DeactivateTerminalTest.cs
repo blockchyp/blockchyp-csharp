@@ -22,11 +22,17 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_DeactivateTerminalTest()
         {
-            ShowTestOnTerminal("DeactivateTerminal");
+
+
+
+            UseProfile("");
+
 
             TerminalDeactivationRequest request = new TerminalDeactivationRequest
             {
@@ -35,11 +41,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            Acknowledgement response = await blockchyp.DeactivateTerminalAsync(request);
+            Exception err = null;
+            try
+            {
+                Acknowledgement response = await blockchyp.DeactivateTerminalAsync(request);
+                output.WriteLine("Response: {0}", response);                                                                            Assert.False(response.Success, "response.Success");
+                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.False(response.Success, "response.Success");
+            Assert.NotNull(err);
+
+
         }
     }
 }

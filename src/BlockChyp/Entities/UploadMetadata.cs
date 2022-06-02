@@ -11,8 +11,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models information needed to process a file upload.
     /// </summary>
-    public class UploadMetadata : BaseEntity
+    public class UploadMetadata : BaseEntity, ITimeoutRequest
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Optional id used to track status and progress of an upload while in progress.
         /// </summary>
@@ -23,18 +35,12 @@ namespace BlockChyp.Entities
         /// The size of the file to be uploaded in bytes.
         /// </summary>
         [JsonProperty(PropertyName = "fileSize")]
-        public int64 FileSize { get; set; }
+        public long FileSize { get; set; }
 
         /// <summary>
         /// The name of file to be uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "fileName")]
         public string FileName { get; set; }
-
-        /// <summary>
-        /// An optional upload timeout override.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
     }
 }

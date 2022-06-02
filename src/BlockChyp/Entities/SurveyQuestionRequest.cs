@@ -11,8 +11,14 @@ namespace BlockChyp.Entities
     /// <summary>
     /// Models a request to retrieve or manipulate survey questions.
     /// </summary>
-    public class SurveyQuestionRequest : BaseEntity
+    public class SurveyQuestionRequest : BaseEntity, ITimeoutRequest
     {
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// Id of a single question.
         /// </summary>

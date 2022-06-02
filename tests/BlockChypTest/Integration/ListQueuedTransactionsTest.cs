@@ -22,11 +22,19 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_ListQueuedTransactionsTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("ListQueuedTransactions");
+
+
+            UseProfile("");
 
             AuthorizationRequest setupRequest = new AuthorizationRequest
             {
@@ -40,9 +48,12 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
+
             AuthorizationResponse setupResponse = await blockchyp.ChargeAsync(setupRequest);
 
+
             output.WriteLine("Setup Response: {0}", setupResponse);
+
 
             ListQueuedTransactionsRequest request = new ListQueuedTransactionsRequest
             {
@@ -51,11 +62,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            ListQueuedTransactionsResponse response = await blockchyp.ListQueuedTransactionsAsync(request);
+            Exception err = null;
+            try
+            {
+                ListQueuedTransactionsResponse response = await blockchyp.ListQueuedTransactionsAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

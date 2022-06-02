@@ -11,8 +11,20 @@ namespace BlockChyp.Entities
     /// <summary>
     /// A message to be displayed on the terminal screen.
     /// </summary>
-    public class MessageRequest : BaseEntity, ICoreRequest, ITerminalReference
+    public class MessageRequest : BaseEntity, ITimeoutRequest, ICoreRequest, ITerminalReference
     {
+        /// <summary>
+        /// The request timeout in seconds.
+        /// </summary>
+        [JsonProperty(PropertyName = "timeout")]
+        public int Timeout { get; set; }
+
+        /// <summary>
+        /// Whether or not to route transaction to the test gateway.
+        /// </summary>
+        [JsonProperty(PropertyName = "test")]
+        public bool Test { get; set; }
+
         /// <summary>
         /// A user-assigned reference that can be used to recall or reverse transactions.
         /// </summary>
@@ -57,18 +69,6 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "destinationAccount")]
         public string DestinationAccount { get; set; }
-
-        /// <summary>
-        /// Whether or not to route transaction to the test gateway.
-        /// </summary>
-        [JsonProperty(PropertyName = "test")]
-        public bool Test { get; set; }
-
-        /// <summary>
-        /// The request timeout in seconds.
-        /// </summary>
-        [JsonProperty(PropertyName = "timeout")]
-        public int Timeout { get; set; }
 
         /// <summary>
         /// The name of the target payment terminal.

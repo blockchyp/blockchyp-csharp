@@ -48,15 +48,5 @@ namespace BlockChyp.Entities
         /// The settlement account for merchants with split settlements.
         /// </summary>
         string DestinationAccount { get; set; }
-
-        /// <summary>
-        /// Whether or not to route transaction to the test gateway.
-        /// </summary>
-        bool Test { get; set; }
-
-        /// <summary>
-        /// The request timeout in seconds.
-        /// </summary>
-        int Timeout { get; set; }
     }
 }

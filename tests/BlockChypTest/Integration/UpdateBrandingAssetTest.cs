@@ -22,11 +22,16 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_UpdateBrandingAssetTest()
         {
-            ShowTestOnTerminal("UpdateBrandingAsset");
+
+
+
+            UseProfile("");
 
             UploadMetadata setupRequest = new UploadMetadata
             {
@@ -37,13 +42,17 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-            MediaMetadata setupResponse = await blockchyp.UploadMediaAsync(setupRequest);
+
+            FileStream inStream = new FileStream("../../../Integration/testdata/aviato.png", FileMode.Open, FileAccess.Read);
+            MediaMetadata setupResponse = await blockchyp.UploadMediaAsync(setupRequest, inStream);
+
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
+
             BrandingAsset request = new BrandingAsset
             {
-                MediaId = ,
+                MediaId = setupResponse.Id,
                 Padded = true,
                 Ordinal = 10,
                 StartDate = "01/06/2021",
@@ -57,11 +66,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            BrandingAsset response = await blockchyp.UpdateBrandingAssetAsync(request);
+            Exception err = null;
+            try
+            {
+                BrandingAsset response = await blockchyp.UpdateBrandingAssetAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }

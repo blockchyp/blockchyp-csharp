@@ -22,11 +22,20 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+
+
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_CaptureSignatureTest()
         {
+
+
+            UseProfile("");
             ShowTestOnTerminal("CaptureSignature");
+
+
+            UseProfile("");
+
 
             CaptureSignatureRequest request = new CaptureSignatureRequest
             {
@@ -37,11 +46,20 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Request: {0}", request);
 
-            CaptureSignatureResponse response = await blockchyp.CaptureSignatureAsync(request);
+            Exception err = null;
+            try
+            {
+                CaptureSignatureResponse response = await blockchyp.CaptureSignatureAsync(request);
+                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
+                                                                                                                                                                                                                                                            }
+            catch (Exception e) {
+                err = e;
+            }
 
-            output.WriteLine("Response: {0}", response);
 
-            Assert.True(response.Success, "response.Success");
+            Assert.Null(err);
+
+
         }
     }
 }
