@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_PartialRefundTest()
@@ -48,9 +46,7 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-
             AuthorizationResponse setupResponse = await blockchyp.ChargeAsync(setupRequest);
-
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
@@ -68,9 +64,10 @@ namespace BlockChypTest.Integration
             try
             {
                 AuthorizationResponse response = await blockchyp.RefundAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                            Assert.True(response.Approved, "response.Approved");
-                                                                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.True(response.Approved, "response.Approved");
+            }
             catch (Exception e) {
                 err = e;
             }

@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_UpdateSurveyQuestionTest()
@@ -47,10 +45,11 @@ namespace BlockChypTest.Integration
             try
             {
                 SurveyQuestion response = await blockchyp.UpdateSurveyQuestionAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                                                                                            Assert.Equal("Would you shop here again?", response.QuestionText);
-                                                                                                                                                                            Assert.Equal("yes_no", response.QuestionType);
-                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.Equal("Would you shop here again?", response.QuestionText);
+                Assert.Equal("yes_no", response.QuestionType);
+            }
             catch (Exception e) {
                 err = e;
             }

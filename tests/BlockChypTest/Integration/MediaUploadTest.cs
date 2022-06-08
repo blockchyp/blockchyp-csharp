@@ -23,7 +23,6 @@ namespace BlockChypTest.Integration
         }
 
         [Trait("Category", "Upload")]
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_MediaUploadTest()
@@ -49,12 +48,13 @@ namespace BlockChypTest.Integration
 
                 FileStream inStream = new FileStream("../../../Integration/testdata/aviato.png", FileMode.Open, FileAccess.Read);
                 MediaMetadata response = await blockchyp.UploadMediaAsync(request, inStream);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                                                                            Assert.NotEmpty(response.Id);
-                                                                                                                                                                                            Assert.Equal("aviato.png", response.OriginalFile);
-                                                                                                                                                            Assert.NotEmpty(response.FileUrl);
-                                                                                                                                                                            Assert.NotEmpty(response.ThumbnailUrl);
-                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.NotEmpty(response.Id);
+                Assert.Equal("aviato.png", response.OriginalFile);
+                Assert.NotEmpty(response.FileUrl);
+                Assert.NotEmpty(response.ThumbnailUrl);
+            }
             catch (Exception e) {
                 err = e;
             }

@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TextPromptTest()
@@ -50,9 +48,10 @@ namespace BlockChypTest.Integration
             try
             {
                 TextPromptResponse response = await blockchyp.TextPromptAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                                                                            Assert.NotEmpty(response.Response);
-                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.NotEmpty(response.Response);
+            }
             catch (Exception e) {
                 err = e;
             }

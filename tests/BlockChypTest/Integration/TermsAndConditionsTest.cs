@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TermsAndConditionsTest()
@@ -54,8 +52,9 @@ namespace BlockChypTest.Integration
             try
             {
                 TermsAndConditionsResponse response = await blockchyp.TermsAndConditionsAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+            }
             catch (Exception e) {
                 err = e;
             }

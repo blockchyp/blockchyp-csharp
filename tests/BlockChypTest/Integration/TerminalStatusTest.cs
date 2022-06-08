@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TerminalStatusTest()
@@ -48,9 +46,10 @@ namespace BlockChypTest.Integration
             try
             {
                 TerminalStatusResponse response = await blockchyp.TerminalStatusAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                            Assert.True(response.Idle, "response.Idle");
-                                                                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.True(response.Idle, "response.Idle");
+            }
             catch (Exception e) {
                 err = e;
             }

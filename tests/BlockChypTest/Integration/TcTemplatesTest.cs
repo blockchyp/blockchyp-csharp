@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TcTemplatesTest()
@@ -45,8 +43,9 @@ namespace BlockChypTest.Integration
             try
             {
                 TermsAndConditionsTemplateResponse response = await blockchyp.TcTemplatesAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                                                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                            }
             catch (Exception e) {
                 err = e;
             }

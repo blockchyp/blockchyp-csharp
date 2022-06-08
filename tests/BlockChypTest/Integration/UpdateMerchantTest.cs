@@ -22,7 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
         [Trait("Category", "partner")]
         [Trait("Category", "Integration")]
         [Fact]
@@ -54,8 +53,9 @@ namespace BlockChypTest.Integration
             try
             {
                 MerchantProfileResponse response = await blockchyp.UpdateMerchantAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+            }
             catch (Exception e) {
                 err = e;
             }

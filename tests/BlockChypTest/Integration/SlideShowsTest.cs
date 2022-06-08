@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_SlideShowsTest()
@@ -41,9 +39,7 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-
             SlideShow setupResponse = await blockchyp.UpdateSlideShowAsync(setupRequest);
-
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
@@ -59,8 +55,9 @@ namespace BlockChypTest.Integration
             try
             {
                 SlideShowResponse response = await blockchyp.SlideShowsAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                                                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                            }
             catch (Exception e) {
                 err = e;
             }

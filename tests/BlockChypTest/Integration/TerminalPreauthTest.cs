@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TerminalPreauthTest()
@@ -50,19 +48,20 @@ namespace BlockChypTest.Integration
             try
             {
                 AuthorizationResponse response = await blockchyp.PreauthAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                            Assert.True(response.Approved, "response.Approved");
-                                                                                                                                                                            Assert.True(response.Test, "response.Test");
-                                                                                                                                                                                                                                                            Assert.Equal(6, response.AuthCode.Length);
-                                                                                                                                            Assert.NotEmpty(response.TransactionId);
-                                                                                                                                                                            Assert.NotEmpty(response.Timestamp);
-                                                                                                                                                                            Assert.NotEmpty(response.TickBlock);
-                                                                                                                                                                                            Assert.Equal("approved", response.ResponseDescription);
-                                                                                                                                                            Assert.NotEmpty(response.PaymentType);
-                                                                                                                                                                            Assert.NotEmpty(response.MaskedPan);
-                                                                                                                                                                            Assert.NotEmpty(response.EntryMethod);
-                                                                                                                                                                                            Assert.Equal("15.15", response.AuthorizedAmount);
-                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.True(response.Approved, "response.Approved");
+                Assert.True(response.Test, "response.Test");
+                Assert.Equal(6, response.AuthCode.Length);
+                Assert.NotEmpty(response.TransactionId);
+                Assert.NotEmpty(response.Timestamp);
+                Assert.NotEmpty(response.TickBlock);
+                Assert.Equal("approved", response.ResponseDescription);
+                Assert.NotEmpty(response.PaymentType);
+                Assert.NotEmpty(response.MaskedPan);
+                Assert.NotEmpty(response.EntryMethod);
+                Assert.Equal("15.15", response.AuthorizedAmount);
+            }
             catch (Exception e) {
                 err = e;
             }

@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TerminalEbtBalanceTest()
@@ -50,9 +48,10 @@ namespace BlockChypTest.Integration
             try
             {
                 BalanceResponse response = await blockchyp.BalanceAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                                                                            Assert.NotEmpty(response.RemainingBalance);
-                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.NotEmpty(response.RemainingBalance);
+            }
             catch (Exception e) {
                 err = e;
             }

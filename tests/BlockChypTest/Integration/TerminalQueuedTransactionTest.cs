@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TerminalQueuedTransactionTest()
@@ -53,10 +51,11 @@ namespace BlockChypTest.Integration
             try
             {
                 AuthorizationResponse response = await blockchyp.ChargeAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                                            Assert.False(response.Approved, "response.Approved");
-                                                                                                                                                                                                                            Assert.Equal("Queued", response.ResponseDescription);
-                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.False(response.Approved, "response.Approved");
+                Assert.Equal("Queued", response.ResponseDescription);
+            }
             catch (Exception e) {
                 err = e;
             }

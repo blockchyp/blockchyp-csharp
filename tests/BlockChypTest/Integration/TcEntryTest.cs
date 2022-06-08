@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_TcEntryTest()
@@ -40,9 +38,7 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-
             TermsAndConditionsLogResponse setupResponse = await blockchyp.TcLogAsync(setupRequest);
-
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
@@ -58,16 +54,17 @@ namespace BlockChypTest.Integration
             try
             {
                 TermsAndConditionsLogEntry response = await blockchyp.TcEntryAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                                                                                                                            Assert.NotEmpty(response.Id);
-                                                                                                                                                                            Assert.NotEmpty(response.TerminalId);
-                                                                                                                                                                            Assert.NotEmpty(response.TerminalName);
-                                                                                                                                                                            Assert.NotEmpty(response.Timestamp);
-                                                                                                                                                                            Assert.NotEmpty(response.Name);
-                                                                                                                                                                            Assert.NotEmpty(response.Content);
-                                                                                                                            Assert.True(response.HasSignature, "response.HasSignature");
-                                                                                                                                                                                                                            Assert.NotEmpty(response.Signature);
-                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+                Assert.NotEmpty(response.Id);
+                Assert.NotEmpty(response.TerminalId);
+                Assert.NotEmpty(response.TerminalName);
+                Assert.NotEmpty(response.Timestamp);
+                Assert.NotEmpty(response.Name);
+                Assert.NotEmpty(response.Content);
+                Assert.True(response.HasSignature, "response.HasSignature");
+                Assert.NotEmpty(response.Signature);
+            }
             catch (Exception e) {
                 err = e;
             }

@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_ActivateTerminalTest()
@@ -46,9 +44,10 @@ namespace BlockChypTest.Integration
             try
             {
                 Acknowledgement response = await blockchyp.ActivateTerminalAsync(request);
-                output.WriteLine("Response: {0}", response);                                                                            Assert.False(response.Success, "response.Success");
-                                                                                                                                                                                                                            Assert.Equal("Invalid Activation Code", response.Error);
-                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.False(response.Success, "response.Success");
+                Assert.Equal("Invalid Activation Code", response.Error);
+            }
             catch (Exception e) {
                 err = e;
             }

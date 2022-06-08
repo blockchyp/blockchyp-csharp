@@ -22,8 +22,6 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
-
-
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_UploadStatusTest()
@@ -42,10 +40,8 @@ namespace BlockChypTest.Integration
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-
             FileStream inStream = new FileStream("../../../Integration/testdata/aviato.png", FileMode.Open, FileAccess.Read);
             MediaMetadata setupResponse = await blockchyp.UploadMediaAsync(setupRequest, inStream);
-
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
@@ -61,8 +57,9 @@ namespace BlockChypTest.Integration
             try
             {
                 UploadStatus response = await blockchyp.UploadStatusAsync(request);
-                output.WriteLine("Response: {0}", response);                                                            Assert.True(response.Success, "response.Success");
-                                                                                                                            }
+                output.WriteLine("Response: {0}", response);
+                Assert.True(response.Success, "response.Success");
+            }
             catch (Exception e) {
                 err = e;
             }
