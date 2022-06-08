@@ -215,7 +215,8 @@ reduce your interchange fees in some cases. (Level II Processing, for example.)
 CaptureRequest request = new CaptureRequest
 {
     Test = true,
-    TransactionId = "<PREAUTH TRANSACTION ID>",
+    TransactionId = "<ORIGINAL TRANSACTION ID>",
+    Amount = "32.00",
 };
 
 // Run the transaction.
@@ -635,6 +636,7 @@ to constantly poll for status updates.
 // Populate request parameters.
 PaymentLinkRequest request = new PaymentLinkRequest
 {
+    TransactionRef = "<TX REF>",
     Amount = "199.99",
     Description = "Widget",
     Subject = "Widget invoice",
@@ -686,7 +688,7 @@ Cancels a payment link.
 // Populate request parameters.
 CancelPaymentLinkRequest request = new CancelPaymentLinkRequest
 {
-    LinkCode = "Payment link code to cancel",
+    LinkCode = "<PAYMENT LINK CODE>",
 };
 
 // Run the transaction.
@@ -715,7 +717,7 @@ Transaction Ref is returned.
 // Populate request parameters.
 TransactionStatusRequest request = new TransactionStatusRequest
 {
-    TransactionId = "ID of transaction to retrieve",
+    TransactionId = "<TRANSACTION ID>",
 };
 
 // Run the transaction.
@@ -790,7 +792,7 @@ in conjunction with `maxResults` and `startIndex`
 BatchHistoryRequest request = new BatchHistoryRequest
 {
     MaxResults = 250,
-    StartIndex = 1,
+    StartIndex = 0,
 };
 
 // Run the transaction.
@@ -820,7 +822,7 @@ History API.
 // Populate request parameters.
 BatchDetailsRequest request = new BatchDetailsRequest
 {
-    BatchId = "BATCHID",
+    BatchId = "<BATCH ID>",
 };
 
 // Run the transaction.
@@ -890,6 +892,7 @@ batch id filters are not supported.
 TransactionHistoryRequest request = new TransactionHistoryRequest
 {
     MaxResults = 10,
+    BatchId = "<BATCH ID>",
 };
 
 // Run the transaction.
@@ -1396,7 +1399,7 @@ current branding image displayed on the terminal
 // Populate request parameters.
 TerminalProfileRequest request = new TerminalProfileRequest
 {
-    Timeout = 120,
+
 };
 
 // Run the transaction.
@@ -1458,7 +1461,7 @@ Optional Parameters
 TerminalActivationRequest request = new TerminalActivationRequest
 {
     TerminalName = "Test Terminal",
-    Timeout = 120,
+    ActivationCode = "<ACTIVATION CODE>",
 };
 
 // Run the transaction.
@@ -1571,7 +1574,7 @@ This API returns all terms and conditions templates associated with a merchant a
 // Populate request parameters.
 TermsAndConditionsTemplateRequest request = new TermsAndConditionsTemplateRequest
 {
-    Timeout = 120,
+
 };
 
 // Run the transaction.
@@ -1595,7 +1598,7 @@ This API returns as single terms and conditions template.
 // Populate request parameters.
 TermsAndConditionsTemplateRequest request = new TermsAndConditionsTemplateRequest
 {
-    Timeout = 120,
+    TemplateId = "<TEMPLATE ID>",
 };
 
 // Run the transaction.
@@ -1630,7 +1633,6 @@ TermsAndConditionsTemplate request = new TermsAndConditionsTemplate
     Alias = "HIPPA",
     Name = "HIPPA Disclosure",
     Content = "Lorem ipsum dolor sit amet.",
-    Timeout = 120,
 };
 
 // Run the transaction.
@@ -1658,7 +1660,7 @@ a complete independent copy of the agreement text.
 // Populate request parameters.
 TermsAndConditionsTemplateRequest request = new TermsAndConditionsTemplateRequest
 {
-    Timeout = 120,
+    TemplateId = "<TEMPLATE ID>",
 };
 
 // Run the transaction.
@@ -1692,7 +1694,7 @@ Optional parameters can be used to filter and query the data set.
 // Populate request parameters.
 TermsAndConditionsLogRequest request = new TermsAndConditionsLogRequest
 {
-    Timeout = 120,
+    LogEntryId = "<LOG ENTRY ID>",
 };
 
 // Run the transaction.
@@ -1719,7 +1721,7 @@ The default format is PNG.
 // Populate request parameters.
 TermsAndConditionsLogRequest request = new TermsAndConditionsLogRequest
 {
-    Timeout = 120,
+    LogEntryId = "<ENTRY ID>",
 };
 
 // Run the transaction.
@@ -1799,7 +1801,7 @@ even if those customer associations are related to other tokens.
 // Populate request parameters.
 TokenMetadataRequest request = new TokenMetadataRequest
 {
-    Token = "Token to retrieve",
+    Token = "<TOKEN>",
 };
 
 // Run the transaction.
@@ -1824,8 +1826,8 @@ to reverse a previous unlink operation.
 // Populate request parameters.
 LinkTokenRequest request = new LinkTokenRequest
 {
-    Token = "Token to link",
-    CustomerId = "Customer to link",
+    Token = "<TOKEN>",
+    CustomerId = "<CUSTOMER ID>",
 };
 
 // Run the transaction.
@@ -1852,8 +1854,8 @@ for the same underlying card.
 // Populate request parameters.
 UnlinkTokenRequest request = new UnlinkTokenRequest
 {
-    Token = "Token to unlink",
-    CustomerId = "Customer to unlink",
+    Token = "<TOKEN>",
+    CustomerId = "<CUSTOMER ID>",
 };
 
 // Run the transaction.
@@ -1878,7 +1880,7 @@ for a year.
 // Populate request parameters.
 DeleteTokenRequest request = new DeleteTokenRequest
 {
-    Token = "Token to delete",
+    Token = "<TOKEN>",
 };
 
 // Run the transaction.
@@ -1940,7 +1942,7 @@ UpdateCustomerRequest request = new UpdateCustomerRequest
 {
     Customer = new Customer
     {
-        Id = "ID of the customer to update",
+        Id = "<CUSTOMER ID>",
         CustomerRef = "Customer reference string",
         FirstName = "FirstName",
         LastName = "LastName",
@@ -1974,7 +1976,7 @@ Customers can be looked up by `customerId` or `customerRef`.
 // Populate request parameters.
 CustomerRequest request = new CustomerRequest
 {
-    CustomerId = "ID of the customer to retrieve",
+    CustomerId = "<CUSTOMER ID>",
 };
 
 // Run the transaction.
@@ -2025,7 +2027,7 @@ Deletes a customer record.
 // Populate request parameters.
 DeleteCustomerRequest request = new DeleteCustomerRequest
 {
-    CustomerId = "ID of the customer to delete",
+    CustomerId = "<CUSTOMER ID>",
 };
 
 // Run the transaction.
@@ -2089,7 +2091,7 @@ This API returns a single survey question with response data.  `questionId` is r
 // Populate request parameters.
 SurveyQuestionRequest request = new SurveyQuestionRequest
 {
-    QuestionId = "XXXXXXXX",
+    QuestionId = "<QUESTION ID>",
 };
 
 // Run the transaction.
@@ -2122,6 +2124,7 @@ the number of questions minimal.
 // Populate request parameters.
 SurveyQuestion request = new SurveyQuestion
 {
+    Id = "<QUESTION ID>",
     Ordinal = 1,
     QuestionText = "Would you shop here again?",
     QuestionType = "yes_no",
@@ -2149,7 +2152,7 @@ This API deletes a survey question. `questionId` is a required parameter.
 // Populate request parameters.
 SurveyQuestionRequest request = new SurveyQuestionRequest
 {
-    QuestionId = "XXXXXXXX",
+    QuestionId = "<QUESTION ID>",
 };
 
 // Run the transaction.
@@ -2185,7 +2188,7 @@ By default, all results based on all responses are returned, but developers may 
 // Populate request parameters.
 SurveyResultsRequest request = new SurveyResultsRequest
 {
-    QuestionId = "<SURVEY QUESTION ID>",
+    QuestionId = "<QUESTION ID>",
 };
 
 // Run the transaction.
@@ -2249,7 +2252,7 @@ to reference a media asset in slide shows and branding assets along with the ful
 // Populate request parameters.
 MediaRequest request = new MediaRequest
 {
-    Timeout = 120,
+
 };
 
 // Run the transaction.
@@ -2337,7 +2340,7 @@ also be returned.
 // Populate request parameters.
 UploadStatusRequest request = new UploadStatusRequest
 {
-    Timeout = 120,
+    UploadId = "<UPLOAD ID>",
 };
 
 // Run the transaction.
@@ -2388,7 +2391,7 @@ show or in the terminal branding stack.
 // Populate request parameters.
 MediaRequest request = new MediaRequest
 {
-    Timeout = 120,
+    MediaId = "<MEDIA ASSET ID>",
 };
 
 // Run the transaction.
@@ -2624,7 +2627,16 @@ These fields are:
 // Populate request parameters.
 BrandingAsset request = new BrandingAsset
 {
-    Timeout = 120,
+    MediaId = "<MEDIA ID>",
+    Padded = true,
+    Ordinal = 10,
+    StartDate = "01/06/2021",
+    StartTime = "14:00",
+    EndDate = "11/05/2024",
+    EndTime = "16:00",
+    Notes = "Test Branding Asset",
+    Preview = false,
+    Enabled = true,
 };
 
 // Run the transaction.
@@ -2869,7 +2881,17 @@ The following fields are used to control batch closure and high level terminal c
 // Populate request parameters.
 MerchantProfile request = new MerchantProfile
 {
+    MerchantId = "<MERCHANT ID>",
     Test = true,
+    DbaName = "Test Merchant",
+    CompanyName = "Test Merchant",
+    BillingAddress = new Address
+    {
+        Address1 = "1060 West Addison",
+        City = "Chicago",
+        StateOrProvince = "IL",
+        PostalCode = "60613",
+    },
 };
 
 // Run the transaction.
@@ -2893,7 +2915,7 @@ This API returns all users and pending invites associated with a merchant accoun
 // Populate request parameters.
 MerchantProfileRequest request = new MerchantProfileRequest
 {
-    MerchantId = "XXXXXXXXXXXXX",
+    MerchantId = "<MERCHANT ID>",
 };
 
 // Run the transaction.
@@ -2951,8 +2973,8 @@ Settings can be changed by using the Update Merchant API.
 // Populate request parameters.
 AddTestMerchantRequest request = new AddTestMerchantRequest
 {
-    DbaName = "DBA name.",
-    CompanyName = "test merchant customer name.",
+    DbaName = "DBA Name",
+    CompanyName = "Corporate Entity Name",
 };
 
 // Run the transaction.
@@ -2976,7 +2998,7 @@ This partner API can be used to deleted unused test merchant accounts. `merchant
 // Populate request parameters.
 MerchantProfileRequest request = new MerchantProfileRequest
 {
-    MerchantId = "ID for the test merchant being deleted.",
+    MerchantId = "<MERCHANT ID>",
 };
 
 // Run the transaction.

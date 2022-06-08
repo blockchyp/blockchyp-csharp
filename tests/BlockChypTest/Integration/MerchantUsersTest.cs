@@ -34,7 +34,7 @@ namespace BlockChypTest.Integration
 
             MerchantProfileRequest request = new MerchantProfileRequest
             {
-                Timeout = 120,
+
             };
 
             output.WriteLine("Request: {0}", request);
