@@ -16,5 +16,8 @@ namespace BlockChyp.Entities
 
         /// <summary>A blockchain-based gift card.</summary>
         BlockchainGiftCard,
+
+        /// <summary>An FSA/HSA card.</summary>
+        Healthcare,
     }
 }

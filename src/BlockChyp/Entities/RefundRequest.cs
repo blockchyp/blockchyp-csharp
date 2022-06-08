@@ -250,30 +250,15 @@ namespace BlockChyp.Entities
         public string TaxAmount { get; set; }
 
         /// <summary>
-        /// The amount of the transaction that should be charged to an FSA card. This amount
-        /// may be less than the transaction total, in which case only this amount will be
-        /// charged if an FSA card is presented. If the FSA amount is paid on an FSA card, then
-        /// the FSA amount authorized will be indicated on the response.
-        /// </summary>
-        [JsonProperty(PropertyName = "fsaEligibleAmount")]
-        public string FsaEligibleAmount { get; set; }
-
-        /// <summary>
-        /// The amount of the transaction that should be charged to an HSA card.
-        /// </summary>
-        [JsonProperty(PropertyName = "hsaEligibleAmount")]
-        public string HsaEligibleAmount { get; set; }
-
-        /// <summary>
-        /// The amount of the transaction that should be charged to an EBT card.
-        /// </summary>
-        [JsonProperty(PropertyName = "ebtEligibleAmount")]
-        public string EbtEligibleAmount { get; set; }
-
-        /// <summary>
         /// The name of the target payment terminal.
         /// </summary>
         [JsonProperty(PropertyName = "terminalName")]
         public string TerminalName { get; set; }
+
+        /// <summary>
+        /// Details for HSA/FSA transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "healthcare")]
+        public Healthcare Healthcare { get; set; }
     }
 }
