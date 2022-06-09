@@ -913,6 +913,49 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Reboot a payment terminal.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> RebootAsync(PingRequest request)
+        {
+            ISignatureRequest signatureRequest = request as ISignatureRequest;
+            if (signatureRequest != null)
+            {
+                PopulateSignatureOptions(signatureRequest);
+            }
+
+            Acknowledgement response;
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                response = await TerminalRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/reboot", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response = await GatewayRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/terminal-reboot", request, null, request.Test, relay: true)
+                    .ConfigureAwait(false);
+            }
+
+            ISignatureResponse signatureResponse = response as ISignatureResponse;
+            if (signatureRequest != null && signatureResponse != null)
+            {
+                DumpSignatureFile(signatureRequest, signatureResponse);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="RebootAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement Reboot(PingRequest request)
+        {
+            return RebootAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
         /// Adds a test merchant account.
         /// </summary>
         /// <param name="request">The request details.</param>

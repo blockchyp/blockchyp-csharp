@@ -1472,6 +1472,30 @@ Console.WriteLine(response);
 
 ```
 
+#### Reboot terminal
+
+
+
+This API reboots the terminal.
+
+
+
+
+```c#
+// Populate request parameters.
+PingRequest request = new PingRequest
+{
+    TerminalName = "Test Terminal",
+};
+
+// Run the transaction.
+Acknowledgement response = await blockchyp.RebootAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 ### Terms & Conditions Endpoints
 
 
