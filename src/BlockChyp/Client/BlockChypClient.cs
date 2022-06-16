@@ -976,7 +976,7 @@ namespace BlockChyp.Client
 
         /// <summary>
         /// Adds or updates a merchant account. Can be used to create or update test
-        /// merchants. Only gateway only partners may create new live merchants.
+        /// merchants. Only gateway partners may create new live merchants.
         /// </summary>
         /// <param name="request">The request details.</param>
         public async Task<MerchantProfileResponse> UpdateMerchantAsync(MerchantProfile request)
