@@ -1,13 +1,17 @@
+// Copyright 2019-2022 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+//
+// This file was generated automatically by the BlockChyp SDK Generator. Changes
+// to this file will be lost every time the code is regenerated.
+
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Card BIN ranges can be whitelisted so that they are read instead of
-    /// being processed directly. This is useful for integration with legacy
-    /// gift card systems.
+    /// Shows details about a white listed card.
     /// </summary>
-    public class WhiteListedCard
+    public class WhiteListedCard : BaseEntity
     {
         /// <summary>
         /// The card BIN.
@@ -16,14 +20,13 @@ namespace BlockChyp.Entities
         public string Bin { get; set; }
 
         /// <summary>
-        /// Track 1 data from the card.
+        /// The track 1 data from the card.
         /// </summary>
         [JsonProperty(PropertyName = "track1")]
         public string Track1 { get; set; }
 
         /// <summary>
-        /// Track2 data from the card.
-        /// by the card issuer.
+        /// The track 2 data from the card.
         /// </summary>
         [JsonProperty(PropertyName = "track2")]
         public string Track2 { get; set; }

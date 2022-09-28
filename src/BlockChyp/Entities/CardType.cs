@@ -1,3 +1,6 @@
+// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
+// governed by a license that can be found in the LICENSE file.
+
 namespace BlockChyp.Entities
 {
     public enum CardType
@@ -13,5 +16,8 @@ namespace BlockChyp.Entities
 
         /// <summary>A blockchain-based gift card.</summary>
         BlockchainGiftCard,
+
+        /// <summary>An FSA/HSA card.</summary>
+        Healthcare,
     }
 }

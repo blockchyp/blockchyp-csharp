@@ -2,14 +2,15 @@
 
   <PropertyGroup>
     <Description>BlockChyp is a .NET 4.5+ class library for accessing the BlockChyp Terminal and Gateway APIs.</Description>
-    <Version>1.0.7</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>2.13.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <Authors>BlockChyp</Authors>
     <Company>BlockChyp, Inc.</Company>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <PackageId>BlockChyp</PackageId>
     <PackageTags>blockchyp;payment;credit;cards;money;gateway;terminal</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/blockchyp/blockchyp-csharp/master/docs/logo.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/blockchyp/blockchyp-csharp</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -19,6 +20,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Assets/BlockChyp.crt" />
+    <None Include="Assets/icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>

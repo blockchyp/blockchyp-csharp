@@ -19,6 +19,13 @@ namespace BlockChyp.Client
         {
         }
 
+        public BlockChypException(string message, Exception err, HttpStatusCode statusCode, string body)
+            : base(message, err)
+        {
+            HttpStatusCode = statusCode;
+            ResponseBody = body;
+        }
+
         public BlockChypException(string message, HttpStatusCode statusCode, string body)
             : base(message)
         {

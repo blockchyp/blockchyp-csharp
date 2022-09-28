@@ -2,7 +2,8 @@ version: 1
 jobs:
   build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+      # This image doesn't have GNU make, so we just call commands directly
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
 
     steps:
       - checkout
@@ -10,25 +11,25 @@ jobs:
       - restore_cache:
           keys:
             - nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
-            - nuget-
 
-      - run:
-          name: Restore
-          command: dotnet restore -v n
-      - run:
-          name: Test
-          command: dotnet test tests/BlockChypTest/BlockChypTest.csproj --filter "Category!=Integration" -v n
-      - run:
-          name: Build
-          command: dotnet build src/BlockChyp/BlockChyp.csproj -c Release -v n
-      - run:
-          name: Package
-          command: dotnet pack src/BlockChyp/BlockChyp.csproj -c Release -v n
+      - run: dotnet restore -v n
 
       - save_cache:
           key: nuget-{{ checksum "src/BlockChyp/BlockChyp.csproj" }}
           paths:
             - $HOME/.nuget/packages
+
+      - run:
+          name: Build
+          command: |
+            dotnet build src/BlockChyp/BlockChyp.csproj -c Release -v n
+            dotnet pack src/BlockChyp/BlockChyp.csproj -c Release -v n
+
+      - run:
+          name: Test
+          command: >
+            dotnet test tests/BlockChypTest/BlockChypTest.csproj
+            --filter "Category!=Integration" -v n
 
       - persist_to_workspace:
           root: src/BlockChyp/bin
@@ -37,17 +38,18 @@ jobs:
 
   publish:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
 
     steps:
       - attach_workspace:
           at: src/BlockChyp/bin
+
       - run:
           name: Publish
-          command: |
-            dotnet nuget push src/BlockChyp/bin/Release/BlockChyp.*.nupkg \
-              --api-key "$NUGET_API_KEY" \
-              --source https://api.nuget.org/v3/index.json
+          command: >
+            dotnet nuget push src/BlockChyp/bin/Release/BlockChyp.*.nupkg
+            --api-key "${NUGET_API_KEY}"
+            --source https://api.nuget.org/v3/index.json
 
 workflows:
   version: 2
