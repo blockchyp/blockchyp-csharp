@@ -9,6 +9,11 @@ VERSION := $(or $(TAG:v%=%),$(LASTTAG:v%=%))-$(or $(BUILD_NUMBER), 1)$(if $(TAG)
 DOCKER = docker
 DOTNET = dotnet
 SED = sed
+SED_SUBST = $(SED) -i
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+	SED_SUBST += "''"
+endif
 
 # Integration test config
 export BC_TEST_DELAY := 5
@@ -105,8 +110,8 @@ integration:
 # Performs any tasks necessary before a release build
 .PHONY: stage
 stage:
-	$(SED) -i'' 's|<Version>.*</Version>|<Version>$(VERSION)</Version>|' src/BlockChyp/BlockChyp.csproj
-	$(SED) -i'' 's|<AssemblyVersion>.*</AssemblyVersion>|<AssemblyVersion>$(shell sed 's/\..*//' <<<$(VERSION)).0.0.0</AssemblyVersion>|' src/BlockChyp/BlockChyp.csproj
+	$(SED_SUBST) 's|<Version>.*</Version>|<Version>$(VERSION)</Version>|' src/BlockChyp/BlockChyp.csproj
+	$(SED_SUBST) 's|<AssemblyVersion>.*</AssemblyVersion>|<AssemblyVersion>$(shell sed 's/\..*//' <<<$(VERSION)).0.0.0</AssemblyVersion>|' src/BlockChyp/BlockChyp.csproj
 
 # Publishes package
 .PHONY: publish
