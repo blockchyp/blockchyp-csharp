@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Description>BlockChyp is a .NET 4.5+ class library for accessing the BlockChyp Terminal and Gateway APIs.</Description>
-    <Version>github-migration-test-3</Version>
-    <AssemblyVersion>github-migration-test-3.0.0.0</AssemblyVersion>
+    <Version>github-migration-test-4</Version>
+    <AssemblyVersion>github-migration-test-4.0.0.0</AssemblyVersion>
     <Authors>BlockChyp</Authors>
     <Company>BlockChyp, Inc.</Company>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
