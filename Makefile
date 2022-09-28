@@ -105,8 +105,8 @@ integration:
 # Performs any tasks necessary before a release build
 .PHONY: stage
 stage:
-	$(SED) -i 's|<Version>.*</Version>|<Version>$(VERSION)</Version>|' src/BlockChyp/BlockChyp.csproj
-	$(SED) -i 's|<AssemblyVersion>.*</AssemblyVersion>|<AssemblyVersion>$(shell sed 's/\..*//' <<<$(VERSION)).0.0.0</AssemblyVersion>|' src/BlockChyp/BlockChyp.csproj
+	$(SED) -i'' 's|<Version>.*</Version>|<Version>$(VERSION)</Version>|' src/BlockChyp/BlockChyp.csproj
+	$(SED) -i'' 's|<AssemblyVersion>.*</AssemblyVersion>|<AssemblyVersion>$(shell sed 's/\..*//' <<<$(VERSION)).0.0.0</AssemblyVersion>|' src/BlockChyp/BlockChyp.csproj
 
 # Publishes package
 .PHONY: publish
