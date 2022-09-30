@@ -339,5 +339,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "storeAndForward")]
         public bool StoreAndForward { get; set; }
+
+        /// <summary>
+        /// The current status of a transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
     }
 }
