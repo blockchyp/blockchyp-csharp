@@ -1,0 +1,72 @@
+name: blockchyp-csharp
+on:
+  push:
+    branches:
+      - "develop"
+      - "master"
+    tags:
+      - "*"
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - uses: act10ns/slack@v1
+        with:
+          status: starting
+          channel: '#gitactivity'
+        if: always()
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: dotnet restore -v n
+      - name: Run Build
+        run: |
+          dotnet build src/BlockChyp/BlockChyp.csproj -c Release -v n
+          dotnet pack src/BlockChyp/BlockChyp.csproj -c Release -v n
+      - name: Run Test
+        run: >
+          dotnet test tests/BlockChypTest/BlockChypTest.csproj
+          --filter "Category!=Integration" -v n
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          channel: '#gitactivity'
+        if: always()
+  publish:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') && startsWith(github.ref_name, 'v') }}
+    needs: [ test ]
+    steps:
+      - uses: act10ns/slack@v1
+        with:
+          status: starting
+          channel: '#gitactivity'
+        if: always()
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: dotnet restore -v n
+      - name: Run Build
+        run: |
+           dotnet build src/BlockChyp/BlockChyp.csproj -c Release -v n
+           dotnet pack src/BlockChyp/BlockChyp.csproj -c Release -v n
+      - name: Publish to Nuget
+        run: >
+          dotnet nuget push src/BlockChyp/bin/Release/BlockChyp.*.nupkg
+          --api-key "${NUGET_API_KEY}"
+          --source https://api.nuget.org/v3/index.json
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          channel: '#gitactivity'
+        if: always()
