@@ -4,6 +4,7 @@
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
 // to this file will be lost every time the code is regenerated.
 
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -42,6 +43,24 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "originalFile")]
         public string OriginalFile { get; set; }
+
+        /// <summary>
+        /// The descriptive name of the media asset.
+        /// </summary>
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// A description of the media asset and its purpose.
+        /// </summary>
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// An array of tags associated with a media asset.
+        /// </summary>
+        [JsonProperty(PropertyName = "tags")]
+        public List<string> Tags { get; set; }
 
         /// <summary>
         /// The url for the full resolution versio of the media file.
