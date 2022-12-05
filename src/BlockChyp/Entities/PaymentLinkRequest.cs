@@ -129,6 +129,24 @@ namespace BlockChyp.Entities
         public bool EnrollOnly { get; set; }
 
         /// <summary>
+        /// That the QR Code binary should be returned.
+        /// </summary>
+        [JsonProperty(PropertyName = "qrcodeBinary")]
+        public bool QrcodeBinary { get; set; }
+
+        /// <summary>
+        /// Determines the size of the qr code to be returned.
+        /// </summary>
+        [JsonProperty(PropertyName = "qrcodeSize")]
+        public int QrcodeSize { get; set; }
+
+        /// <summary>
+        /// Number of days until the payment link expires.
+        /// </summary>
+        [JsonProperty(PropertyName = "daysToExpiration")]
+        public int DaysToExpiration { get; set; }
+
+        /// <summary>
         /// Flags the payment link as cashier facing.
         /// </summary>
         [JsonProperty(PropertyName = "cashier")]
