@@ -44,6 +44,18 @@ namespace BlockChyp.Entities
         public string Url { get; set; }
 
         /// <summary>
+        /// The url for a QR Code associated with this link.
+        /// </summary>
+        [JsonProperty(PropertyName = "qrcodeUrl")]
+        public string QrcodeUrl { get; set; }
+
+        /// <summary>
+        /// The hex encoded binary for the QR Code, if requested. Encoded in PNG format.
+        /// </summary>
+        [JsonProperty(PropertyName = "qrcodeBinary")]
+        public string QrcodeBinary { get; set; }
+
+        /// <summary>
         /// The customer id created or used for the payment.
         /// </summary>
         [JsonProperty(PropertyName = "customerId")]

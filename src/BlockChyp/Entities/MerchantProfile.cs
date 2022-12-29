@@ -45,6 +45,12 @@ namespace BlockChyp.Entities
         public string DbaName { get; set; }
 
         /// <summary>
+        /// The name the merchant prefers on payment link invoices.
+        /// </summary>
+        [JsonProperty(PropertyName = "invoiceName")]
+        public string InvoiceName { get; set; }
+
+        /// <summary>
         /// The contact name for the merchant.
         /// </summary>
         [JsonProperty(PropertyName = "contactName")]

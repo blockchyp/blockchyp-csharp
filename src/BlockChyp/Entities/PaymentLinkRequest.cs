@@ -109,6 +109,14 @@ namespace BlockChyp.Entities
         public string TerminalName { get; set; }
 
         /// <summary>
+        /// Forces the terminal cloud connection to be reset while a transactions is in
+        /// flight. This is a diagnostic settings that can be used only for test
+        /// transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "resetConnection")]
+        public bool ResetConnection { get; set; }
+
+        /// <summary>
         /// Automatically send the link via an email.
         /// </summary>
         [JsonProperty(PropertyName = "autoSend")]
@@ -127,6 +135,24 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "enrollOnly")]
         public bool EnrollOnly { get; set; }
+
+        /// <summary>
+        /// That the QR Code binary should be returned.
+        /// </summary>
+        [JsonProperty(PropertyName = "qrcodeBinary")]
+        public bool QrcodeBinary { get; set; }
+
+        /// <summary>
+        /// Determines the size of the qr code to be returned.
+        /// </summary>
+        [JsonProperty(PropertyName = "qrcodeSize")]
+        public int QrcodeSize { get; set; }
+
+        /// <summary>
+        /// Number of days until the payment link expires.
+        /// </summary>
+        [JsonProperty(PropertyName = "daysToExpiration")]
+        public int DaysToExpiration { get; set; }
 
         /// <summary>
         /// Flags the payment link as cashier facing.

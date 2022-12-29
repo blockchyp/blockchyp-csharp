@@ -257,6 +257,14 @@ namespace BlockChyp.Entities
         public string TerminalName { get; set; }
 
         /// <summary>
+        /// Forces the terminal cloud connection to be reset while a transactions is in
+        /// flight. This is a diagnostic settings that can be used only for test
+        /// transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "resetConnection")]
+        public bool ResetConnection { get; set; }
+
+        /// <summary>
         /// Used to validate online gift card authorizations.
         /// </summary>
         [JsonProperty(PropertyName = "onlineAuthCode")]
@@ -300,6 +308,13 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "customer")]
         public Customer Customer { get; set; }
+
+        /// <summary>
+        /// How partial pennies should be rounded for calculated values like surcharges.
+        /// Rounding up is the default behavior.
+        /// </summary>
+        [JsonProperty(PropertyName = "roundingMode")]
+        public RoundingMode RoundingMode { get; set; }
 
         /// <summary>
         /// Details for HSA/FSA transactions.

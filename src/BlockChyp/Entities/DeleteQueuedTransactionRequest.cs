@@ -71,6 +71,14 @@ namespace BlockChyp.Entities
         public string TerminalName { get; set; }
 
         /// <summary>
+        /// Forces the terminal cloud connection to be reset while a transactions is in
+        /// flight. This is a diagnostic settings that can be used only for test
+        /// transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "resetConnection")]
+        public bool ResetConnection { get; set; }
+
+        /// <summary>
         /// A transaction reference string of the transaction to delete. Passing `*` will
         /// clear all queued transactions.
         /// </summary>

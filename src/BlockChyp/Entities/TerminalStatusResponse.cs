@@ -39,6 +39,12 @@ namespace BlockChyp.Entities
         public bool Idle { get; set; }
 
         /// <summary>
+        /// Whether or not a card is currently in the card slot.
+        /// </summary>
+        [JsonProperty(PropertyName = "cardInSlot")]
+        public bool CardInSlot { get; set; }
+
+        /// <summary>
         /// The operation that the terminal is performing.
         /// </summary>
         [JsonProperty(PropertyName = "status")]
