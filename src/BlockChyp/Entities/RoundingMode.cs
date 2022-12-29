@@ -1,8 +1,10 @@
-// Copyright 2019 BlockChyp, Inc. All rights reserved. Use of this code is
-// governed by a license that can be found in the LICENSE file.
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace BlockChyp.Entities
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum RoundingMode
     {
         /// <summary>Round fractional pennies up.</summary>
