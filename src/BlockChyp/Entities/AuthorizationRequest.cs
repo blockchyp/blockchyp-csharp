@@ -310,6 +310,13 @@ namespace BlockChyp.Entities
         public Customer Customer { get; set; }
 
         /// <summary>
+        /// How partial pennies should be rounded for calculated values like surcharges.
+        /// Rounding up is the default behavior.
+        /// </summary>
+        [JsonProperty(PropertyName = "roundingMode")]
+        public RoundingMode RoundingMode { get; set; }
+
+        /// <summary>
         /// Details for HSA/FSA transactions.
         /// </summary>
         [JsonProperty(PropertyName = "healthcare")]
