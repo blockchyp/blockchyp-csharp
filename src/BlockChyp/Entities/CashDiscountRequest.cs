@@ -101,5 +101,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "cashDiscount")]
         public bool CashDiscount { get; set; }
+
+        /// <summary>
+        /// How partial pennies should be rounded for calculated values like surcharges.
+        /// Rounding up is the default behavior.
+        /// </summary>
+        [JsonProperty(PropertyName = "roundingMode")]
+        public RoundingMode RoundingMode { get; set; }
     }
 }
