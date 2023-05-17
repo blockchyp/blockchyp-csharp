@@ -275,5 +275,18 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "healthcare")]
         public Healthcare Healthcare { get; set; }
+
+        /// <summary>
+        /// Instructs the terminal to simulate a post auth chip rejection that would
+        /// trigger an automatic reversal.
+        /// </summary>
+        [JsonProperty(PropertyName = "simulateChipRejection")]
+        public bool SimulateChipRejection { get; set; }
+
+        /// <summary>
+        /// Instructs the terminal to simulate an out of order automatic reversal.
+        /// </summary>
+        [JsonProperty(PropertyName = "simulateOutOfOrderReversal")]
+        public bool SimulateOutOfOrderReversal { get; set; }
     }
 }
