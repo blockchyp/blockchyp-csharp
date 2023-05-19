@@ -378,5 +378,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "simulateOutOfOrderReversal")]
         public bool SimulateOutOfOrderReversal { get; set; }
+
+        /// <summary>
+        /// Causes auto-reversals on the terminal to be executed asyncronously. Use with
+        /// caution and in conjunction with the transaction status API.
+        /// </summary>
+        [JsonProperty(PropertyName = "asyncReversals")]
+        public bool AsyncReversals { get; set; }
     }
 }
