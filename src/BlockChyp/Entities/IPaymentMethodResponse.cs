@@ -24,9 +24,15 @@ namespace BlockChyp.Entities
         string EntryMethod { get; set; }
 
         /// <summary>
-        /// The card brand (VISA, MC, AMEX, etc).
+        /// The card brand (VISA, MC, AMEX, DEBIT, etc).
         /// </summary>
         string PaymentType { get; set; }
+
+        /// <summary>
+        /// Provides network level detail on how a transaction was routed, especially for
+        /// debit transactions.
+        /// </summary>
+        string Network { get; set; }
 
         /// <summary>
         /// The masked primary account number.

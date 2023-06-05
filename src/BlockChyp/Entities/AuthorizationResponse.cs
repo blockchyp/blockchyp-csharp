@@ -255,10 +255,17 @@ namespace BlockChyp.Entities
         public string EntryMethod { get; set; }
 
         /// <summary>
-        /// The card brand (VISA, MC, AMEX, etc).
+        /// The card brand (VISA, MC, AMEX, DEBIT, etc).
         /// </summary>
         [JsonProperty(PropertyName = "paymentType")]
         public string PaymentType { get; set; }
+
+        /// <summary>
+        /// Provides network level detail on how a transaction was routed, especially for
+        /// debit transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "network")]
+        public string Network { get; set; }
 
         /// <summary>
         /// The masked primary account number.
