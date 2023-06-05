@@ -134,6 +134,14 @@ namespace BlockChyp.Entities
         public string Network { get; set; }
 
         /// <summary>
+        /// Identifies the card association based on bin number. Used primarily used to
+        /// indicate the major logo on a card, even when debit transactions are routed on a
+        /// different network.
+        /// </summary>
+        [JsonProperty(PropertyName = "logo")]
+        public string Logo { get; set; }
+
+        /// <summary>
         /// The masked primary account number.
         /// </summary>
         [JsonProperty(PropertyName = "maskedPan")]
