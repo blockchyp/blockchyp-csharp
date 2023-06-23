@@ -1,6 +1,6 @@
 # BlockChyp C# SDK
 
-[![Build Status](https://circleci.com/gh/blockchyp/blockchyp-csharp/tree/master.svg?style=shield)](https://circleci.com/gh/blockchyp/blockchyp-csharp/tree/master)
+[![Build Status](https://github.com/blockchyp/blockchyp-csharp/actions/workflows/main.yml/badge.svg)](https://github.com/blockchyp/blockchyp-csharp/actions/workflows/main.yml)
 [![NuGet](https://img.shields.io/nuget/v/blockchyp.svg)](https://www.nuget.org/packages/BlockChyp/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/blockchyp/blockchyp-csharp/blob/master/LICENSE)
 
