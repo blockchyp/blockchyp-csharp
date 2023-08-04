@@ -1767,6 +1767,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Retrieves the status of a payment link.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PaymentLinkStatusResponse> PaymentLinkStatusAsync(PaymentLinkStatusRequest request)
+        {
+            return await GatewayRequestAsync<PaymentLinkStatusResponse>(HttpMethod.Post, "/api/payment-link-status", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PaymentLinkStatusAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PaymentLinkStatusResponse PaymentLinkStatus(PaymentLinkStatusRequest request)
+        {
+            return GatewayRequest<PaymentLinkStatusResponse>(HttpMethod.Post, "/api/payment-link-status", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Retrieves the current status of a transaction.
         /// </summary>
         /// <param name="request">The request details.</param>

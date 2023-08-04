@@ -304,6 +304,18 @@ namespace BlockChyp.Entities
         public bool CashBackEnabled { get; set; }
 
         /// <summary>
+        /// That this transaction should be treated as MOTO with a card on file.
+        /// </summary>
+        [JsonProperty(PropertyName = "cardOnFile")]
+        public bool CardOnFile { get; set; }
+
+        /// <summary>
+        /// That this transaction should be treated as a recurring transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "recurring")]
+        public bool Recurring { get; set; }
+
+        /// <summary>
         /// A map of alternate currencies and the price in each currency. Use only if you want
         /// to set your own exchange rate for a crypto transaction.
         /// </summary>

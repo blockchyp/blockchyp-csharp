@@ -741,6 +741,34 @@ Console.WriteLine(response);
 
 ```
 
+#### Payment Link Status
+
+
+
+* **API Credential Types:** Merchant
+* **Required Role:** Payment API Access
+
+This API allows you to check on the status of a payment link, including transaction data
+and the full history of attempted transactions.
+
+
+
+
+```c#
+// Populate request parameters.
+PaymentLinkStatusRequest request = new PaymentLinkStatusRequest
+{
+    LinkCode = setupResponse.LinkCode,
+};
+
+// Run the transaction.
+PaymentLinkStatusResponse response = await blockchyp.PaymentLinkStatusAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Transaction Status
 
 
