@@ -79,6 +79,13 @@ namespace BlockChyp.Entities
         public string DestinationAccount { get; set; }
 
         /// <summary>
+        /// Can include a code used to trigger simulated conditions for the purposes of
+        /// testing and certification. Valid for test merchant accounts only.
+        /// </summary>
+        [JsonProperty(PropertyName = "testCase")]
+        public string TestCase { get; set; }
+
+        /// <summary>
         /// The payment token to be used for this transaction. This should be used for
         /// recurring transactions.
         /// </summary>
@@ -180,12 +187,6 @@ namespace BlockChyp.Entities
         public string PaymentType { get; set; }
 
         /// <summary>
-        /// The ID of the previous transaction being referenced.
-        /// </summary>
-        [JsonProperty(PropertyName = "transactionId")]
-        public string TransactionId { get; set; }
-
-        /// <summary>
         /// The transaction currency code.
         /// </summary>
         [JsonProperty(PropertyName = "currencyCode")]
@@ -270,6 +271,13 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "resetConnection")]
         public bool ResetConnection { get; set; }
+
+        /// <summary>
+        /// Can be used to update a pre-auth to a new amount, sometimes called incremental
+        /// auth.
+        /// </summary>
+        [JsonProperty(PropertyName = "transactionId")]
+        public string TransactionId { get; set; }
 
         /// <summary>
         /// Used to validate online gift card authorizations.

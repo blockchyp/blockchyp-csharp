@@ -54,5 +54,11 @@ namespace BlockChyp.Entities
         /// The settlement account for merchants with split settlements.
         /// </summary>
         string DestinationAccount { get; set; }
+
+        /// <summary>
+        /// Can include a code used to trigger simulated conditions for the purposes of
+        /// testing and certification. Valid for test merchant accounts only.
+        /// </summary>
+        string TestCase { get; set; }
     }
 }

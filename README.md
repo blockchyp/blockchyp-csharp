@@ -714,6 +714,34 @@ Console.WriteLine(response);
 
 ```
 
+#### Resend Payment Link
+
+
+
+* **API Credential Types:** Merchant
+* **Required Role:** Payment API Access
+
+This API will resend a previously created payment link.  An error is returned if the payment link is expired, has been
+cancelled, or has already been paid.
+
+
+
+
+```c#
+// Populate request parameters.
+ResendPaymentLinkRequest request = new ResendPaymentLinkRequest
+{
+    LinkCode = "<PAYMENT LINK CODE>",
+};
+
+// Run the transaction.
+ResendPaymentLinkResponse response = await blockchyp.ResendPaymentLinkAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Cancel Payment Link
 
 

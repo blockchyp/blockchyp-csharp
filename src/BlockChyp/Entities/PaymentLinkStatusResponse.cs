@@ -52,7 +52,7 @@ namespace BlockChyp.Entities
         public string CustomerId { get; set; }
 
         /// <summary>
-        /// The user's internal reference for any transaction that may occur
+        /// The user's internal reference for any transaction that may occur.
         /// </summary>
         [JsonProperty(PropertyName = "transactionRef")]
         public string TransactionRef { get; set; }

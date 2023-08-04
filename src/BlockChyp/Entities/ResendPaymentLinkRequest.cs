@@ -4,15 +4,15 @@
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
 // to this file will be lost every time the code is regenerated.
 
-using System;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models a batch history request.
+    /// Resends a pending payment link. Payment links that have already been used or
+    /// cancelled cannot be resent and the request will be rejected.
     /// </summary>
-    public class BatchHistoryRequest : BaseEntity, ITimeoutRequest, ICoreRequest
+    public class ResendPaymentLinkRequest : BaseEntity, ITimeoutRequest, ICoreRequest
     {
         /// <summary>
         /// The request timeout in seconds.
@@ -86,27 +86,9 @@ namespace BlockChyp.Entities
         public string TestCase { get; set; }
 
         /// <summary>
-        /// Optional start date filter for batch history.
+        /// The payment link code to cancel.
         /// </summary>
-        [JsonProperty(PropertyName = "startDate")]
-        public DateTime? StartDate { get; set; }
-
-        /// <summary>
-        /// Optional end date filter for batch history.
-        /// </summary>
-        [JsonProperty(PropertyName = "endDate")]
-        public DateTime? EndDate { get; set; }
-
-        /// <summary>
-        /// Max results to be returned by this request. Defaults to the system max of 250.
-        /// </summary>
-        [JsonProperty(PropertyName = "maxResults")]
-        public int MaxResults { get; set; }
-
-        /// <summary>
-        /// Starting index for results to be returned.
-        /// </summary>
-        [JsonProperty(PropertyName = "startIndex")]
-        public int StartIndex { get; set; }
+        [JsonProperty(PropertyName = "linkCode")]
+        public string LinkCode { get; set; }
     }
 }

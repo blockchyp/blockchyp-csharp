@@ -1748,6 +1748,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Resends payment link.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<ResendPaymentLinkResponse> ResendPaymentLinkAsync(ResendPaymentLinkRequest request)
+        {
+            return await GatewayRequestAsync<ResendPaymentLinkResponse>(HttpMethod.Post, "/api/resend-payment-link", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="ResendPaymentLinkAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public ResendPaymentLinkResponse ResendPaymentLink(ResendPaymentLinkRequest request)
+        {
+            return GatewayRequest<ResendPaymentLinkResponse>(HttpMethod.Post, "/api/resend-payment-link", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Cancels a payment link.
         /// </summary>
         /// <param name="request">The request details.</param>

@@ -79,6 +79,13 @@ namespace BlockChyp.Entities
         public string DestinationAccount { get; set; }
 
         /// <summary>
+        /// Can include a code used to trigger simulated conditions for the purposes of
+        /// testing and certification. Valid for test merchant accounts only.
+        /// </summary>
+        [JsonProperty(PropertyName = "testCase")]
+        public string TestCase { get; set; }
+
+        /// <summary>
         /// Optional search query. Will match amount, last 4 and customer name. batchId and
         /// terminalName are not supported with this option.
         /// </summary>
