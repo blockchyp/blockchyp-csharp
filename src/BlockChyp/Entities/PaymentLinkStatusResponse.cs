@@ -161,7 +161,7 @@ namespace BlockChyp.Entities
         public bool EnrollOnly { get; set; }
 
         /// <summary>
-        /// Returns details about the last transaction status
+        /// Returns details about the last transaction status.
         /// </summary>
         [JsonProperty(PropertyName = "lastTransaction")]
         public AuthorizationResponse LastTransaction { get; set; }
