@@ -1,4 +1,4 @@
-// Copyright 2019-2022 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2023 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -24,9 +24,22 @@ namespace BlockChyp.Entities
         string EntryMethod { get; set; }
 
         /// <summary>
-        /// The card brand (VISA, MC, AMEX, etc).
+        /// The card brand (VISA, MC, AMEX, DEBIT, etc).
         /// </summary>
         string PaymentType { get; set; }
+
+        /// <summary>
+        /// Provides network level detail on how a transaction was routed, especially for
+        /// debit transactions.
+        /// </summary>
+        string Network { get; set; }
+
+        /// <summary>
+        /// Identifies the card association based on bin number. Used primarily used to
+        /// indicate the major logo on a card, even when debit transactions are routed on a
+        /// different network.
+        /// </summary>
+        string Logo { get; set; }
 
         /// <summary>
         /// The masked primary account number.

@@ -1,4 +1,4 @@
-// Copyright 2019-2022 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2023 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -1748,6 +1748,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Resends payment link.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<ResendPaymentLinkResponse> ResendPaymentLinkAsync(ResendPaymentLinkRequest request)
+        {
+            return await GatewayRequestAsync<ResendPaymentLinkResponse>(HttpMethod.Post, "/api/resend-payment-link", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="ResendPaymentLinkAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public ResendPaymentLinkResponse ResendPaymentLink(ResendPaymentLinkRequest request)
+        {
+            return GatewayRequest<ResendPaymentLinkResponse>(HttpMethod.Post, "/api/resend-payment-link", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Cancels a payment link.
         /// </summary>
         /// <param name="request">The request details.</param>
@@ -1764,6 +1783,25 @@ namespace BlockChyp.Client
         public CancelPaymentLinkResponse CancelPaymentLink(CancelPaymentLinkRequest request)
         {
             return GatewayRequest<CancelPaymentLinkResponse>(HttpMethod.Post, "/api/cancel-payment-link", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Retrieves the status of a payment link.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PaymentLinkStatusResponse> PaymentLinkStatusAsync(PaymentLinkStatusRequest request)
+        {
+            return await GatewayRequestAsync<PaymentLinkStatusResponse>(HttpMethod.Post, "/api/payment-link-status", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PaymentLinkStatusAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PaymentLinkStatusResponse PaymentLinkStatus(PaymentLinkStatusRequest request)
+        {
+            return GatewayRequest<PaymentLinkStatusResponse>(HttpMethod.Post, "/api/payment-link-status", request, null, request.Test);
         }
 
         /// <summary>
