@@ -795,7 +795,7 @@ You must pass the `linkCode` value associated with the payment link. It is inclu
 // Populate request parameters.
 PaymentLinkStatusRequest request = new PaymentLinkStatusRequest
 {
-    LinkCode = setupResponse.LinkCode,
+    LinkCode = "<PAYMENT LINK CODE>",
 };
 
 // Run the transaction.
