@@ -72,7 +72,7 @@ namespace BlockChypTest.Integration
 
             PaymentLinkStatusRequest request = new PaymentLinkStatusRequest
             {
-                TransactionRef = setupResponse.TransactionRef,
+                LinkCode = setupResponse.LinkCode,
             };
 
             output.WriteLine("Request: {0}", request);
