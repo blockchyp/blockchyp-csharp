@@ -31,14 +31,41 @@ namespace BlockChypTest.Integration
 
             UseProfile("");
 
-            ResendPaymentLinkRequest setupRequest = new ResendPaymentLinkRequest
+            PaymentLinkRequest setupRequest = new PaymentLinkRequest
             {
-                LinkCode = setupResponse.LinkCode,
+                Amount = "199.99",
+                Description = "Widget",
+                Subject = "Widget invoice",
+                Transaction = new TransactionDisplayTransaction
+                {
+                    Subtotal = "195.00",
+                    Tax = "4.99",
+                    Total = "199.99",
+                    Items = new List<TransactionDisplayItem>
+                    {
+                        new TransactionDisplayItem
+                        {
+                            Description = "Widget",
+                            Price = "195.00",
+                            Quantity = 1,
+                        }
+                    },
+                },
+                AutoSend = true,
+                Customer = new Customer
+                {
+                    CustomerRef = "Customer reference string",
+                    FirstName = "FirstName",
+                    LastName = "LastName",
+                    CompanyName = "Company Name",
+                    EmailAddress = "notifications@blockchypteam.m8r.co",
+                    SmsNumber = "(123) 123-1231",
+                },
             };
 
             output.WriteLine("Setup request: {0}", setupRequest);
 
-            ResendPaymentLinkResponse setupResponse = await blockchyp.ResendPaymentLinkAsync(setupRequest);
+            PaymentLinkResponse setupResponse = await blockchyp.SendPaymentLinkAsync(setupRequest);
 
             output.WriteLine("Setup Response: {0}", setupResponse);
 
