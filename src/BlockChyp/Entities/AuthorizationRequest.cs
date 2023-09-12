@@ -324,6 +324,24 @@ namespace BlockChyp.Entities
         public bool Recurring { get; set; }
 
         /// <summary>
+        /// Manually sets the CIT (Customer Initiated Transaction) flag
+        /// </summary>
+        [JsonProperty(PropertyName = "cit")]
+        public bool Cit { get; set; }
+
+        /// <summary>
+        /// Manually sets the MIT (Merchant Initiated Transaction) flag
+        /// </summary>
+        [JsonProperty(PropertyName = "mit")]
+        public bool Mit { get; set; }
+
+        /// <summary>
+        /// An item to display. Can be overwritten or appended, based on the request type.
+        /// </summary>
+        [JsonProperty(PropertyName = "lineItems")]
+        public List<TransactionDisplayItem> LineItems { get; set; }
+
+        /// <summary>
         /// A map of alternate currencies and the price in each currency. Use only if you want
         /// to set your own exchange rate for a crypto transaction.
         /// </summary>
