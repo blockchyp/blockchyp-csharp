@@ -336,6 +336,18 @@ namespace BlockChyp.Entities
         public bool Mit { get; set; }
 
         /// <summary>
+        /// The purchase order number, if known.
+        /// </summary>
+        [JsonProperty(PropertyName = "purchaseOrderNumber")]
+        public string PurchaseOrderNumber { get; set; }
+
+        /// <summary>
+        /// The supplier reference number, if known.
+        /// </summary>
+        [JsonProperty(PropertyName = "supplierReferenceNumber")]
+        public string SupplierReferenceNumber { get; set; }
+
+        /// <summary>
         /// An item to display. Can be overwritten or appended, based on the request type.
         /// </summary>
         [JsonProperty(PropertyName = "lineItems")]
