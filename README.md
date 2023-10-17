@@ -3006,6 +3006,35 @@ the standard underwriting process via offer codes and invitations.
 
 
 
+#### Retrieve Pricing Policy
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Read Pricing API
+
+The API returns the current pricing policy for a merchant.  This API is valid for partner scoped API credentials
+and `merchantId` is a required parameter.  By default this API returns the currently in-force pricing policy for a merchant,
+but other inactive policies can be returned by providing the `id` parameter.
+
+
+
+
+```c#
+// Populate request parameters.
+PricingPolicyRequest request = new PricingPolicyRequest
+{
+
+};
+
+// Run the transaction.
+PricingPolicyResponse response = await blockchyp.PricingPolicyAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Merchant Profile
 
 
