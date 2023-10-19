@@ -3006,35 +3006,6 @@ the standard underwriting process via offer codes and invitations.
 
 
 
-#### Retrieve Pricing Policy
-
-
-
-* **API Credential Types:** Partner
-* **Required Role:** Read Pricing API
-
-The API returns the current pricing policy for a merchant.  This API is valid for partner scoped API credentials
-and `merchantId` is a required parameter.  By default this API returns the currently in-force pricing policy for a merchant,
-but other inactive policies can be returned by providing the `id` parameter.
-
-
-
-
-```c#
-// Populate request parameters.
-PricingPolicyRequest request = new PricingPolicyRequest
-{
-
-};
-
-// Run the transaction.
-PricingPolicyResponse response = await blockchyp.PricingPolicyAsync(request);
-
-// View the result.
-Console.WriteLine(response);
-
-```
-
 #### Merchant Profile
 
 
@@ -3372,6 +3343,73 @@ MerchantProfileRequest request = new MerchantProfileRequest
 
 // Run the transaction.
 Acknowledgement response = await blockchyp.DeleteTestMerchantAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+### Partner Utilities
+
+
+These partner only APIs give ISV partners advanced reporting and tools for managing their portfolio.
+
+Use of these APIs requires partner scoped API credentials
+with special roles and permissions that may require a special arrangement with BlockChyp.
+
+
+
+#### Partner Statements
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Merchant Management
+
+The API returns a list of partner residual statements.  By default, all statements are returned with the most recent
+statements listed first.  Optional date parameters can filter statements to a specific date range.
+
+
+
+
+```c#
+// Populate request parameters.
+PartnerStatementListRequest request = new PartnerStatementListRequest
+{
+
+};
+
+// Run the transaction.
+PartnerStatementListResponse response = await blockchyp.PartnerStatementsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Retrieve Pricing Policy
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Read Pricing API
+
+The API returns the current pricing policy for a merchant.  This API is valid for partner scoped API credentials
+and `merchantId` is a required parameter.  By default this API returns the currently in-force pricing policy for a merchant,
+but other inactive policies can be returned by providing the `id` parameter.
+
+
+
+
+```c#
+// Populate request parameters.
+PricingPolicyRequest request = new PricingPolicyRequest
+{
+
+};
+
+// Run the transaction.
+PricingPolicyResponse response = await blockchyp.PricingPolicyAsync(request);
 
 // View the result.
 Console.WriteLine(response);

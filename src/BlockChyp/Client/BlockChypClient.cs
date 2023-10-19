@@ -1960,6 +1960,25 @@ namespace BlockChyp.Client
         /// Returns pricing policy for a merchant.
         /// </summary>
         /// <param name="request">The request details.</param>
+        public async Task<PartnerStatementListResponse> PartnerStatementsAsync(PartnerStatementListRequest request)
+        {
+            return await GatewayRequestAsync<PartnerStatementListResponse>(HttpMethod.Post, "/api/partner-statement-list", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PartnerStatementsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PartnerStatementListResponse PartnerStatements(PartnerStatementListRequest request)
+        {
+            return GatewayRequest<PartnerStatementListResponse>(HttpMethod.Post, "/api/partner-statement-list", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Returns pricing policy for a merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
         public async Task<PricingPolicyResponse> PricingPolicyAsync(PricingPolicyRequest request)
         {
             return await GatewayRequestAsync<PricingPolicyResponse>(HttpMethod.Post, "/api/read-pricing-policy", request, null, request.Test)
