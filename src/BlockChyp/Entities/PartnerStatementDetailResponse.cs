@@ -5,6 +5,7 @@
 // to this file will be lost every time the code is regenerated.
 
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
@@ -55,5 +56,72 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "statementDate")]
         public DateTime? StatementDate { get; set; }
+
+        /// <summary>
+        /// Total volume in numeric format.
+        /// </summary>
+        [JsonProperty(PropertyName = "totalVolume")]
+        public float TotalVolume { get; set; }
+
+        /// <summary>
+        /// The string formatted total volume on the statement.
+        /// </summary>
+        [JsonProperty(PropertyName = "totalVolumeFormatted")]
+        public string TotalVolumeFormatted { get; set; }
+
+        /// <summary>
+        /// The total volume on the statement.
+        /// </summary>
+        [JsonProperty(PropertyName = "transactionCount")]
+        public long TransactionCount { get; set; }
+
+        /// <summary>
+        /// The commission earned on the portfolio during the statement period.
+        /// </summary>
+        [JsonProperty(PropertyName = "partnerCommission")]
+        public float PartnerCommission { get; set; }
+
+        /// <summary>
+        /// The string formatted partner commission on the statement.
+        /// </summary>
+        [JsonProperty(PropertyName = "partnerCommissionFormatted")]
+        public string PartnerCommissionFormatted { get; set; }
+
+        /// <summary>
+        /// The partner commission earned on the portfolio during the statement period as a
+        /// ratio against volume.
+        /// </summary>
+        [JsonProperty(PropertyName = "partnerCommissionsOnVolume")]
+        public float PartnerCommissionsOnVolume { get; set; }
+
+        /// <summary>
+        /// The string formatted version of partner commissions as a percentage of volume.
+        /// </summary>
+        [JsonProperty(PropertyName = "partnerCommissionsOnVolumeFormatted")]
+        public string PartnerCommissionsOnVolumeFormatted { get; set; }
+
+        /// <summary>
+        /// The status of the statement.
+        /// </summary>
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonProperty(PropertyName = "lineItems")]
+        public List<PartnerStatementLineItem> LineItems { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonProperty(PropertyName = "adjustments")]
+        public List<PartnerStatementAdjustment> Adjustments { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonProperty(PropertyName = "disbursements")]
+        public List<PartnerStatementDisbursement> Disbursements { get; set; }
     }
 }
