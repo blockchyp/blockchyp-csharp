@@ -3387,6 +3387,36 @@ Console.WriteLine(response);
 
 ```
 
+#### Merchant Invoices
+
+
+
+* **API Credential Types:** Partner or Merchant
+* **Required Role:** Partner API Access or Merchant API 
+
+The API returns a list of partner residual statements.  By default, all statements are returned with the most recent
+statements listed first.  Optional date parameters can filter statements to a specific date range.
+
+
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantInvoiceListRequest request = new MerchantInvoiceListRequest
+{
+
+};
+
+// Run the transaction.
+MerchantInvoiceListResponse response = await blockchyp.MerchantInvoicesAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Partner Statement Detail
 
 

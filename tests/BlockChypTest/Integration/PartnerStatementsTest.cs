@@ -32,7 +32,7 @@ namespace BlockChypTest.Integration
             UseProfile("");
 
 
-            PartnerStatementListRequest request = new PartnerStatementListRequest
+            MerchantInvoiceListRequest request = new MerchantInvoiceListRequest
             {
                 Test = true,
             };
@@ -42,7 +42,7 @@ namespace BlockChypTest.Integration
             Exception err = null;
             try
             {
-                PartnerStatementListResponse response = await blockchyp.PartnerStatementsAsync(request);
+                MerchantInvoiceListResponse response = await blockchyp.MerchantInvoicesAsync(request);
                 output.WriteLine("Response: {0}", response);
                 Assert.True(response.Success, "response.Success");
             }

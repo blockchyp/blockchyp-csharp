@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models a request to retrieve detailed partner statement information.
+    /// Models a request to retrieve detailed merchant invoice information.
     /// </summary>
-    public class PartnerStatementDetailRequest : BaseEntity, ITimeoutRequest
+    public class MerchantInvoiceDetailRequest : BaseEntity, ITimeoutRequest
     {
         /// <summary>
         /// The request timeout in seconds.
@@ -26,7 +26,7 @@ namespace BlockChyp.Entities
         public bool Test { get; set; }
 
         /// <summary>
-        /// Optional start date filter for batch history.
+        /// The invoice id.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }

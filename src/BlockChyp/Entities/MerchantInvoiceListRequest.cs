@@ -4,14 +4,15 @@
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
 // to this file will be lost every time the code is regenerated.
 
+using System;
 using Newtonsoft.Json;
 
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models a request to retrieve detailed partner statement information.
+    /// Models a request to retrieve a list of partner statements.
     /// </summary>
-    public class PartnerStatementDetailRequest : BaseEntity, ITimeoutRequest
+    public class MerchantInvoiceListRequest : BaseEntity, ITimeoutRequest
     {
         /// <summary>
         /// The request timeout in seconds.
@@ -26,9 +27,27 @@ namespace BlockChyp.Entities
         public bool Test { get; set; }
 
         /// <summary>
+        /// Optional merchant id for partner scoped requests.
+        /// </summary>
+        [JsonProperty(PropertyName = "merchantId")]
+        public string MerchantId { get; set; }
+
+        /// <summary>
+        /// Optional type to filter normal invoices vs statements.
+        /// </summary>
+        [JsonProperty(PropertyName = "invoiceType")]
+        public string InvoiceType { get; set; }
+
+        /// <summary>
         /// Optional start date filter for batch history.
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        [JsonProperty(PropertyName = "startDate")]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// Optional end date filter for batch history.
+        /// </summary>
+        [JsonProperty(PropertyName = "endDate")]
+        public DateTime? EndDate { get; set; }
     }
 }
