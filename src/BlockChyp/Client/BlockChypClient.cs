@@ -1995,6 +1995,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns detail for a single merchant-invoice statement.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantInvoiceDetailResponse> MerchantInvoiceDetailAsync(MerchantInvoiceDetailRequest request)
+        {
+            return await GatewayRequestAsync<MerchantInvoiceDetailResponse>(HttpMethod.Post, "/api/merchant-invoice-detail", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantInvoiceDetailAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantInvoiceDetailResponse MerchantInvoiceDetail(MerchantInvoiceDetailRequest request)
+        {
+            return GatewayRequest<MerchantInvoiceDetailResponse>(HttpMethod.Post, "/api/merchant-invoice-detail", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Returns detail for a single partner statement.
         /// </summary>
         /// <param name="request">The request details.</param>

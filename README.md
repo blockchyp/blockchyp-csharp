@@ -3417,6 +3417,33 @@ Console.WriteLine(response);
 
 ```
 
+#### Merchant Invoice Detail
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Partner API Access
+
+The API returns detailed information about a specific merchant statement.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantInvoiceDetailRequest request = new MerchantInvoiceDetailRequest
+{
+
+};
+
+// Run the transaction.
+MerchantInvoiceDetailResponse response = await blockchyp.MerchantInvoiceDetailAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Partner Statement Detail
 
 
