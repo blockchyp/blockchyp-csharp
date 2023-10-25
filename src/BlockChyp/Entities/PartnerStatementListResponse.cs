@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models results to a partner statement list inquiry.
     /// </summary>
     public class PartnerStatementListResponse : BaseEntity, IAbstractAcknowledgement
     {

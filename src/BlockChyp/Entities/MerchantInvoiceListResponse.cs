@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models a response to an invoice list request.
     /// </summary>
     public class MerchantInvoiceListResponse : BaseEntity, IAbstractAcknowledgement
     {

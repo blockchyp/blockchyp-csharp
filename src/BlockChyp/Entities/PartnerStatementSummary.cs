@@ -10,7 +10,8 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models a basic information about partner statements for use in list or search
+    /// results.
     /// </summary>
     public class PartnerStatementSummary : BaseEntity
     {

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models statistics for low level aggregation line items.
     /// </summary>
     public class AggregateBillingLineItemStats : BaseEntity
     {

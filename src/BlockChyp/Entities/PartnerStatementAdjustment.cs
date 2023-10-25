@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models partner statement adjustments.
     /// </summary>
     public class PartnerStatementAdjustment : BaseEntity
     {

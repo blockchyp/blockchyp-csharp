@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models a single buy rate calculation line item.
     /// </summary>
     public class BuyRateLineItem : BaseEntity
     {

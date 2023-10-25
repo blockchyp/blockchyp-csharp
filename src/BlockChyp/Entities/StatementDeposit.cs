@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models information about merchant deposits during a statement period.
     /// </summary>
     public class StatementDeposit : BaseEntity
     {

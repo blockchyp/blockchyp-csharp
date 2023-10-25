@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models information about payments against an invoice
     /// </summary>
     public class InvoicePayment : BaseEntity
     {

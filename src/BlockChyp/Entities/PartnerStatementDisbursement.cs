@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models details about disbursements related to partner statements.
     /// </summary>
     public class PartnerStatementDisbursement : BaseEntity
     {

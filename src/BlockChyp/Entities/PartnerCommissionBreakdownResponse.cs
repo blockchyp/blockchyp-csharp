@@ -11,7 +11,8 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models detailed information about how partner commissions were calculated for a
+    /// statement.
     /// </summary>
     public class PartnerCommissionBreakdownResponse : BaseEntity, IAbstractAcknowledgement
     {

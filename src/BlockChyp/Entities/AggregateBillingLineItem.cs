@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models low level aggregated and nested data line items.
     /// </summary>
     public class AggregateBillingLineItem : BaseEntity
     {

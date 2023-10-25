@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// 
+    /// Models detailed merchant invoice or statement information.
     /// </summary>
     public class MerchantInvoiceDetailResponse : BaseEntity, IAbstractAcknowledgement
     {
