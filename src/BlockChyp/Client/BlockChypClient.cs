@@ -2052,6 +2052,26 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns low level details for how partner commissions were calculated for a
+        /// specific merchant statement.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PartnerCommissionBreakdownResponse> PartnerCommissionBreakdownAsync(PartnerCommissionBreakdownRequest request)
+        {
+            return await GatewayRequestAsync<PartnerCommissionBreakdownResponse>(HttpMethod.Post, "/api/partner-commission-breakdown", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PartnerCommissionBreakdownAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PartnerCommissionBreakdownResponse PartnerCommissionBreakdown(PartnerCommissionBreakdownRequest request)
+        {
+            return GatewayRequest<PartnerCommissionBreakdownResponse>(HttpMethod.Post, "/api/partner-commission-breakdown", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Returns profile information for a merchant.
         /// </summary>
         /// <param name="request">The request details.</param>

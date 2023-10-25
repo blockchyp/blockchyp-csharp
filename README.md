@@ -3502,6 +3502,33 @@ Console.WriteLine(response);
 
 ```
 
+#### Partner Commission Breakdown
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Partner API Access
+
+This API allows partners to pull down the low level data used to compute a partner commission for a specific merchant statuement.
+
+
+
+
+```c#
+// Populate request parameters.
+PartnerCommissionBreakdownRequest request = new PartnerCommissionBreakdownRequest
+{
+
+};
+
+// Run the transaction.
+PartnerCommissionBreakdownResponse response = await blockchyp.PartnerCommissionBreakdownAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 
 
 
