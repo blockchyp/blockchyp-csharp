@@ -1995,6 +1995,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns detail for a single partner statement.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PartnerStatementDetailResponse> PartnerStatementDetailAsync(PartnerStatementDetailRequest request)
+        {
+            return await GatewayRequestAsync<PartnerStatementDetailResponse>(HttpMethod.Post, "/api/partner-statement-detail", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PartnerStatementDetailAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PartnerStatementDetailResponse PartnerStatementDetail(PartnerStatementDetailRequest request)
+        {
+            return GatewayRequest<PartnerStatementDetailResponse>(HttpMethod.Post, "/api/partner-statement-detail", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Returns a list of merchant invoices.
         /// </summary>
         /// <param name="request">The request details.</param>
@@ -2030,25 +2049,6 @@ namespace BlockChyp.Client
         public MerchantInvoiceDetailResponse MerchantInvoiceDetail(MerchantInvoiceDetailRequest request)
         {
             return GatewayRequest<MerchantInvoiceDetailResponse>(HttpMethod.Post, "/api/merchant-invoice-detail", request, null, request.Test);
-        }
-
-        /// <summary>
-        /// Returns detail for a single partner statement.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<PartnerStatementDetailResponse> PartnerStatementDetailAsync(PartnerStatementDetailRequest request)
-        {
-            return await GatewayRequestAsync<PartnerStatementDetailResponse>(HttpMethod.Post, "/api/partner-statement-detail", request, null, request.Test)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="PartnerStatementDetailAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public PartnerStatementDetailResponse PartnerStatementDetail(PartnerStatementDetailRequest request)
-        {
-            return GatewayRequest<PartnerStatementDetailResponse>(HttpMethod.Post, "/api/partner-statement-detail", request, null, request.Test);
         }
 
         /// <summary>
