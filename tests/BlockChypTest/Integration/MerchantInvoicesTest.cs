@@ -13,18 +13,18 @@ using Xunit.Abstractions;
 
 namespace BlockChypTest.Integration
 {
-    public class PartnerStatementsTest : IntegrationTest
+    public class MerchantInvoicesTest : IntegrationTest
     {
         private readonly ITestOutputHelper output;
 
-        public PartnerStatementsTest(ITestOutputHelper output)
+        public MerchantInvoicesTest(ITestOutputHelper output)
         {
             this.output = output;
         }
 
         [Trait("Category", "Integration")]
         [Fact]
-        public async void Run_PartnerStatementsTest()
+        public async void Run_MerchantInvoicesTest()
         {
 
 
@@ -32,7 +32,7 @@ namespace BlockChypTest.Integration
             UseProfile("");
 
 
-            PartnerStatementListRequest request = new PartnerStatementListRequest
+            MerchantInvoiceListRequest request = new MerchantInvoiceListRequest
             {
                 Test = true,
             };
@@ -42,7 +42,7 @@ namespace BlockChypTest.Integration
             Exception err = null;
             try
             {
-                PartnerStatementListResponse response = await blockchyp.PartnerStatementsAsync(request);
+                MerchantInvoiceListResponse response = await blockchyp.MerchantInvoicesAsync(request);
                 output.WriteLine("Response: {0}", response);
                 Assert.True(response.Success, "response.Success");
             }
