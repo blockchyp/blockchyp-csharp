@@ -117,7 +117,7 @@ namespace BlockChyp.Entities
         public string PriceExtendedFormatted { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of nested line items, if any.
         /// </summary>
         [JsonProperty(PropertyName = "lineItems")]
         public List<InvoiceLineItem> LineItems { get; set; }
