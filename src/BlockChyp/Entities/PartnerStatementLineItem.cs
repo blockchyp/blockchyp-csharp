@@ -21,6 +21,12 @@ namespace BlockChyp.Entities
         public string Id { get; set; }
 
         /// <summary>
+        /// The invoice id for the underlying merchant statement.
+        /// </summary>
+        [JsonProperty(PropertyName = "invoiceId")]
+        public string InvoiceId { get; set; }
+
+        /// <summary>
         /// The total fees charged to the merchant.
         /// </summary>
         [JsonProperty(PropertyName = "totalFees")]
@@ -57,7 +63,7 @@ namespace BlockChyp.Entities
         public string MerchantName { get; set; }
 
         /// <summary>
-        /// The dba name of the merchant
+        /// The dba name of the merchant.
         /// </summary>
         [JsonProperty(PropertyName = "dbaName")]
         public string DbaName { get; set; }

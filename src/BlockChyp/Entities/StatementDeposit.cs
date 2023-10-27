@@ -26,13 +26,13 @@ namespace BlockChyp.Entities
         public long TransactionCount { get; set; }
 
         /// <summary>
-        /// Batch id associated with the deposit.
+        /// The batch id associated with the deposit.
         /// </summary>
         [JsonProperty(PropertyName = "batchId")]
         public string BatchId { get; set; }
 
         /// <summary>
-        /// Are the prepaid fees associated with the batch.
+        /// The prepaid fees associated with the batch.
         /// </summary>
         [JsonProperty(PropertyName = "feesPaid")]
         public float FeesPaid { get; set; }

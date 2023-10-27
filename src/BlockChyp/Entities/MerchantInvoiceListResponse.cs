@@ -33,7 +33,7 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of invoices returned by the request.
         /// </summary>
         [JsonProperty(PropertyName = "invoices")]
         public List<MerchantInvoiceSummary> Invoices { get; set; }

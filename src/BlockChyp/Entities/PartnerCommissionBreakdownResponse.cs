@@ -283,19 +283,21 @@ namespace BlockChyp.Entities
         public string PartnerPercentageFormatted { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of line items documenting how the total buy rate was calculated.
         /// </summary>
         [JsonProperty(PropertyName = "buyRateLineItems")]
         public List<BuyRateLineItem> BuyRateLineItems { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of detail lines describing how revenue was calculated and collected by
+        /// the sponsor bank.
         /// </summary>
         [JsonProperty(PropertyName = "revenueDetails")]
         public List<AggregateBillingLineItem> RevenueDetails { get; set; }
 
         /// <summary>
-        /// 
+        /// The nested list of costs levied by the card brands, grouped by card brand and
+        /// type.
         /// </summary>
         [JsonProperty(PropertyName = "cardBrandCostDetails")]
         public List<AggregateBillingLineItem> CardBrandCostDetails { get; set; }

@@ -107,19 +107,19 @@ namespace BlockChyp.Entities
         public string Status { get; set; }
 
         /// <summary>
-        /// 
+        /// The line item detail associated with the statement.
         /// </summary>
         [JsonProperty(PropertyName = "lineItems")]
         public List<PartnerStatementLineItem> LineItems { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of adjustments made against the statement, if any.
         /// </summary>
         [JsonProperty(PropertyName = "adjustments")]
         public List<PartnerStatementAdjustment> Adjustments { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of partner disbursements made against the partner statement.
         /// </summary>
         [JsonProperty(PropertyName = "disbursements")]
         public List<PartnerStatementDisbursement> Disbursements { get; set; }
