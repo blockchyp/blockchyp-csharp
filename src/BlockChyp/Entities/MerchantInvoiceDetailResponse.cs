@@ -161,19 +161,19 @@ namespace BlockChyp.Entities
         public Address BillingAddress { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of line item details associated with the invoice.
         /// </summary>
         [JsonProperty(PropertyName = "lineItems")]
         public List<InvoiceLineItem> LineItems { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of payments collected against the invoice.
         /// </summary>
         [JsonProperty(PropertyName = "payments")]
         public List<InvoicePayment> Payments { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of merchant settlements disbursed during the statement period.
         /// </summary>
         [JsonProperty(PropertyName = "deposits")]
         public List<StatementDeposit> Deposits { get; set; }

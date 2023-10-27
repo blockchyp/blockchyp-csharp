@@ -33,7 +33,7 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
-        /// 
+        /// The list of statements summaries.
         /// </summary>
         [JsonProperty(PropertyName = "statements")]
         public List<PartnerStatementSummary> Statements { get; set; }
