@@ -1957,6 +1957,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns pricing policy for a merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PricingPolicyResponse> PricingPolicyAsync(PricingPolicyRequest request)
+        {
+            return await GatewayRequestAsync<PricingPolicyResponse>(HttpMethod.Post, "/api/read-pricing-policy", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PricingPolicyAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PricingPolicyResponse PricingPolicy(PricingPolicyRequest request)
+        {
+            return GatewayRequest<PricingPolicyResponse>(HttpMethod.Post, "/api/read-pricing-policy", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Returns a list of partner statements.
         /// </summary>
         /// <param name="request">The request details.</param>
@@ -2030,25 +2049,6 @@ namespace BlockChyp.Client
         public PartnerStatementDetailResponse PartnerStatementDetail(PartnerStatementDetailRequest request)
         {
             return GatewayRequest<PartnerStatementDetailResponse>(HttpMethod.Post, "/api/partner-statement-detail", request, null, request.Test);
-        }
-
-        /// <summary>
-        /// Returns pricing policy for a merchant.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<PricingPolicyResponse> PricingPolicyAsync(PricingPolicyRequest request)
-        {
-            return await GatewayRequestAsync<PricingPolicyResponse>(HttpMethod.Post, "/api/read-pricing-policy", request, null, request.Test)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="PricingPolicyAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public PricingPolicyResponse PricingPolicy(PricingPolicyRequest request)
-        {
-            return GatewayRequest<PricingPolicyResponse>(HttpMethod.Post, "/api/read-pricing-policy", request, null, request.Test);
         }
 
         /// <summary>
