@@ -324,16 +324,28 @@ namespace BlockChyp.Entities
         public bool Recurring { get; set; }
 
         /// <summary>
-        /// Manually sets the CIT (Customer Initiated Transaction) flag
+        /// Manually sets the CIT (Customer Initiated Transaction) flag.
         /// </summary>
         [JsonProperty(PropertyName = "cit")]
         public bool Cit { get; set; }
 
         /// <summary>
-        /// Manually sets the MIT (Merchant Initiated Transaction) flag
+        /// Manually sets the MIT (Merchant Initiated Transaction) flag.
         /// </summary>
         [JsonProperty(PropertyName = "mit")]
         public bool Mit { get; set; }
+
+        /// <summary>
+        /// The purchase order number, if known.
+        /// </summary>
+        [JsonProperty(PropertyName = "purchaseOrderNumber")]
+        public string PurchaseOrderNumber { get; set; }
+
+        /// <summary>
+        /// The supplier reference number, if known.
+        /// </summary>
+        [JsonProperty(PropertyName = "supplierReferenceNumber")]
+        public string SupplierReferenceNumber { get; set; }
 
         /// <summary>
         /// An item to display. Can be overwritten or appended, based on the request type.

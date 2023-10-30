@@ -57,7 +57,7 @@ namespace BlockChyp.Entities
         public string Type { get; set; }
 
         /// <summary>
-        /// Are the role codes assigned to this user.
+        /// The role codes assigned to this user.
         /// </summary>
         [JsonProperty(PropertyName = "roles")]
         public List<string> Roles { get; set; }

@@ -1957,6 +1957,121 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Returns pricing policy for a merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PricingPolicyResponse> PricingPolicyAsync(PricingPolicyRequest request)
+        {
+            return await GatewayRequestAsync<PricingPolicyResponse>(HttpMethod.Post, "/api/read-pricing-policy", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PricingPolicyAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PricingPolicyResponse PricingPolicy(PricingPolicyRequest request)
+        {
+            return GatewayRequest<PricingPolicyResponse>(HttpMethod.Post, "/api/read-pricing-policy", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Returns a list of partner statements.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PartnerStatementListResponse> PartnerStatementsAsync(PartnerStatementListRequest request)
+        {
+            return await GatewayRequestAsync<PartnerStatementListResponse>(HttpMethod.Post, "/api/partner-statement-list", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PartnerStatementsAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PartnerStatementListResponse PartnerStatements(PartnerStatementListRequest request)
+        {
+            return GatewayRequest<PartnerStatementListResponse>(HttpMethod.Post, "/api/partner-statement-list", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Returns detail for a single partner statement.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PartnerStatementDetailResponse> PartnerStatementDetailAsync(PartnerStatementDetailRequest request)
+        {
+            return await GatewayRequestAsync<PartnerStatementDetailResponse>(HttpMethod.Post, "/api/partner-statement-detail", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PartnerStatementDetailAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PartnerStatementDetailResponse PartnerStatementDetail(PartnerStatementDetailRequest request)
+        {
+            return GatewayRequest<PartnerStatementDetailResponse>(HttpMethod.Post, "/api/partner-statement-detail", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Returns a list of merchant invoices.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantInvoiceListResponse> MerchantInvoicesAsync(MerchantInvoiceListRequest request)
+        {
+            return await GatewayRequestAsync<MerchantInvoiceListResponse>(HttpMethod.Post, "/api/merchant-invoice-list", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantInvoicesAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantInvoiceListResponse MerchantInvoices(MerchantInvoiceListRequest request)
+        {
+            return GatewayRequest<MerchantInvoiceListResponse>(HttpMethod.Post, "/api/merchant-invoice-list", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Returns detail for a single merchant-invoice statement.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantInvoiceDetailResponse> MerchantInvoiceDetailAsync(MerchantInvoiceDetailRequest request)
+        {
+            return await GatewayRequestAsync<MerchantInvoiceDetailResponse>(HttpMethod.Post, "/api/merchant-invoice-detail", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantInvoiceDetailAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantInvoiceDetailResponse MerchantInvoiceDetail(MerchantInvoiceDetailRequest request)
+        {
+            return GatewayRequest<MerchantInvoiceDetailResponse>(HttpMethod.Post, "/api/merchant-invoice-detail", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Returns low level details for how partner commissions were calculated for a
+        /// specific merchant statement.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PartnerCommissionBreakdownResponse> PartnerCommissionBreakdownAsync(PartnerCommissionBreakdownRequest request)
+        {
+            return await GatewayRequestAsync<PartnerCommissionBreakdownResponse>(HttpMethod.Post, "/api/partner-commission-breakdown", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="PartnerCommissionBreakdownAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PartnerCommissionBreakdownResponse PartnerCommissionBreakdown(PartnerCommissionBreakdownRequest request)
+        {
+            return GatewayRequest<PartnerCommissionBreakdownResponse>(HttpMethod.Post, "/api/partner-commission-breakdown", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Returns profile information for a merchant.
         /// </summary>
         /// <param name="request">The request details.</param>
