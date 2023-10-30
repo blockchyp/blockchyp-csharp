@@ -3349,6 +3349,226 @@ Console.WriteLine(response);
 
 ```
 
+### Partner Utilities
+
+
+These partner only APIs give ISV partners advanced reporting and tools for managing their portfolio.
+
+Most of the APIs below are for portfolio reporting and range from basic partner commission statements
+to individual statements with all underlying card brand data.
+
+We also provide a pricing policy API that enables partners to pull down the current pricing rules
+in force for any merchant in their portfolio.
+
+<aside class="info">
+<b>Currency Data</b>
+<p>
+All partner APIs return currency and percentage values in two formats: floating point and formatted strings.
+</p>
+<p>
+It's recommended that all developers use the formatted string as this will ensure the most precise values.
+Floating point numbers are usually not appropriate for currency or fixed point decimal numbers as
+the underlying binary encoding can lead to errors in precision.  We provide floating point values
+only as a convenience for developers want to save development time and can live with approximated
+values in their use case.
+</p>
+</aside>
+
+
+
+#### Retrieve Pricing Policy
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Partner API Access
+
+The API returns the current pricing policy for a merchant.  This API is valid for partner scoped API credentials
+and `merchantId` is a required parameter.  By default this API returns the currently in-force pricing policy for a merchant,
+but other inactive policies can be returned by providing the `id` parameter.
+
+Buy rates for interchange plus and fixed rate pricing are always returned, but only the pricing related to the 
+pricing model type (flat rate or interchange plus) are actually used in fee calculation.
+
+Each pricing level returns three values: `buyRate`, `current`, and `limit`.  The actual price the merchant will pay is 
+given in the `current` field.  The other values reflect the contract minimum (`buyRate`) and maximum (`limit`) range
+the partner can use when changing prices.
+
+
+
+
+```c#
+// Populate request parameters.
+PricingPolicyRequest request = new PricingPolicyRequest
+{
+
+};
+
+// Run the transaction.
+PricingPolicyResponse response = await blockchyp.PricingPolicyAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Partner Statements
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Partner API Access
+
+The API returns a list of partner residual statements.  By default, all statements are returned with the most recent
+statements listed first.  Optional date parameters (`startDate` and `endDate`) can filter statements to a specific date range.
+
+The list of statements returns basic information about statements like volume, transaction count, and commissions earned.
+
+Use the `id` returned with each statement summary with the *Partner Statement Detail* API to pull down full details.
+
+
+
+
+```c#
+// Populate request parameters.
+PartnerStatementListRequest request = new PartnerStatementListRequest
+{
+
+};
+
+// Run the transaction.
+PartnerStatementListResponse response = await blockchyp.PartnerStatementsAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Partner Statement Detail
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Partner API Access
+
+The API returns detailed information about a specific partner statement.  Aggregate data is returned along with
+line item level data for each underlying merchant statement.
+
+Use the merchant invoice id with the *Merchant Statement Detail* API and the *Partner Commission Breakdown* API 
+to get the merchant statement and the card brand fee cost breakdown respectively.
+
+
+
+
+```c#
+// Populate request parameters.
+PartnerStatementDetailRequest request = new PartnerStatementDetailRequest
+{
+
+};
+
+// Run the transaction.
+PartnerStatementDetailResponse response = await blockchyp.PartnerStatementDetailAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Merchant Invoices
+
+
+
+* **API Credential Types:** Partner or Merchant
+* **Required Role:** Partner API Access or Merchant API 
+
+The API returns a list of merchant statements and invoices.  By default, all invoices are returned with the most recent
+statements listed first.  Optional date parameters (`startDate` and `endDate`) can be used to filter statements by date
+range. 
+
+The `invoiceType` parameter can also be used to filter invoices by type.  Invoices could be conventional invoices, such
+as those generated when ordering terminals or gift cards, or invoices could be merchant statements.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantInvoiceListRequest request = new MerchantInvoiceListRequest
+{
+
+};
+
+// Run the transaction.
+MerchantInvoiceListResponse response = await blockchyp.MerchantInvoicesAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Merchant Invoice Detail
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Partner API Access
+
+The API returns detailed information about a specific merchant statement or invoice.
+
+All line items are returned a topographically sorted tree modeling the nested line item structure of the 
+invoice.  Details about any payments posted against the invoice are returned.
+
+It the invoice is a merchant statement, details about every merchant deposit that occurred during the statement period
+are also returned.
+
+
+
+
+```c#
+// Populate request parameters.
+MerchantInvoiceDetailRequest request = new MerchantInvoiceDetailRequest
+{
+
+};
+
+// Run the transaction.
+MerchantInvoiceDetailResponse response = await blockchyp.MerchantInvoiceDetailAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Partner Commission Breakdown
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Partner API Access
+
+This API allows partners to pull down the low level data used to compute a partner commission for a specific merchant statement.
+
+The `statementId` is required and must be the id of a valid merchant invoice of type `statement`.
+
+
+
+
+```c#
+// Populate request parameters.
+PartnerCommissionBreakdownRequest request = new PartnerCommissionBreakdownRequest
+{
+
+};
+
+// Run the transaction.
+PartnerCommissionBreakdownResponse response = await blockchyp.PartnerCommissionBreakdownAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 
 
 

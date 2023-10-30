@@ -302,5 +302,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "asyncReversals")]
         public bool AsyncReversals { get; set; }
+
+        /// <summary>
+        /// Manually sets the CIT (Customer Initiated Transaction) flag.
+        /// </summary>
+        [JsonProperty(PropertyName = "cit")]
+        public bool Cit { get; set; }
+
+        /// <summary>
+        /// Manually sets the MIT (Merchant Initiated Transaction) flag.
+        /// </summary>
+        [JsonProperty(PropertyName = "mit")]
+        public bool Mit { get; set; }
     }
 }
