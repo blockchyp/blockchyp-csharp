@@ -133,5 +133,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "taxAmount")]
         public string TaxAmount { get; set; }
+
+        /// <summary>
+        /// The number of shipments the original authorization will be broken into.
+        /// </summary>
+        [JsonProperty(PropertyName = "shipmentCount")]
+        public int ShipmentCount { get; set; }
+
+        /// <summary>
+        /// Which shipment this particular capture is for.
+        /// </summary>
+        [JsonProperty(PropertyName = "shipmentNumber")]
+        public int ShipmentNumber { get; set; }
     }
 }
