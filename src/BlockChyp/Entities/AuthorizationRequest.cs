@@ -336,6 +336,12 @@ namespace BlockChyp.Entities
         public bool Mit { get; set; }
 
         /// <summary>
+        /// Indicates that this transaction should be treated as a subscription recurring transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "subscription")]
+        public bool Subscription { get; set; }
+
+        /// <summary>
         /// The purchase order number, if known.
         /// </summary>
         [JsonProperty(PropertyName = "purchaseOrderNumber")]

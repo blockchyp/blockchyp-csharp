@@ -210,5 +210,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "customer")]
         public Customer Customer { get; set; }
+
+        /// <summary>
+        /// That this transaction should be treated as a recurring transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "recurring")]
+        public bool Recurring { get; set; }
+
+        /// <summary>
+        /// Indicates that this transaction should be treated as a subscription recurring transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "subscription")]
+        public bool Subscription { get; set; }
     }
 }
