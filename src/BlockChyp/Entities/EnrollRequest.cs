@@ -1,4 +1,4 @@
-// Copyright 2019-2023 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2024 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -218,7 +218,8 @@ namespace BlockChyp.Entities
         public bool Recurring { get; set; }
 
         /// <summary>
-        /// Indicates that this transaction should be treated as a subscription recurring transaction.
+        /// That this transaction and any using this token should be treated as a
+        /// subscription recurring transaction.
         /// </summary>
         [JsonProperty(PropertyName = "subscription")]
         public bool Subscription { get; set; }
