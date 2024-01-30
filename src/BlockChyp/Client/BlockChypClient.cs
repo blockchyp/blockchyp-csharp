@@ -2072,6 +2072,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Generates and returns api credentials for a given merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantCredentialGenerationResponse> MerchantCredentialGenerationAsync(MerchantCredentialGenerationRequest request)
+        {
+            return await GatewayRequestAsync<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/creds/generateMerchant", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantCredentialGenerationAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantCredentialGenerationResponse MerchantCredentialGeneration(MerchantCredentialGenerationRequest request)
+        {
+            return GatewayRequest<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/creds/generateMerchant", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Returns profile information for a merchant.
         /// </summary>
         /// <param name="request">The request details.</param>
