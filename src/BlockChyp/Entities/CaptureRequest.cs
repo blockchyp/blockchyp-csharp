@@ -1,4 +1,4 @@
-// Copyright 2019-2023 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2024 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -133,5 +133,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "taxAmount")]
         public string TaxAmount { get; set; }
+
+        /// <summary>
+        /// The number of shipments the original authorization will be broken into.
+        /// </summary>
+        [JsonProperty(PropertyName = "shipmentCount")]
+        public int ShipmentCount { get; set; }
+
+        /// <summary>
+        /// Which shipment this particular capture is for.
+        /// </summary>
+        [JsonProperty(PropertyName = "shipmentNumber")]
+        public int ShipmentNumber { get; set; }
     }
 }

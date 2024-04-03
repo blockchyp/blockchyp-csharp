@@ -1,4 +1,4 @@
-// Copyright 2019-2023 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2024 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -2069,6 +2069,25 @@ namespace BlockChyp.Client
         public PartnerCommissionBreakdownResponse PartnerCommissionBreakdown(PartnerCommissionBreakdownRequest request)
         {
             return GatewayRequest<PartnerCommissionBreakdownResponse>(HttpMethod.Post, "/api/partner-commission-breakdown", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Generates and returns api credentials for a given merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantCredentialGenerationResponse> MerchantCredentialGenerationAsync(MerchantCredentialGenerationRequest request)
+        {
+            return await GatewayRequestAsync<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/creds/generateMerchant", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantCredentialGenerationAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantCredentialGenerationResponse MerchantCredentialGeneration(MerchantCredentialGenerationRequest request)
+        {
+            return GatewayRequest<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/creds/generateMerchant", request, null, request.Test);
         }
 
         /// <summary>
