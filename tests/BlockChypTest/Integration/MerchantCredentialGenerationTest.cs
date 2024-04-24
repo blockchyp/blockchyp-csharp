@@ -22,6 +22,7 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+        [Trait("Category", "partner")]
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_MerchantCredentialGenerationTest()
@@ -29,13 +30,25 @@ namespace BlockChypTest.Integration
 
 
 
-            UseProfile("");
+            UseProfile("partner");
+
+            AddTestMerchantRequest setupRequest = new AddTestMerchantRequest
+            {
+                DbaName = "Test Merchant",
+                CompanyName = "Test Merchant",
+            };
+
+            output.WriteLine("Setup request: {0}", setupRequest);
+
+            MerchantProfileResponse setupResponse = await blockchyp.AddTestMerchantAsync(setupRequest);
+
+            output.WriteLine("Setup Response: {0}", setupResponse);
 
 
             MerchantCredentialGenerationRequest request = new MerchantCredentialGenerationRequest
             {
                 Test = true,
-                MerchantId = "<MERCHANT ID>",
+                MerchantId = setupResponse.MerchantId,
             };
 
             output.WriteLine("Request: {0}", request);

@@ -22,6 +22,7 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+        [Trait("Category", "partner")]
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_PartnerStatementDetailTest()
@@ -29,7 +30,7 @@ namespace BlockChypTest.Integration
 
 
 
-            UseProfile("");
+            UseProfile("partner");
 
 
             PartnerStatementDetailRequest request = new PartnerStatementDetailRequest

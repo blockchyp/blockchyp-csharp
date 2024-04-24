@@ -72,6 +72,7 @@ namespace BlockChypTest.Integration
 
             ResendPaymentLinkRequest request = new ResendPaymentLinkRequest
             {
+                Test = true,
                 LinkCode = setupResponse.LinkCode,
             };
 

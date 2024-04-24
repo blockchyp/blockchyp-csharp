@@ -293,6 +293,12 @@ namespace BlockChyp.Entities
         public bool Enroll { get; set; }
 
         /// <summary>
+        /// Duplicate detection should be bypassed.
+        /// </summary>
+        [JsonProperty(PropertyName = "bypassDupeFilter")]
+        public bool BypassDupeFilter { get; set; }
+
+        /// <summary>
         /// A narrative description of the transaction.
         /// </summary>
         [JsonProperty(PropertyName = "description")]
