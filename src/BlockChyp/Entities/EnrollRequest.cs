@@ -1,4 +1,4 @@
-// Copyright 2019-2023 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2024 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -210,5 +210,18 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "customer")]
         public Customer Customer { get; set; }
+
+        /// <summary>
+        /// That this transaction should be treated as a recurring transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "recurring")]
+        public bool Recurring { get; set; }
+
+        /// <summary>
+        /// That this transaction and any using this token should be treated as a
+        /// subscription recurring transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "subscription")]
+        public bool Subscription { get; set; }
     }
 }

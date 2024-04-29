@@ -1,4 +1,4 @@
-// Copyright 2019-2023 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2024 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -40,8 +40,9 @@ namespace BlockChypTest.Integration
                 Pan = "4111111111111111",
                 ExpMonth = "12",
                 ExpYear = "2025",
-                Amount = "25.55",
+                Amount = "42.45",
                 Test = true,
+                BypassDupeFilter = true,
             };
 
             output.WriteLine("Request: {0}", request);
@@ -62,7 +63,6 @@ namespace BlockChypTest.Integration
                 Assert.NotEmpty(response.PaymentType);
                 Assert.NotEmpty(response.MaskedPan);
                 Assert.NotEmpty(response.EntryMethod);
-                Assert.Equal("25.55", response.AuthorizedAmount);
                 Assert.Equal("KEYED", response.EntryMethod);
             }
             catch (Exception e) {

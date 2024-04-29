@@ -1,4 +1,4 @@
-// Copyright 2019-2023 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2024 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -293,6 +293,12 @@ namespace BlockChyp.Entities
         public bool Enroll { get; set; }
 
         /// <summary>
+        /// Duplicate detection should be bypassed.
+        /// </summary>
+        [JsonProperty(PropertyName = "bypassDupeFilter")]
+        public bool BypassDupeFilter { get; set; }
+
+        /// <summary>
         /// A narrative description of the transaction.
         /// </summary>
         [JsonProperty(PropertyName = "description")]
@@ -334,6 +340,13 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "mit")]
         public bool Mit { get; set; }
+
+        /// <summary>
+        /// That this transaction should be treated as a subscription recurring
+        /// transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "subscription")]
+        public bool Subscription { get; set; }
 
         /// <summary>
         /// The purchase order number, if known.
