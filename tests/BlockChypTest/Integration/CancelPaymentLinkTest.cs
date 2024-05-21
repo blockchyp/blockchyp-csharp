@@ -72,6 +72,7 @@ namespace BlockChypTest.Integration
 
             CancelPaymentLinkRequest request = new CancelPaymentLinkRequest
             {
+                Test = true,
                 LinkCode = setupResponse.LinkCode,
             };
 

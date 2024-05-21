@@ -22,6 +22,7 @@ namespace BlockChypTest.Integration
             this.output = output;
         }
 
+        [Trait("Category", "partner")]
         [Trait("Category", "Integration")]
         [Fact]
         public async void Run_PartnerCommissionBreakdownTest()
@@ -29,7 +30,7 @@ namespace BlockChypTest.Integration
 
 
 
-            UseProfile("");
+            UseProfile("partner");
 
 
             PartnerCommissionBreakdownRequest request = new PartnerCommissionBreakdownRequest

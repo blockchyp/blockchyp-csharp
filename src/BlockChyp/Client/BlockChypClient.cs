@@ -956,6 +956,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Generates and returns api credentials for a given merchant.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantCredentialGenerationResponse> MerchantCredentialGenerationAsync(MerchantCredentialGenerationRequest request)
+        {
+            return await DashboardRequestAsync<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/generate-merchant-creds", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="MerchantCredentialGenerationAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantCredentialGenerationResponse MerchantCredentialGeneration(MerchantCredentialGenerationRequest request)
+        {
+            return DashboardRequest<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/generate-merchant-creds", request, null);
+        }
+
+        /// <summary>
         /// Adds a test merchant account.
         /// </summary>
         /// <param name="request">The request details.</param>
@@ -2069,25 +2088,6 @@ namespace BlockChyp.Client
         public PartnerCommissionBreakdownResponse PartnerCommissionBreakdown(PartnerCommissionBreakdownRequest request)
         {
             return GatewayRequest<PartnerCommissionBreakdownResponse>(HttpMethod.Post, "/api/partner-commission-breakdown", request, null, request.Test);
-        }
-
-        /// <summary>
-        /// Generates and returns api credentials for a given merchant.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public async Task<MerchantCredentialGenerationResponse> MerchantCredentialGenerationAsync(MerchantCredentialGenerationRequest request)
-        {
-            return await GatewayRequestAsync<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/creds/generateMerchant", request, null, request.Test)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Synchronous form of <see cref="MerchantCredentialGenerationAsync"/>.
-        /// </summary>
-        /// <param name="request">The request details.</param>
-        public MerchantCredentialGenerationResponse MerchantCredentialGeneration(MerchantCredentialGenerationRequest request)
-        {
-            return GatewayRequest<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/creds/generateMerchant", request, null, request.Test);
         }
 
         /// <summary>

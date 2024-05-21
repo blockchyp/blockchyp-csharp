@@ -36,8 +36,9 @@ namespace BlockChypTest.Integration
                 Pan = "4111111111111111",
                 ExpMonth = "12",
                 ExpYear = "2025",
-                Amount = "25.55",
+                Amount = "42.45",
                 Test = true,
+                BypassDupeFilter = true,
             };
 
             output.WriteLine("Setup request: {0}", setupRequest);
