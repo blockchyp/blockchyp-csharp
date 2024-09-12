@@ -3291,6 +3291,41 @@ Console.WriteLine(response);
 
 ```
 
+#### Add Gateway Merchant
+
+
+
+* **API Credential Types:** Partner
+* **Required Role:** Gateway Boarding
+
+This is a partner level API that can be used to manually board gateway merchants.  Use this API in conjunction
+with Platform Configuration to instantly board gateway merchants.  Note that most partners don't have 
+permission to do this and are unlikely to get it.
+
+Settings can be changed by using the Update Merchant API.
+
+
+
+
+```c#
+// Populate request parameters.
+AddGatewayMerchantRequest request = new AddGatewayMerchantRequest
+{
+    Profile = new MerchantProfile
+    {
+        DbaName = "DBA Name",
+        CompanyName = "Corporate Entity Name",
+    },
+};
+
+// Run the transaction.
+MerchantProfileResponse response = await blockchyp.AddGatewayMerchantAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Add Test Merchant
 
 
