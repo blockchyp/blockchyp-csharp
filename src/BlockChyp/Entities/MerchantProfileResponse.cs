@@ -45,6 +45,12 @@ namespace BlockChyp.Entities
         public string MerchantId { get; set; }
 
         /// <summary>
+        /// The primary bank mid.
+        /// </summary>
+        [JsonProperty(PropertyName = "bankMid")]
+        public string BankMid { get; set; }
+
+        /// <summary>
         /// The merchant's company name.
         /// </summary>
         [JsonProperty(PropertyName = "companyName")]
