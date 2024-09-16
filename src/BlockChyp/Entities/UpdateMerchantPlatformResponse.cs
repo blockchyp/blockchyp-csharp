@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Merchant api credential data.
+    /// Echoes back the state of the current platform configuration after a change.
     /// </summary>
-    public class MerchantCredentialGenerationResponse : BaseEntity, IAbstractAcknowledgement
+    public class UpdateMerchantPlatformResponse : BaseEntity, IAbstractAcknowledgement
     {
         /// <summary>
         /// Whether or not the request succeeded.
@@ -32,27 +32,9 @@ namespace BlockChyp.Entities
         public string ResponseDescription { get; set; }
 
         /// <summary>
-        /// The merchant api key.
+        /// The current platform configuration.
         /// </summary>
-        [JsonProperty(PropertyName = "apiKey")]
-        public string ApiKey { get; set; }
-
-        /// <summary>
-        /// The merchant bearer token.
-        /// </summary>
-        [JsonProperty(PropertyName = "bearerToken")]
-        public string BearerToken { get; set; }
-
-        /// <summary>
-        /// The merchant signing key.
-        /// </summary>
-        [JsonProperty(PropertyName = "signingKey")]
-        public string SigningKey { get; set; }
-
-        /// <summary>
-        /// The tokenizing key.
-        /// </summary>
-        [JsonProperty(PropertyName = "tokenizingKey")]
-        public string TokenizingKey { get; set; }
+        [JsonProperty(PropertyName = "platform")]
+        public MerchantPlatform Platform { get; set; }
     }
 }

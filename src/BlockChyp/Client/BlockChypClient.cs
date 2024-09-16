@@ -1052,6 +1052,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Adds a live gateway merchant account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<MerchantProfileResponse> AddGatewayMerchantAsync(AddGatewayMerchantRequest request)
+        {
+            return await DashboardRequestAsync<MerchantProfileResponse>(HttpMethod.Post, "/api/add-gateway-merchant", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="AddGatewayMerchantAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public MerchantProfileResponse AddGatewayMerchant(AddGatewayMerchantRequest request)
+        {
+            return DashboardRequest<MerchantProfileResponse>(HttpMethod.Post, "/api/add-gateway-merchant", request, null);
+        }
+
+        /// <summary>
         /// Adds a test merchant account.
         /// </summary>
         /// <param name="request">The request details.</param>

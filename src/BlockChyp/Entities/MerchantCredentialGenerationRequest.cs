@@ -49,5 +49,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "notes")]
         public string Notes { get; set; }
+
+        /// <summary>
+        /// Type of credentials to generate, either API or TOKENIZING. Defaults to API.
+        /// </summary>
+        [JsonProperty(PropertyName = "credentialType")]
+        public string CredentialType { get; set; }
     }
 }
