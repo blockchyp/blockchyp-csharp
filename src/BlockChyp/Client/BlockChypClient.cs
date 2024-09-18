@@ -975,6 +975,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Submits and application to add a new merchant account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> SubmitApplicationAsync(SubmitApplicationRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/submit-application", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SubmitApplicationAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement SubmitApplication(SubmitApplicationRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Post, "/api/submit-application", request, null);
+        }
+
+        /// <summary>
         /// Adds a test merchant account.
         /// </summary>
         /// <param name="request">The request details.</param>
