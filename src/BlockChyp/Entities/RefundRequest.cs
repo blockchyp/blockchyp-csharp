@@ -280,8 +280,8 @@ namespace BlockChyp.Entities
         /// <summary>
         /// Details for HSA/FSA transactions.
         /// </summary>
-        [JsonProperty(PropertyName = "healthcare")]
-        public Healthcare Healthcare { get; set; }
+        [JsonProperty(PropertyName = "healthcareMetadata")]
+        public HealthcareMetadata HealthcareMetadata { get; set; }
 
         /// <summary>
         /// Instructs the terminal to simulate a post auth chip rejection that would
@@ -314,5 +314,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "mit")]
         public bool Mit { get; set; }
+
+        /// <summary>
+        /// That this transaction will include a card metadata lookup.
+        /// </summary>
+        [JsonProperty(PropertyName = "cardMetadataLookup")]
+        public bool CardMetadataLookup { get; set; }
     }
 }

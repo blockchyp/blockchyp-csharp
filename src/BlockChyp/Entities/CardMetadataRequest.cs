@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// The information needed to enroll a new payment method in the token vault.
+    /// Retrieves card metadata.
     /// </summary>
-    public class EnrollRequest : BaseEntity, ITimeoutRequest, ICoreRequest, IPaymentMethod, ITerminalReference
+    public class CardMetadataRequest : BaseEntity, ITimeoutRequest, ICoreRequest, IPaymentMethod, ITerminalReference
     {
         /// <summary>
         /// The request timeout in seconds.
@@ -200,34 +200,9 @@ namespace BlockChyp.Entities
         public bool ResetConnection { get; set; }
 
         /// <summary>
-        /// The method by which the payment card was entered (MSR, CHIP, KEYED, etc.).
+        /// Marks a transaction as HSA/FSA.
         /// </summary>
-        [JsonProperty(PropertyName = "entryMethod")]
-        public string EntryMethod { get; set; }
-
-        /// <summary>
-        /// Customer with which the new token should be associated.
-        /// </summary>
-        [JsonProperty(PropertyName = "customer")]
-        public Customer Customer { get; set; }
-
-        /// <summary>
-        /// That this transaction should be treated as a recurring transaction.
-        /// </summary>
-        [JsonProperty(PropertyName = "recurring")]
-        public bool Recurring { get; set; }
-
-        /// <summary>
-        /// That this transaction and any using this token should be treated as a
-        /// subscription recurring transaction.
-        /// </summary>
-        [JsonProperty(PropertyName = "subscription")]
-        public bool Subscription { get; set; }
-
-        /// <summary>
-        /// That this transaction will include a card metadata lookup.
-        /// </summary>
-        [JsonProperty(PropertyName = "cardMetadataLookup")]
-        public bool CardMetadataLookup { get; set; }
+        [JsonProperty(PropertyName = "healthcare")]
+        public bool Healthcare { get; set; }
     }
 }
