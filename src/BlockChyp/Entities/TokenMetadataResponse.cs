@@ -36,5 +36,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "token")]
         public CustomerToken Token { get; set; }
+
+        /// <summary>
+        /// Details about a payment card derived from its BIN/IIN.
+        /// </summary>
+        [JsonProperty(PropertyName = "cardMetadata")]
+        public CardMetadata CardMetadata { get; set; }
     }
 }

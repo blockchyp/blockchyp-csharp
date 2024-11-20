@@ -352,6 +352,49 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Retrieves card metadata.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<CardMetadataResponse> CardMetadataAsync(CardMetadataRequest request)
+        {
+            ISignatureRequest signatureRequest = request as ISignatureRequest;
+            if (signatureRequest != null)
+            {
+                PopulateSignatureOptions(signatureRequest);
+            }
+
+            CardMetadataResponse response;
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                response = await TerminalRequestAsync<CardMetadataResponse>(HttpMethod.Post, "/api/card-metadata", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response = await GatewayRequestAsync<CardMetadataResponse>(HttpMethod.Post, "/api/card-metadata", request, null, request.Test, relay: true)
+                    .ConfigureAwait(false);
+            }
+
+            ISignatureResponse signatureResponse = response as ISignatureResponse;
+            if (signatureRequest != null && signatureResponse != null)
+            {
+                DumpSignatureFile(signatureRequest, signatureResponse);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="CardMetadataAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public CardMetadataResponse CardMetadata(CardMetadataRequest request)
+        {
+            return CardMetadataAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
         /// Activates or recharges a gift card.
         /// </summary>
         /// <param name="request">The request details.</param>
@@ -972,6 +1015,25 @@ namespace BlockChyp.Client
         public MerchantCredentialGenerationResponse MerchantCredentialGeneration(MerchantCredentialGenerationRequest request)
         {
             return DashboardRequest<MerchantCredentialGenerationResponse>(HttpMethod.Post, "/api/generate-merchant-creds", request, null);
+        }
+
+        /// <summary>
+        /// Submits and application to add a new merchant account.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<Acknowledgement> SubmitApplicationAsync(SubmitApplicationRequest request)
+        {
+            return await DashboardRequestAsync<Acknowledgement>(HttpMethod.Post, "/api/submit-application", request, null)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SubmitApplicationAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public Acknowledgement SubmitApplication(SubmitApplicationRequest request)
+        {
+            return DashboardRequest<Acknowledgement>(HttpMethod.Post, "/api/submit-application", request, null);
         }
 
         /// <summary>

@@ -389,8 +389,8 @@ namespace BlockChyp.Entities
         /// <summary>
         /// Details for HSA/FSA transactions.
         /// </summary>
-        [JsonProperty(PropertyName = "healthcare")]
-        public Healthcare Healthcare { get; set; }
+        [JsonProperty(PropertyName = "healthcareMetadata")]
+        public HealthcareMetadata HealthcareMetadata { get; set; }
 
         /// <summary>
         /// That the transaction should be a cryptocurrency transaction. Value should be a
@@ -455,5 +455,29 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "passthroughSurcharge")]
         public string PassthroughSurcharge { get; set; }
+
+        /// <summary>
+        /// Marks a transaction as HSA/FSA.
+        /// </summary>
+        [JsonProperty(PropertyName = "healthcare")]
+        public bool Healthcare { get; set; }
+
+        /// <summary>
+        /// The total amount to process as healthcare.
+        /// </summary>
+        [JsonProperty(PropertyName = "healthcareTotal")]
+        public string HealthcareTotal { get; set; }
+
+        /// <summary>
+        /// The total amount to process as ebt.
+        /// </summary>
+        [JsonProperty(PropertyName = "ebtTotal")]
+        public string EbtTotal { get; set; }
+
+        /// <summary>
+        /// That this transaction will include a card metadata lookup.
+        /// </summary>
+        [JsonProperty(PropertyName = "cardMetadataLookup")]
+        public bool CardMetadataLookup { get; set; }
     }
 }
