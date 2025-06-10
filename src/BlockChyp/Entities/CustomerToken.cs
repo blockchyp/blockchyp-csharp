@@ -45,6 +45,30 @@ namespace BlockChyp.Entities
         public string PaymentType { get; set; }
 
         /// <summary>
+        /// Bank account type (checking, saving).
+        /// </summary>
+        [JsonProperty(PropertyName = "accountType")]
+        public string AccountType { get; set; }
+
+        /// <summary>
+        /// Bank account holder type (personal, business).
+        /// </summary>
+        [JsonProperty(PropertyName = "accountHolderType")]
+        public string AccountHolderType { get; set; }
+
+        /// <summary>
+        /// Bank name.
+        /// </summary>
+        [JsonProperty(PropertyName = "bankName")]
+        public string BankName { get; set; }
+
+        /// <summary>
+        /// Routing number.
+        /// </summary>
+        [JsonProperty(PropertyName = "routingNumber")]
+        public string RoutingNumber { get; set; }
+
+        /// <summary>
         /// Models customer records associated with a payment token.
         /// </summary>
         [JsonProperty(PropertyName = "customers")]

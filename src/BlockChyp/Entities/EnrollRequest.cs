@@ -229,5 +229,23 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "cardMetadataLookup")]
         public bool CardMetadataLookup { get; set; }
+
+        /// <summary>
+        /// The type of account (checking, savings, etc) for an ACH payment method.
+        /// </summary>
+        [JsonProperty(PropertyName = "accountType")]
+        public string AccountType { get; set; }
+
+        /// <summary>
+        /// The type of account holder (personal, business, etc) for an ACH payment method.
+        /// </summary>
+        [JsonProperty(PropertyName = "accountHolderType")]
+        public string AccountHolderType { get; set; }
+
+        /// <summary>
+        /// The bank name for an ACH payment method.
+        /// </summary>
+        [JsonProperty(PropertyName = "bankName")]
+        public string BankName { get; set; }
     }
 }
