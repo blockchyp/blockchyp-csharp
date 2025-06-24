@@ -230,5 +230,18 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "bankName")]
         public string BankName { get; set; }
+
+        /// <summary>
+        /// The token hash (generated with a static salt, Merchant ID, Registration Date
+        /// and PAN).
+        /// </summary>
+        [JsonProperty(PropertyName = "tokenHash")]
+        public string TokenHash { get; set; }
+
+        /// <summary>
+        /// The first 8 digits of the card aka the BIN.
+        /// </summary>
+        [JsonProperty(PropertyName = "bin")]
+        public string Bin { get; set; }
     }
 }
