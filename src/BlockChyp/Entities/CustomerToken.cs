@@ -69,6 +69,19 @@ namespace BlockChyp.Entities
         public string RoutingNumber { get; set; }
 
         /// <summary>
+        /// Token hash (generated with a static salt, Merchant ID, Registration Date and
+        /// PAN.
+        /// </summary>
+        [JsonProperty(PropertyName = "tokenHash")]
+        public string TokenHash { get; set; }
+
+        /// <summary>
+        /// Card bin.
+        /// </summary>
+        [JsonProperty(PropertyName = "bin")]
+        public string Bin { get; set; }
+
+        /// <summary>
         /// Models customer records associated with a payment token.
         /// </summary>
         [JsonProperty(PropertyName = "customers")]
