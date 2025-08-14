@@ -77,6 +77,11 @@ namespace BlockChyp.Entities
         AvsResponse AvsResponse { get; set; }
 
         /// <summary>
+        /// The CVV verification result if CVV was submitted.
+        /// </summary>
+        string CvvResponse { get; set; }
+
+        /// <summary>
         /// Suggested receipt fields.
         /// </summary>
         ReceiptSuggestions ReceiptSuggestions { get; set; }

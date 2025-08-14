@@ -165,6 +165,12 @@ namespace BlockChyp.Entities
         public AvsResponse AvsResponse { get; set; }
 
         /// <summary>
+        /// The CVV verification result if CVV was submitted.
+        /// </summary>
+        [JsonProperty(PropertyName = "cvvResponse")]
+        public string CvvResponse { get; set; }
+
+        /// <summary>
         /// Suggested receipt fields.
         /// </summary>
         [JsonProperty(PropertyName = "receiptSuggestions")]

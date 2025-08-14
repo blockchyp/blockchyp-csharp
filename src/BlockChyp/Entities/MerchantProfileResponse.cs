@@ -354,5 +354,36 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "passthroughSurchargeEnabled")]
         public bool PassthroughSurchargeEnabled { get; set; }
+
+        /// <summary>
+        /// That CVV verification is enabled for manually entered transactions.
+        /// </summary>
+        [JsonProperty(PropertyName = "cvvVerificationEnabled")]
+        public bool CvvVerificationEnabled { get; set; }
+
+        /// <summary>
+        /// That CVV mismatch (N) responses should be declined.
+        /// </summary>
+        [JsonProperty(PropertyName = "cvvVerificationNEnabled")]
+        public bool CvvVerificationNenabled { get; set; }
+
+        /// <summary>
+        /// That CVV not processed (P) responses should be declined.
+        /// </summary>
+        [JsonProperty(PropertyName = "cvvVerificationPEnabled")]
+        public bool CvvVerificationPenabled { get; set; }
+
+        /// <summary>
+        /// That CVV should be on card but is not indicated (S) responses should be declined.
+        /// </summary>
+        [JsonProperty(PropertyName = "cvvVerificationSEnabled")]
+        public bool CvvVerificationSenabled { get; set; }
+
+        /// <summary>
+        /// That issuer not certified or has not provided encryption key (U) responses
+        /// should be declined.
+        /// </summary>
+        [JsonProperty(PropertyName = "cvvVerificationUEnabled")]
+        public bool CvvVerificationUenabled { get; set; }
     }
 }
