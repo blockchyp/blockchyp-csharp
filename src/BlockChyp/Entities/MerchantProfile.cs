@@ -394,5 +394,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "followPartnerAvsSettings")]
         public bool FollowPartnerAvsSettings { get; set; }
+
+        /// <summary>
+        /// Flag indicating whether or not account updater is enrolled. Note that only
+        /// merchant's whose partner is enrolled will be processed by the account updater.
+        /// </summary>
+        [JsonProperty(PropertyName = "accountUpdaterEnrolled")]
+        public bool AccountUpdaterEnrolled { get; set; }
     }
 }
