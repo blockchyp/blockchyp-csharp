@@ -396,7 +396,7 @@ namespace BlockChyp.Entities
         /// The AVS (Address Verification Service) rule to apply. Allowed values are
         /// 'allow_all', 'require_full_match', 'require_zip_match',
         /// 'require_address_match'. If avsRule is empty, then merchant follows partner
-        /// setting
+        /// setting.
         /// </summary>
         [JsonProperty(PropertyName = "avsRule")]
         public string AvsRule { get; set; }
