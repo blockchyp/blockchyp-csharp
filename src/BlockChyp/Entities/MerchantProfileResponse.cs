@@ -387,6 +387,12 @@ namespace BlockChyp.Entities
         public bool CvvVerificationUenabled { get; set; }
 
         /// <summary>
+        /// That the merchant follows the partner's CVV settings.
+        /// </summary>
+        [JsonProperty(PropertyName = "followPartnerCvvSettings")]
+        public bool FollowPartnerCvvSettings { get; set; }
+
+        /// <summary>
         /// The AVS (Address Verification Service) rule to apply. Allowed values are
         /// 'allow_all', 'require_full_match', 'require_zip_match',
         /// 'require_address_match'. If avsRule is empty, then merchant follows partner
@@ -394,6 +400,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "avsRule")]
         public string AvsRule { get; set; }
+
+        /// <summary>
+        /// That the merchant follows the partner's AVS settings.
+        /// </summary>
+        [JsonProperty(PropertyName = "followPartnerAvsSettings")]
+        public bool FollowPartnerAvsSettings { get; set; }
 
         /// <summary>
         /// Flag indicating whether or not account updater is enrolled. Note that only
