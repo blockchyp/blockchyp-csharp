@@ -401,5 +401,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "accountUpdaterEnrolled")]
         public bool AccountUpdaterEnrolled { get; set; }
+
+        /// <summary>
+        /// Whether the merchant should bypass an auth with TSYS on Enrollment.
+        /// </summary>
+        [JsonProperty(PropertyName = "bypassEnrollAuthEnabled")]
+        public bool BypassEnrollAuthEnabled { get; set; }
     }
 }
