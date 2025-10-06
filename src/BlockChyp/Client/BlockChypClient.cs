@@ -2267,6 +2267,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Updates a payment token.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<UpdateTokenResponse> UpdateTokenAsync(UpdateTokenRequest request)
+        {
+            return await GatewayRequestAsync<UpdateTokenResponse>(HttpMethod.Post, "/api/token/" + request.Token, request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="UpdateTokenAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public UpdateTokenResponse UpdateToken(UpdateTokenRequest request)
+        {
+            return GatewayRequest<UpdateTokenResponse>(HttpMethod.Post, "/api/token/" + request.Token, request, null, request.Test);
+        }
+
+        /// <summary>
         /// Deletes a payment token.
         /// </summary>
         /// <param name="request">The request details.</param>

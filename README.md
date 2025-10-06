@@ -2166,6 +2166,35 @@ Console.WriteLine(response);
 
 ```
 
+#### Update Token
+
+
+
+* **API Credential Types:** Merchant
+* **Required Role:** Payment API Access
+
+This API updates a payment token in the gateway.  This can be used to update token metadata such as expiration dates, cardholder name, bank name, account holder type, account type, address, and postal code.
+
+
+
+
+```c#
+// Populate request parameters.
+UpdateTokenRequest request = new UpdateTokenRequest
+{
+    Token = "<TOKEN>",
+    ExpMonth = 12,
+    ExpYear = 2040,
+};
+
+// Run the transaction.
+UpdateTokenResponse response = await blockchyp.UpdateTokenAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Delete Token
 
 
