@@ -2183,8 +2183,8 @@ This API updates a payment token in the gateway.  This can be used to update tok
 UpdateTokenRequest request = new UpdateTokenRequest
 {
     Token = "<TOKEN>",
-    ExpMonth = 12,
-    ExpYear = 2040,
+    ExpiryMonth = "12",
+    ExpiryYear = "2040",
 };
 
 // Run the transaction.
