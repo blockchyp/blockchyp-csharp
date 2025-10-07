@@ -53,8 +53,8 @@ namespace BlockChypTest.Integration
             UpdateTokenRequest request = new UpdateTokenRequest
             {
                 Token = setupResponse.Token,
-                ExpMonth = 12,
-                ExpYear = 2040,
+                ExpiryMonth = "12",
+                ExpiryYear = "2040",
             };
 
             output.WriteLine("Request: {0}", request);
