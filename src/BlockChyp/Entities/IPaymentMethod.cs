@@ -71,6 +71,11 @@ namespace BlockChyp.Entities
         string PostalCode { get; set; }
 
         /// <summary>
+        /// The cardholder country.
+        /// </summary>
+        string Country { get; set; }
+
+        /// <summary>
         /// That the payment entry method is a manual keyed transaction. If this is true, no
         /// other payment method will be accepted.
         /// </summary>
