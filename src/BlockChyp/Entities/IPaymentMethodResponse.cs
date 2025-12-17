@@ -72,6 +72,21 @@ namespace BlockChyp.Entities
         string ExpYear { get; set; }
 
         /// <summary>
+        /// The card postal code.
+        /// </summary>
+        string PostalCode { get; set; }
+
+        /// <summary>
+        /// The card address.
+        /// </summary>
+        string Address { get; set; }
+
+        /// <summary>
+        /// The card country.
+        /// </summary>
+        string Country { get; set; }
+
+        /// <summary>
         /// Address verification results if address information was submitted.
         /// </summary>
         AvsResponse AvsResponse { get; set; }

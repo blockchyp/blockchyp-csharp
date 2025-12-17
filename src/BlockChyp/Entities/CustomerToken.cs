@@ -82,6 +82,30 @@ namespace BlockChyp.Entities
         public string Bin { get; set; }
 
         /// <summary>
+        /// The card postal code.
+        /// </summary>
+        [JsonProperty(PropertyName = "postalCode")]
+        public string PostalCode { get; set; }
+
+        /// <summary>
+        /// The card address.
+        /// </summary>
+        [JsonProperty(PropertyName = "address")]
+        public string Address { get; set; }
+
+        /// <summary>
+        /// The card country.
+        /// </summary>
+        [JsonProperty(PropertyName = "country")]
+        public string Country { get; set; }
+
+        /// <summary>
+        /// The card holder name.
+        /// </summary>
+        [JsonProperty(PropertyName = "cardHolderName")]
+        public string CardHolderName { get; set; }
+
+        /// <summary>
         /// Models customer records associated with a payment token.
         /// </summary>
         [JsonProperty(PropertyName = "customers")]

@@ -178,6 +178,24 @@ namespace BlockChyp.Entities
         public string ExpYear { get; set; }
 
         /// <summary>
+        /// The card postal code.
+        /// </summary>
+        [JsonProperty(PropertyName = "postalCode")]
+        public string PostalCode { get; set; }
+
+        /// <summary>
+        /// The card address.
+        /// </summary>
+        [JsonProperty(PropertyName = "address")]
+        public string Address { get; set; }
+
+        /// <summary>
+        /// The card country.
+        /// </summary>
+        [JsonProperty(PropertyName = "country")]
+        public string Country { get; set; }
+
+        /// <summary>
         /// Address verification results if address information was submitted.
         /// </summary>
         [JsonProperty(PropertyName = "avsResponse")]

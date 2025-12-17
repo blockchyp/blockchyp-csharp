@@ -156,6 +156,12 @@ namespace BlockChyp.Entities
         public string PostalCode { get; set; }
 
         /// <summary>
+        /// The cardholder country.
+        /// </summary>
+        [JsonProperty(PropertyName = "country")]
+        public string Country { get; set; }
+
+        /// <summary>
         /// That the payment entry method is a manual keyed transaction. If this is true, no
         /// other payment method will be accepted.
         /// </summary>
@@ -479,5 +485,23 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "cardMetadataLookup")]
         public bool CardMetadataLookup { get; set; }
+
+        /// <summary>
+        /// The shipping cost associated with the transaction
+        /// </summary>
+        [JsonProperty(PropertyName = "shippingAmount")]
+        public string ShippingAmount { get; set; }
+
+        /// <summary>
+        /// The processor ID associated with the transaction
+        /// </summary>
+        [JsonProperty(PropertyName = "processorId")]
+        public string ProcessorId { get; set; }
+
+        /// <summary>
+        /// The external customer ID associated with the transaction
+        /// </summary>
+        [JsonProperty(PropertyName = "externalCustomerId")]
+        public string ExternalCustomerId { get; set; }
     }
 }
