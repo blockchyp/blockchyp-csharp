@@ -1,4 +1,4 @@
-// Copyright 2019-2025 BlockChyp, Inc. All rights reserved. Use of this code is
+// Copyright 2019-2026 BlockChyp, Inc. All rights reserved. Use of this code is
 // governed by a license that can be found in the LICENSE file.
 //
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
@@ -123,5 +123,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "volumeByTerminal")]
         public List<TerminalVolume> VolumeByTerminal { get; set; }
+
+        /// <summary>
+        /// The net volume for this batch, usually expected volume less daily fees volume.
+        /// </summary>
+        [JsonProperty(PropertyName = "netDeposit")]
+        public string NetDeposit { get; set; }
+
+        /// <summary>
+        /// The daily fees for this batch
+        /// </summary>
+        [JsonProperty(PropertyName = "dailyFees")]
+        public string DailyFees { get; set; }
     }
 }
