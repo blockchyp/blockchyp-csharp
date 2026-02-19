@@ -145,5 +145,12 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "shipmentNumber")]
         public int ShipmentNumber { get; set; }
+
+        /// <summary>
+        /// A passthrough surcharge amount. This surcharge amount will be passed directly
+        /// to the gateway and is not directly calculated.
+        /// </summary>
+        [JsonProperty(PropertyName = "passthroughSurcharge")]
+        public string PassthroughSurcharge { get; set; }
     }
 }
