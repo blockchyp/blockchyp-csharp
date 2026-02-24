@@ -73,5 +73,24 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "discounts")]
         public List<TransactionDisplayDiscount> Discounts { get; set; }
+
+        /// <summary>
+        /// The amount of any value added taxes which apply to the item.
+        /// </summary>
+        [JsonProperty(PropertyName = "taxAmount")]
+        public string TaxAmount { get; set; }
+
+        /// <summary>
+        /// The tax rate as a percentage. Example: '8.5' for 8.5% tax rate.
+        /// </summary>
+        [JsonProperty(PropertyName = "taxRate")]
+        public string TaxRate { get; set; }
+
+        /// <summary>
+        /// How tax was applied to discounted items. '0' = no discount, '1' = tax calculated
+        /// after discount, '2' = taxcalculated before discount.
+        /// </summary>
+        [JsonProperty(PropertyName = "discountCode")]
+        public string DiscountCode { get; set; }
     }
 }

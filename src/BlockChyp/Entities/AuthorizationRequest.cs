@@ -4,6 +4,7 @@
 // This file was generated automatically by the BlockChyp SDK Generator. Changes
 // to this file will be lost every time the code is regenerated.
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -487,21 +488,61 @@ namespace BlockChyp.Entities
         public bool CardMetadataLookup { get; set; }
 
         /// <summary>
-        /// The shipping cost associated with the transaction
+        /// The total discount amount for the transaction, and will overide additive logic
+        /// for line item discounts.
+        /// </summary>
+        [JsonProperty(PropertyName = "totalDiscountAmount")]
+        public string TotalDiscountAmount { get; set; }
+
+        /// <summary>
+        /// The shipping cost associated with the transaction.
         /// </summary>
         [JsonProperty(PropertyName = "shippingAmount")]
         public string ShippingAmount { get; set; }
 
         /// <summary>
-        /// The processor ID associated with the transaction
+        /// The duty amount associated with the transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "dutyAmount")]
+        public string DutyAmount { get; set; }
+
+        /// <summary>
+        /// The processor ID associated with the transaction.
         /// </summary>
         [JsonProperty(PropertyName = "processorId")]
         public string ProcessorId { get; set; }
 
         /// <summary>
-        /// The external customer ID associated with the transaction
+        /// The external customer ID associated with the transaction.
         /// </summary>
         [JsonProperty(PropertyName = "externalCustomerId")]
         public string ExternalCustomerId { get; set; }
+
+        /// <summary>
+        /// Three character, numeric, ship-to country code. Defaults to '840' (USA) if not
+        /// specified.
+        /// </summary>
+        [JsonProperty(PropertyName = "destinationCountryCode")]
+        public string DestinationCountryCode { get; set; }
+
+        /// <summary>
+        /// Nine character postal code for shipping origin addresses. For US addresses,
+        /// this is a 5+4 ZIP or five digit ZIP.
+        /// </summary>
+        [JsonProperty(PropertyName = "shipFromPostalCode")]
+        public string ShipFromPostalCode { get; set; }
+
+        /// <summary>
+        /// Nine character postal code for shipping destination addresses. For US
+        /// addresses, this is a 5+4 ZIP or five digit ZIP.
+        /// </summary>
+        [JsonProperty(PropertyName = "shipToPostalCode")]
+        public string ShipToPostalCode { get; set; }
+
+        /// <summary>
+        /// The purchase order date.
+        /// </summary>
+        [JsonProperty(PropertyName = "orderDate")]
+        public DateTime? OrderDate { get; set; }
     }
 }

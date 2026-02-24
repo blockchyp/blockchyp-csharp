@@ -1745,6 +1745,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Calculates surcharge information for a payment request.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<PricingResponse> SurchargeReviewAsync(PricingRequest request)
+        {
+            return await GatewayRequestAsync<PricingResponse>(HttpMethod.Post, "/api/surcharge-review", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="SurchargeReviewAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public PricingResponse SurchargeReview(PricingRequest request)
+        {
+            return GatewayRequest<PricingResponse>(HttpMethod.Post, "/api/surcharge-review", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Captures a preauthorization.
         /// </summary>
         /// <param name="request">The request details.</param>
