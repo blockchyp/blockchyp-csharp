@@ -390,5 +390,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "cardMetadata")]
         public CardMetadata CardMetadata { get; set; }
+
+        /// <summary>
+        /// Whether enhanced data was passed for the transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "enhancedDataPassed")]
+        public bool EnhancedDataPassed { get; set; }
     }
 }
