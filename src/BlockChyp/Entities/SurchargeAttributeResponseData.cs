@@ -9,10 +9,28 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models pricing response data for new handler for pricing api responses.
+    /// Models the surcharge attributes included in a surcharge review response.
     /// </summary>
-    public class PricingResponseAttributes : BaseEntity
+    public class SurchargeAttributeResponseData : BaseEntity
     {
+        /// <summary>
+        /// The total amount including surcharge.
+        /// </summary>
+        [JsonProperty(PropertyName = "totalWithSurchargeAmount")]
+        public string TotalWithSurchargeAmount { get; set; }
+
+        /// <summary>
+        /// If the surcharge review was successful.
+        /// </summary>
+        [JsonProperty(PropertyName = "success")]
+        public bool Success { get; set; }
+
+        /// <summary>
+        /// The type of the response.
+        /// </summary>
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
+
         /// <summary>
         /// The surcharge percentage.
         /// </summary>
@@ -62,6 +80,30 @@ namespace BlockChyp.Entities
         public string CommercialIndicator { get; set; }
 
         /// <summary>
+        /// If the card is commercial.
+        /// </summary>
+        [JsonProperty(PropertyName = "isCommercial")]
+        public bool IsCommercial { get; set; }
+
+        /// <summary>
+        /// If the card is Durbin-regulated (US debit).
+        /// </summary>
+        [JsonProperty(PropertyName = "isRegulated")]
+        public bool IsRegulated { get; set; }
+
+        /// <summary>
+        /// The reason for the exemption.
+        /// </summary>
+        [JsonProperty(PropertyName = "exemptionReason")]
+        public string ExemptionReason { get; set; }
+
+        /// <summary>
+        /// The debit fee amount.
+        /// </summary>
+        [JsonProperty(PropertyName = "debitFeeAmount")]
+        public string DebitFeeAmount { get; set; }
+
+        /// <summary>
         /// The disclosure statement.
         /// </summary>
         [JsonProperty(PropertyName = "disclosure")]
@@ -76,13 +118,38 @@ namespace BlockChyp.Entities
         /// <summary>
         /// The country where the card was issued.
         /// </summary>
-        [JsonProperty(PropertyName = "countryIssued")]
-        public string CountryIssued { get; set; }
+        [JsonProperty(PropertyName = "countryCode")]
+        public string CountryCode { get; set; }
+
+        /// <summary>
+        /// Only included if state was sent in request OR derived from ZIP code.
+        /// </summary>
+        [JsonProperty(PropertyName = "state")]
+        public string State { get; set; }
 
         /// <summary>
         /// The unique identifier for the pricing response.
         /// </summary>
         [JsonProperty(PropertyName = "uuid")]
         public string Uuid { get; set; }
+
+        /// <summary>
+        /// The expiration date of the card.
+        /// </summary>
+        [JsonProperty(PropertyName = "expirationDate")]
+        public string ExpirationDate { get; set; }
+
+        /// <summary>
+        /// When surcharging is enabled AND state is 'CO' (Colorado-specific statutory
+        /// language).
+        /// </summary>
+        [JsonProperty(PropertyName = "disclosureAdditional")]
+        public string DisclosureAdditional { get; set; }
+
+        /// <summary>
+        /// The cardholder information.
+        /// </summary>
+        [JsonProperty(PropertyName = "cardholderInfo")]
+        public string CardholderInfo { get; set; }
     }
 }

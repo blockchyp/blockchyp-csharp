@@ -98,13 +98,13 @@ the payment.
 
 ```c#
 // Populate request parameters.
-PricingRequest request = new PricingRequest
+SurchargeReviewRequest request = new SurchargeReviewRequest
 {
 
 };
 
 // Run the transaction.
-PricingResponse response = await blockchyp.SurchargeReviewAsync(request);
+SurchargeReviewResponse response = await blockchyp.SurchargeReviewAsync(request);
 
 // View the result.
 Console.WriteLine(response);

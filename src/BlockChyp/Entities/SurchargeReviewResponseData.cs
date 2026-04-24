@@ -9,20 +9,20 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models the data wrapper for a pricing request.
+    /// Models the data included in a surcharge review response.
     /// </summary>
-    public class PricingRequestData : BaseEntity
+    public class SurchargeReviewResponseData : BaseEntity
     {
         /// <summary>
-        /// The type of the request.
+        /// The type of the response.
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
         /// <summary>
-        /// The pricing request attributes.
+        /// The attributes of the response.
         /// </summary>
         [JsonProperty(PropertyName = "attributes")]
-        public PricingRequestAttributes Attributes { get; set; }
+        public SurchargeAttributeResponseData Attributes { get; set; }
     }
 }
