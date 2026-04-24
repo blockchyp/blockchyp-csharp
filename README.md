@@ -111,6 +111,26 @@ Console.WriteLine(response);
 
 ```
 
+#### Transient Key
+
+Generates a short-lived API key scoped to terminal and payment operations.
+
+
+```c#
+// Populate request parameters.
+TransientKeyRequest request = new TransientKeyRequest
+{
+
+};
+
+// Run the transaction.
+TransientKeyResponse response = await blockchyp.TransientKeyAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
 #### Charge
 
 

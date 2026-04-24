@@ -1764,6 +1764,25 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Generates a short-lived API key scoped to terminal and payment operations.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TransientKeyResponse> TransientKeyAsync(TransientKeyRequest request)
+        {
+            return await GatewayRequestAsync<TransientKeyResponse>(HttpMethod.Post, "/api/transient-credentials", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TransientKeyAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TransientKeyResponse TransientKey(TransientKeyRequest request)
+        {
+            return GatewayRequest<TransientKeyResponse>(HttpMethod.Post, "/api/transient-credentials", request, null, request.Test);
+        }
+
+        /// <summary>
         /// Captures a preauthorization.
         /// </summary>
         /// <param name="request">The request details.</param>
