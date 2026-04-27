@@ -98,13 +98,33 @@ the payment.
 
 ```c#
 // Populate request parameters.
-PricingRequest request = new PricingRequest
+SurchargeReviewRequest request = new SurchargeReviewRequest
 {
 
 };
 
 // Run the transaction.
-PricingResponse response = await blockchyp.SurchargeReviewAsync(request);
+SurchargeReviewResponse response = await blockchyp.SurchargeReviewAsync(request);
+
+// View the result.
+Console.WriteLine(response);
+
+```
+
+#### Transient Key
+
+Generates a short-lived API key scoped to terminal and payment operations.
+
+
+```c#
+// Populate request parameters.
+TransientKeyRequest request = new TransientKeyRequest
+{
+
+};
+
+// Run the transaction.
+TransientKeyResponse response = await blockchyp.TransientKeyAsync(request);
 
 // View the result.
 Console.WriteLine(response);

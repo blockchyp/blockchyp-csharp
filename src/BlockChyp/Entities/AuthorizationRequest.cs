@@ -556,5 +556,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "shipmentNumber")]
         public int ShipmentNumber { get; set; }
+
+        /// <summary>
+        /// An optional field that can be used to pass through data to external partners.
+        /// </summary>
+        [JsonProperty(PropertyName = "externalPartnerMetadata")]
+        public string ExternalPartnerMetadata { get; set; }
     }
 }

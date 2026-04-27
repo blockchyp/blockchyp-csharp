@@ -1748,9 +1748,9 @@ namespace BlockChyp.Client
         /// Calculates surcharge information for a payment request.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public async Task<PricingResponse> SurchargeReviewAsync(PricingRequest request)
+        public async Task<SurchargeReviewResponse> SurchargeReviewAsync(SurchargeReviewRequest request)
         {
-            return await GatewayRequestAsync<PricingResponse>(HttpMethod.Post, "/api/surcharge-review", request, null, request.Test)
+            return await GatewayRequestAsync<SurchargeReviewResponse>(HttpMethod.Post, "/api/surcharge-review", request, null, request.Test)
                 .ConfigureAwait(false);
         }
 
@@ -1758,9 +1758,28 @@ namespace BlockChyp.Client
         /// Synchronous form of <see cref="SurchargeReviewAsync"/>.
         /// </summary>
         /// <param name="request">The request details.</param>
-        public PricingResponse SurchargeReview(PricingRequest request)
+        public SurchargeReviewResponse SurchargeReview(SurchargeReviewRequest request)
         {
-            return GatewayRequest<PricingResponse>(HttpMethod.Post, "/api/surcharge-review", request, null, request.Test);
+            return GatewayRequest<SurchargeReviewResponse>(HttpMethod.Post, "/api/surcharge-review", request, null, request.Test);
+        }
+
+        /// <summary>
+        /// Generates a short-lived API key scoped to terminal and payment operations.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<TransientKeyResponse> TransientKeyAsync(TransientKeyRequest request)
+        {
+            return await GatewayRequestAsync<TransientKeyResponse>(HttpMethod.Post, "/api/transient-credentials", request, null, request.Test)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="TransientKeyAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public TransientKeyResponse TransientKey(TransientKeyRequest request)
+        {
+            return GatewayRequest<TransientKeyResponse>(HttpMethod.Post, "/api/transient-credentials", request, null, request.Test);
         }
 
         /// <summary>

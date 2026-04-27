@@ -292,5 +292,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "customers")]
         public List<Customer> Customers { get; set; }
+
+        /// <summary>
+        /// Whether enhanced data was passed for the transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "enhancedDataPassed")]
+        public bool EnhancedDataPassed { get; set; }
     }
 }

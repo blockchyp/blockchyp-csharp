@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 namespace BlockChyp.Entities
 {
     /// <summary>
-    /// Models a pricing request.
+    /// Models a request for short-lived API credentials.
     /// </summary>
-    public class PricingRequest : BaseEntity, ITimeoutRequest
+    public class TransientKeyRequest : BaseEntity, ITimeoutRequest
     {
         /// <summary>
         /// The request timeout in seconds.
@@ -26,9 +26,9 @@ namespace BlockChyp.Entities
         public bool Test { get; set; }
 
         /// <summary>
-        /// The pricing request data.
+        /// Restricts the returned credentials to a single API call when true.
         /// </summary>
-        [JsonProperty(PropertyName = "data")]
-        public PricingRequestData Data { get; set; }
+        [JsonProperty(PropertyName = "oneTime")]
+        public bool OneTime { get; set; }
     }
 }
