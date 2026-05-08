@@ -131,7 +131,7 @@ namespace BlockChyp.Entities
         public string NetDeposit { get; set; }
 
         /// <summary>
-        /// The daily fees for this batch
+        /// The daily fees for this batch.
         /// </summary>
         [JsonProperty(PropertyName = "dailyFees")]
         public string DailyFees { get; set; }

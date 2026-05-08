@@ -267,5 +267,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "bin")]
         public string Bin { get; set; }
+
+        /// <summary>
+        /// Whether the token was enrolled with a CVV value present.
+        /// </summary>
+        [JsonProperty(PropertyName = "hasCvv")]
+        public bool HasCvv { get; set; }
     }
 }

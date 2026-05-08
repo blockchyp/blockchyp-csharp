@@ -106,6 +106,12 @@ namespace BlockChyp.Entities
         public string CardHolderName { get; set; }
 
         /// <summary>
+        /// Whether the token was enrolled with a CVV value present.
+        /// </summary>
+        [JsonProperty(PropertyName = "hasCvv")]
+        public bool HasCvv { get; set; }
+
+        /// <summary>
         /// Models customer records associated with a payment token.
         /// </summary>
         [JsonProperty(PropertyName = "customers")]
