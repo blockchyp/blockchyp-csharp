@@ -562,5 +562,23 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "externalPartnerMetadata")]
         public string ExternalPartnerMetadata { get; set; }
+
+        /// <summary>
+        /// The external customer's email address.
+        /// </summary>
+        [JsonProperty(PropertyName = "externalCustomerEmail")]
+        public string ExternalCustomerEmail { get; set; }
+
+        /// <summary>
+        /// The external customer's phone number.
+        /// </summary>
+        [JsonProperty(PropertyName = "externalCustomerPhone")]
+        public string ExternalCustomerPhone { get; set; }
+
+        /// <summary>
+        /// The external customer's company name.
+        /// </summary>
+        [JsonProperty(PropertyName = "externalCustomerCompany")]
+        public string ExternalCustomerCompany { get; set; }
     }
 }
