@@ -407,5 +407,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "bypassEnrollAuthEnabled")]
         public bool BypassEnrollAuthEnabled { get; set; }
+
+        /// <summary>
+        /// That the merchant follows the partner's service fee settings.
+        /// </summary>
+        [JsonProperty(PropertyName = "followPartnerServiceFeeEnabled")]
+        public bool FollowPartnerServiceFeeEnabled { get; set; }
+
+        /// <summary>
+        /// That the merchant is configured to apply a service fee.
+        /// </summary>
+        [JsonProperty(PropertyName = "serviceFeeEnabled")]
+        public bool ServiceFeeEnabled { get; set; }
     }
 }
