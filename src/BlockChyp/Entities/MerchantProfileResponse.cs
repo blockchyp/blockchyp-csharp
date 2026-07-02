@@ -431,5 +431,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "serviceFeeEnabled")]
         public bool ServiceFeeEnabled { get; set; }
+
+        /// <summary>
+        /// That the merchant follows the partner's CVV cache settings.
+        /// </summary>
+        [JsonProperty(PropertyName = "followPartnerCvvCacheEnabled")]
+        public bool FollowPartnerCvvCacheEnabled { get; set; }
+
+        /// <summary>
+        /// That the merchant is configured to apply a CVV cache.
+        /// </summary>
+        [JsonProperty(PropertyName = "cvvCacheEnabled")]
+        public bool CvvCacheEnabled { get; set; }
     }
 }
