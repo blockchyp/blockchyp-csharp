@@ -294,6 +294,12 @@ namespace BlockChyp.Entities
         public List<Customer> Customers { get; set; }
 
         /// <summary>
+        /// The current status of a transaction.
+        /// </summary>
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
+
+        /// <summary>
         /// Whether enhanced data was passed for the transaction.
         /// </summary>
         [JsonProperty(PropertyName = "enhancedDataPassed")]
