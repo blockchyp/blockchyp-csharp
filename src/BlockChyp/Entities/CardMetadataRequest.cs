@@ -86,7 +86,7 @@ namespace BlockChyp.Entities
 
         /// <summary>
         /// The payment token to be used for this transaction. This should be used for
-        /// recurring transactions.
+        /// recurring transactions. The /enroll endpoint ignores this field.
         /// </summary>
         [JsonProperty(PropertyName = "token")]
         public string Token { get; set; }

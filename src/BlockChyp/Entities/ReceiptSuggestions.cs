@@ -158,5 +158,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "cashDiscount")]
         public string CashDiscount { get; set; }
+
+        /// <summary>
+        /// The amount added to the transaction to cover processing fees.
+        /// </summary>
+        [JsonProperty(PropertyName = "serviceFeeAmount")]
+        public string ServiceFeeAmount { get; set; }
     }
 }
