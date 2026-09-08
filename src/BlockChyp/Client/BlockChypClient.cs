@@ -870,6 +870,49 @@ namespace BlockChyp.Client
         }
 
         /// <summary>
+        /// Calculates the service fee for a transaction.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public async Task<ServiceFeeResponse> ServiceFeeAsync(ServiceFeeRequest request)
+        {
+            ISignatureRequest signatureRequest = request as ISignatureRequest;
+            if (signatureRequest != null)
+            {
+                PopulateSignatureOptions(signatureRequest);
+            }
+
+            ServiceFeeResponse response;
+            if (await IsTerminalRouted(request.TerminalName).ConfigureAwait(false))
+            {
+                response = await TerminalRequestAsync<ServiceFeeResponse>(HttpMethod.Post, "/api/service-fee", request.TerminalName, request)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response = await GatewayRequestAsync<ServiceFeeResponse>(HttpMethod.Post, "/api/service-fee", request, null, request.Test, relay: true)
+                    .ConfigureAwait(false);
+            }
+
+            ISignatureResponse signatureResponse = response as ISignatureResponse;
+            if (signatureRequest != null && signatureResponse != null)
+            {
+                DumpSignatureFile(signatureRequest, signatureResponse);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Synchronous form of <see cref="ServiceFeeAsync"/>.
+        /// </summary>
+        /// <param name="request">The request details.</param>
+        public ServiceFeeResponse ServiceFee(ServiceFeeRequest request)
+        {
+            return ServiceFeeAsync(request)
+                .ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
         /// Returns a list of queued transactions on a terminal.
         /// </summary>
         /// <param name="request">The request details.</param>
