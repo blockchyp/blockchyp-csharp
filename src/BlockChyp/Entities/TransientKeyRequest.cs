@@ -30,5 +30,11 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "oneTime")]
         public bool OneTime { get; set; }
+
+        /// <summary>
+        /// The user ID associated with the transient credentials.
+        /// </summary>
+        [JsonProperty(PropertyName = "userId")]
+        public string UserId { get; set; }
     }
 }
