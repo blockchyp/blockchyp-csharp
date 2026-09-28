@@ -79,38 +79,6 @@ These are the core payment APIs used to execute and work with payment transactio
 
 
 
-#### Surcharge Review
-
-
-
-* **API Credential Types:** Merchant
-* **Required Role:** Payment API Access
-
-This API calculates surcharge information for a payment request.
-
-If you're using BlockChyp's surcharging features, you can use this endpoint
-to preview the surcharge amounts before processing a transaction. This allows
-you to display accurate pricing information to customers before completing
-the payment.
-
-
-
-
-```c#
-// Populate request parameters.
-SurchargeReviewRequest request = new SurchargeReviewRequest
-{
-
-};
-
-// Run the transaction.
-SurchargeReviewResponse response = await blockchyp.SurchargeReviewAsync(request);
-
-// View the result.
-Console.WriteLine(response);
-
-```
-
 #### Charge
 
 

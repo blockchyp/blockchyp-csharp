@@ -580,5 +580,13 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "externalCustomerCompany")]
         public string ExternalCustomerCompany { get; set; }
+
+        /// <summary>
+        /// The external merchant's own reference for the transaction. It is stored with
+        /// the transaction and echoed back on the response, and is not used for duplicate
+        /// detection.
+        /// </summary>
+        [JsonProperty(PropertyName = "externalTransactionRef")]
+        public string ExternalTransactionRef { get; set; }
     }
 }
