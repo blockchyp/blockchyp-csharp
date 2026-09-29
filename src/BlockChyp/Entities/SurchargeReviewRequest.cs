@@ -103,5 +103,17 @@ namespace BlockChyp.Entities
         /// </summary>
         [JsonProperty(PropertyName = "pricingPlan")]
         public string PricingPlan { get; set; }
+
+        /// <summary>
+        /// The Stax merchant UUID for cross-system tracing.
+        /// </summary>
+        [JsonProperty(PropertyName = "staxMerchantId")]
+        public string StaxMerchantId { get; set; }
+
+        /// <summary>
+        /// The Stax transaction UUID for cross-system tracing.
+        /// </summary>
+        [JsonProperty(PropertyName = "staxTransactionId")]
+        public string StaxTransactionId { get; set; }
     }
 }
