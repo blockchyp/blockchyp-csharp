@@ -81,6 +81,12 @@ namespace BlockChyp.Entities
         public string ContactNumber { get; set; }
 
         /// <summary>
+        /// The contact email address for the merchant.
+        /// </summary>
+        [JsonProperty(PropertyName = "contactEmail")]
+        public string ContactEmail { get; set; }
+
+        /// <summary>
         /// The location name.
         /// </summary>
         [JsonProperty(PropertyName = "locationName")]
