@@ -8,9 +8,10 @@ on:
     tags:
       - "*"
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
