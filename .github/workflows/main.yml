@@ -8,10 +8,9 @@ on:
     tags:
       - "*"
 env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-permissions:
-  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -45,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/dotnet/core/sdk:3.1
-    if: ${{ always() && contains(join(needs.*.result, ','), 'success') && startsWith(github.ref_name, 'v') }}
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') && startsWith(github.ref_name, 'v') && github.server_url == 'https://github.com' }}
     needs: [ test ]
     steps:
       - uses: act10ns/slack@44541246747a30eb3102d87f7a4cc5471b0ffb7d # v2.1.0
