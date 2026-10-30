@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>BlockChyp is a .NET 4.5+ class library for accessing the BlockChyp Terminal and Gateway APIs.</Description>
-    <Version>2.31.0</Version>
+    <Version>2.31.1</Version>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <Authors>BlockChyp</Authors>
     <Company>BlockChyp, Inc.</Company>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
